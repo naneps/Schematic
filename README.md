@@ -59,4 +59,3 @@ Contributions are welcome! If you would like to contribute, feel free to submit 
 
 ---
 
-This description should help clarify the purpose and main features of **SchemaMatic** in English.
