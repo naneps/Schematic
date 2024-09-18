@@ -1,7 +1,4 @@
----
-
 # Schematic
-
 **Schematic** is a web-based application that leverages AI technology to automatically generate dummy data based on user-entered prompts. It is designed to simplify the process of creating mock data for developers, researchers, and other users for testing, development, or simulation purposes.
 
 ## Key Features
@@ -11,7 +8,7 @@
 - **Download JSON Schema**: Download the generated data in JSON schema format, making it easy to integrate with APIs and other applications.
 - **Preset Prompts**: Offers example prompts to help users get started with generating dummy data.
 - **Customizable Data**: Users can modify the structure and columns of the data to fit their specific needs.
-- **Continuous Feature Expansion**: The application is continuously evolving with new features and improvements.
+- **Continuous Feature Expansion**: The application is continuously evolving with new featuzres and improvements.
 
 ## Technology Stack
 
@@ -51,12 +48,5 @@
 - **Real-Time API Response Simulation**: Introduce a feature to simulate real-time API responses for development testing.
 
 ## Contributions
-
 Contributions are welcome! If you would like to contribute, feel free to submit a pull request or open an issue for discussion.
-<a href="https://github.com/naneps/Schematic/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=naneps/Schematic" />
-</a>
-
-
----
 
