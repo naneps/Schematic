@@ -22,6 +22,7 @@ dependencies:
   firebase_auth: 5.1.1
   flutter:
     sdk: flutter
+  firebase_crashlytics: ^4.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
