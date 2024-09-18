@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:getx_pattern_starter/app/common/buttons/x_Icon_button.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
+import 'package:schematic/app/common/buttons/x_Icon_button.dart';
+import 'package:schematic/app/themes/theme.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class IncDecWidget extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_pattern_starter/app/common/buttons/x_button.dart';
-import 'package:getx_pattern_starter/app/common/input/x_field.dart';
-import 'package:getx_pattern_starter/app/routes/app_pages.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
+import 'package:schematic/app/common/buttons/x_button.dart';
+import 'package:schematic/app/common/input/x_field.dart';
+import 'package:schematic/app/routes/app_pages.dart';
+import 'package:schematic/app/themes/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

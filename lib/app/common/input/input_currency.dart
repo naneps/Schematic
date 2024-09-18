@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getx_pattern_starter/app/common/input/x_field.dart';
+import 'package:schematic/app/common/input/x_field.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable

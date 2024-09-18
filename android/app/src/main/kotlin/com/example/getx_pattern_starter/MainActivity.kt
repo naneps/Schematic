@@ -1,4 +1,4 @@
-package com.example.getx_pattern_starter
+package com.schematic.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:getx_pattern_starter/app/common/shape/rounded_container.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:schematic/app/common/shape/rounded_container.dart';
+import 'package:schematic/app/themes/theme.dart';
 
 class XAlert extends StatefulWidget {
   final String messages;
@@ -106,6 +106,15 @@ class _XAlertState extends State<XAlert> {
     );
   }
 
+  void handleAutoHide() async {
+    if (widget.autoHide) {
+      await Future.delayed(
+        Duration(milliseconds: widget.durationMillisecond.toInt()),
+      );
+      _toggleVisible();
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -120,14 +129,5 @@ class _XAlertState extends State<XAlert> {
     setState(() {
       visible = !visible;
     });
-  }
-
-  void handleAutoHide() async {
-    if (widget.autoHide) {
-      await Future.delayed(
-        Duration(milliseconds: widget.durationMillisecond.toInt()),
-      );
-      _toggleVisible();
-    }
   }
 }

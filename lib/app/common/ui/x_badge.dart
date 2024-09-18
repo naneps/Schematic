@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:getx_pattern_starter/app/common/shape/rounded_container.dart';
-import 'package:getx_pattern_starter/app/common/utils.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
+import 'package:schematic/app/common/shape/rounded_container.dart';
+import 'package:schematic/app/common/utils.dart';
+import 'package:schematic/app/themes/theme.dart';
 
 class XBadge extends StatelessWidget {
   final Widget? child;
@@ -79,6 +79,7 @@ class XBadge extends StatelessWidget {
         return ThemeApp.darkColor;
       case XBadgeType.link:
     }
+    return null;
   }
 }
 

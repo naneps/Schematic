@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_pattern_starter/app/common/utils.dart';
+import 'package:schematic/app/common/utils.dart';
 
 class XPicture extends StatelessWidget {
   final String? imageUrl;

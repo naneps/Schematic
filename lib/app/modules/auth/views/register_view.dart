@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_pattern_starter/app/common/input/x_field.dart';
-import 'package:getx_pattern_starter/app/modules/auth/controllers/auth_controller.dart';
+import 'package:schematic/app/common/input/x_field.dart';
+import 'package:schematic/app/modules/auth/controllers/auth_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RegisterView extends GetView<AuthController> {

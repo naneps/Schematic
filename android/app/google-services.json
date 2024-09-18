@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "831048811566",
+    "project_id": "schematic-5cd75",
+    "storage_bucket": "schematic-5cd75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831048811566:android:d5e3ed30ef8a75f05d4bbf",
+        "android_client_info": {
+          "package_name": "com.schematic.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUWgsT0tXYKzGhACLiCWsVD_wRJXQKDSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

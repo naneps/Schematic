@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -14,20 +13,9 @@ class HomeView extends GetView<HomeController> {
         title: const Text('Documentation'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          controller.locationData.toString(),
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          controller.determinePosition().then((value) {
-            // print(value)
-            // print all data
-          });
-        },
+        onPressed: () {},
         child: const Icon(
           MdiIcons.locationEnter,
         ),

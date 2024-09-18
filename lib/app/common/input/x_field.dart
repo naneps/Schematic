@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
+import 'package:schematic/app/themes/theme.dart';
 
 class XTextField extends StatelessWidget {
   final TextEditingController? controller;

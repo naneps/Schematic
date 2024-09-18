@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:getx_pattern_starter/app/common/shape/rounded_container.dart';
-import 'package:getx_pattern_starter/app/themes/theme.dart';
+import 'package:schematic/app/common/shape/rounded_container.dart';
+import 'package:schematic/app/themes/theme.dart';
 
 class XDividerDotted extends StatelessWidget {
   final EdgeInsets margin;
