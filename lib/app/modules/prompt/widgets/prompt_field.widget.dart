@@ -206,21 +206,27 @@ class PromptField extends GetView<PromptFieldWidgetController> {
         color: ThemeApp.primaryColor,
       ),
       children: [
-        ...parentField.subFields?.map((subField) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: PromptField(
-                  key: ValueKey("subfield-${subField.key}"),
-                  field: subField,
-                  index: parentField.subFields?.indexOf(subField) ?? 0,
+        ConstrainedBox(
+            constraints:
+                BoxConstraints(maxHeight: Get.height * 0.4, minHeight: 50),
+            child: ListView.builder(
+              shrinkWrap: true,
+              primary: false,
+              physics: const BouncingScrollPhysics(),
+              itemCount: parentField.subFields?.length,
+              itemBuilder: (context, index) {
+                final field = parentField.subFields![index];
+                return PromptField(
+                  index: index,
+                  field: field,
+                  key: const ValueKey("child"),
                   onRemove: () {
-                    parentField.subFields!.remove(subField);
+                    parentField.subFields!.removeAt(index);
                     controller.field?.refresh();
                   },
-                ),
-              );
-            }).toList() ??
-            [],
+                );
+              },
+            )),
       ],
     );
   }

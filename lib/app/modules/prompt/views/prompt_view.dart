@@ -33,60 +33,65 @@ class PromptView extends GetView<PromptController> {
               prefixIcon: MdiIcons.formatListBulleted,
             ),
             const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              constraints: BoxConstraints(maxHeight: Get.height),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Fields",
-                          style: Get.textTheme.labelMedium,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            controller.addField();
-                          },
-                          icon: const Icon(
-                            MdiIcons.plus,
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
+                constraints: BoxConstraints(maxHeight: Get.height),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Fields",
+                            style: Get.textTheme.labelMedium,
                           ),
-                        ),
-                      ],
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              controller.addField();
+                            },
+                            icon: const Icon(
+                              MdiIcons.plus,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Divider(
-                    color: Colors.grey.shade200,
-                  ),
-                  Obx(() {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: controller.prompt.value.fields?.length,
-                      itemBuilder: (context, index) {
-                        final field = controller.prompt.value.fields![index];
-                        return PromptField(
-                          index: index,
-                          field: field,
-                          key: const ValueKey("parent"),
-                          onRemove: () {
-                            controller.prompt.value.fields!.removeAt(index);
-                            controller.prompt.refresh();
+                    Divider(
+                      color: Colors.grey.shade200,
+                    ),
+                    Obx(() {
+                      return Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: controller.prompt.value.fields?.length,
+                          itemBuilder: (context, index) {
+                            final field =
+                                controller.prompt.value.fields![index];
+                            return PromptField(
+                              index: index,
+                              field: field,
+                              key: const ValueKey("parent"),
+                              onRemove: () {
+                                controller.prompt.value.fields!.removeAt(index);
+                                controller.prompt.refresh();
+                              },
+                            );
                           },
-                        );
-                      },
-                    );
-                  }),
-                ],
+                        ),
+                      );
+                    }),
+                  ],
+                ),
               ),
             ),
             ElevatedButton(

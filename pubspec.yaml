@@ -2,12 +2,12 @@ name: schematic
 version: 1.0.0+1
 publish_to: none
 description: SchemaMatic is a web-based application that leverages AI technology to automatically generate dummy data based on user-entered prompts. It is designed to simplify the process of creating mock data for developers, researchers, and other users for testing, development, or simulation purposes.
-environment: 
-  sdk: '>=2.18.2 <3.0.0'
+environment:
+  sdk: ">=2.18.2 <3.0.0"
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
-  get: 4.6.4
+  get: 4.6.6
   image_picker: 0.8.6
   material_design_icons_flutter: 6.0.7096
   intl: ^0.18.0
@@ -20,16 +20,15 @@ dependencies:
   google_fonts: 6.2.1
   firebase_core: 3.1.1
   firebase_auth: 5.1.1
-  flutter: 
+  flutter:
     sdk: flutter
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
-  assets: 
+flutter:
+  assets:
     - assets/images/
   uses-material-design: true
-

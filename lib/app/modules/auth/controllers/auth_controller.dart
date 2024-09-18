@@ -8,15 +8,6 @@ class AuthController extends GetxController {
   RxString phone = ''.obs;
   RxString password = ''.obs;
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}

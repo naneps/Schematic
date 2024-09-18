@@ -191,8 +191,8 @@ class ThemeApp {
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
       menuStyle: MenuStyle(
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(Colors.white),
+        elevation: WidgetStateProperty.all(0),
+        backgroundColor: WidgetStateProperty.all(Colors.white),
       ),
     ),
     appBarTheme: AppBarTheme(
@@ -220,7 +220,7 @@ class ThemeApp {
     ),
     colorScheme: ColorScheme.fromSwatch()
         .copyWith(secondary: accentColor)
-        .copyWith(background: lightColor)
+        .copyWith(surface: lightColor)
         .copyWith(error: errorColor),
   );
 }

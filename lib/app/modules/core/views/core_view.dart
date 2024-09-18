@@ -23,12 +23,30 @@ class CoreView extends GetView<CoreController> {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
           children: [
-            Expanded(
+            const Expanded(
               child: PromptView(),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Preview Can Be Here",
+                      style: Get.textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
