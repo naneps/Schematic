@@ -16,7 +16,6 @@
 ## Technology Stack
 
 - **Flutter Web**: For a responsive and interactive frontend.
-- **Backend (Laravel or NestJS)**: Acts as the API server communicating with Gemini AI to generate data.
 - **Gemini AI**: Used to process prompts and generate dummy data on demand.
 
 ## How to Use
@@ -44,7 +43,6 @@
    flutter run -d chrome
    ```
 
-4. Set up the backend (Laravel or NestJS) as per the instructions in the `backend/` folder.
 
 ## Roadmap
 
