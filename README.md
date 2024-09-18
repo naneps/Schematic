@@ -1,9 +1,9 @@
 
 ---
 
-# SchemaMatic
+# Schematic
 
-**SchemaMatic** is a web-based application that leverages AI technology to automatically generate dummy data based on user-entered prompts. It is designed to simplify the process of creating mock data for developers, researchers, and other users for testing, development, or simulation purposes.
+**Schematic** is a web-based application that leverages AI technology to automatically generate dummy data based on user-entered prompts. It is designed to simplify the process of creating mock data for developers, researchers, and other users for testing, development, or simulation purposes.
 
 ## Key Features
 
