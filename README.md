@@ -1,4 +1,3 @@
-
 ---
 
 # Schematic
@@ -8,10 +7,11 @@
 ## Key Features
 
 - **AI-Powered Prompt Input**: Use AI models like Gemini to generate dummy data simply by providing a prompt.
-- **Tabular Data Display**: The generated data is immediately displayed in an easy-to-read table format.
+- **Tabular & JSON Data Display**: The generated data is immediately displayed in an easy-to-read table format or as raw JSON data, giving users the flexibility to view it in both UI and code-friendly formats.
 - **Download JSON Schema**: Download the generated data in JSON schema format, making it easy to integrate with APIs and other applications.
 - **Preset Prompts**: Offers example prompts to help users get started with generating dummy data.
 - **Customizable Data**: Users can modify the structure and columns of the data to fit their specific needs.
+- **Continuous Feature Expansion**: The application is continuously evolving with new features and improvements.
 
 ## Technology Stack
 
@@ -22,7 +22,7 @@
 
 1. **Enter Prompt**: Users provide a prompt that describes the type of data they need.
 2. **Generate Data**: The application sends the prompt to the AI to generate dummy data.
-3. **View Results in a Table**: The generated data is displayed in a customizable table format.
+3. **View Results in a Table or JSON**: The generated data is displayed in a customizable table format or as JSON.
 4. **Download JSON Schema**: Click the download button to export the data as a JSON schema ready for integration with other APIs.
 
 ## Installation
@@ -43,7 +43,6 @@
    flutter run -d chrome
    ```
 
-
 ## Roadmap
 
 - **Custom API Integration**: Add the ability to dynamically store and manage preset prompts.
@@ -54,6 +53,10 @@
 ## Contributions
 
 Contributions are welcome! If you would like to contribute, feel free to submit a pull request or open an issue for discussion.
+<a href="https://github.com/naneps/Schematic/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=naneps/Schematic" />
+</a>
+
 
 ---
 
