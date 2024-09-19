@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
+import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_field.widget.dart';
 
@@ -29,7 +31,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
         children: [
           XInput(
             label: "Prompt",
-            hintText: "e.g generate dummy product",
+            hintText: "e.g generate product data",
             onChanged: (value) {
               controller.prompt.value.text = value;
             },
@@ -52,7 +54,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                     child: Row(
                       children: [
                         Text(
-                          "Fields ${controller.prompt.value.allFieldKeyUnique}",
+                          "Fields",
                           style: Get.textTheme.labelMedium,
                         ),
                         const Spacer(),
@@ -80,16 +82,22 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                         itemCount: controller.prompt.value.fields?.length,
                         itemBuilder: (context, index) {
                           final field = controller.prompt.value.fields![index];
-                          return PromptField(
-                            field: field,
-                            isValidated:
-                                controller.prompt.value.allFieldKeyUnique,
-                            key: ValueKey("parent${field.id}"),
-                            onRemove: () {
-                              controller.removeField(field.id);
-                              controller.prompt.refresh();
-                            },
-                          );
+                          return Obx(() {
+                            return PromptField(
+                              field: field,
+                              alReadyUsedKeys: [
+                                ...controller.prompt.value.fields!
+                                    .map((e) => e.key!.value),
+                              ],
+                              isValidated:
+                                  controller.prompt.value.allFieldKeyUnique.obs,
+                              key: ValueKey("parent${field.id}"),
+                              onRemove: () {
+                                controller.removeField(field.id);
+                                controller.prompt.refresh();
+                              },
+                            );
+                          });
                         },
                       ),
                     );
@@ -99,17 +107,26 @@ class FormPromptField extends GetView<FormPromptFieldController> {
             ),
           ),
           const SizedBox(height: 10),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ThemeManager().primaryColor,
-              fixedSize: Size(Get.width, 50),
-              textStyle: Get.textTheme.labelMedium!,
-            ),
-            onPressed: () {
-              controller.generate();
-            },
-            child: const Text("Generate"),
-          ),
+          Obx(() {
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ThemeManager().primaryColor,
+                fixedSize: Size(Get.width, 50),
+                textStyle: Get.textTheme.labelMedium!,
+              ),
+              onPressed: () {
+                if (controller.isLoading.value) return;
+                controller.generate();
+                Get.find<CoreController>().tabController!.animateTo(1);
+              },
+              child: controller.isLoading.value
+                  ? LoadingAnimationWidget.staggeredDotsWave(
+                      color: ThemeManager().blackColor,
+                      size: 30,
+                    )
+                  : const Text("Generate"),
+            );
+          }),
         ],
       ),
     );

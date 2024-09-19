@@ -14,14 +14,17 @@ class Prompt {
   });
 
   // Check if all field keys are unique
-  bool get allFieldKeyUnique =>
-      fields?.map((f) => f.key?.value).toSet().length == fields?.length;
+  bool get allFieldKeyUnique {
+    final keys = fields?.map((f) => f.key?.value).toList() ?? [];
+    return keys.toSet().length == keys.length;
+  }
 
   // Convert fields to Markdown
   String get fieldsToMarkdown =>
       fields?.map((f) => f.toMarkdown()).join() ?? '';
 
   // Remove a field by its ID
+
   void removeField(String id) {
     fields?.removeWhere((element) => element.id == id);
   }

@@ -29,6 +29,27 @@ class ThemeManager {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
+      tabBarTheme: TabBarTheme(
+        labelColor: primaryColor,
+        unselectedLabelColor: textColor,
+        labelStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Inter',
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Inter',
+        ),
+        indicatorSize: TabBarIndicatorSize.label,
+        indicator: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+            color: primaryColor,
+          )),
+        ),
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: appBarBackgroundColor,
         elevation: 0,
@@ -162,13 +183,13 @@ class ThemeManager {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          fixedSize: MaterialStateProperty.all(const Size(30, 30)),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
-          iconSize: MaterialStateProperty.all(20),
-          minimumSize: MaterialStateProperty.all(const Size(10, 10)),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(Colors.transparent),
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          fixedSize: WidgetStateProperty.all(const Size(30, 30)),
+          padding: WidgetStateProperty.all(const EdgeInsets.all(5)),
+          iconSize: WidgetStateProperty.all(20),
+          minimumSize: WidgetStateProperty.all(const Size(10, 10)),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               //   side: BorderSide(color: , width: 1),
@@ -178,11 +199,11 @@ class ThemeManager {
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          padding: WidgetStateProperty.all(
             const EdgeInsets.all(10),
           ),
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: primaryColor, width: 0),
@@ -206,16 +227,16 @@ class ThemeManager {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primaryColor),
-          foregroundColor: MaterialStateProperty.all(textColor),
-          elevation: MaterialStateProperty.all(0),
-          fixedSize: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(primaryColor),
+          foregroundColor: WidgetStateProperty.all(textColor),
+          elevation: WidgetStateProperty.all(0),
+          fixedSize: WidgetStateProperty.all(
             const Size(double.infinity, 40),
           ),
-          padding: MaterialStateProperty.all(
+          padding: WidgetStateProperty.all(
             const EdgeInsets.all(10),
           ),
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: primaryColor, width: 0),

@@ -9,13 +9,14 @@ import 'package:schematic/app/models/field.model.dart';
 class PromptField extends GetView<PromptFieldWidgetController> {
   final Field field;
   final VoidCallback? onRemove;
-  final bool isValidated;
-
-  const PromptField({
+  final RxBool isValidated;
+  List<String> alReadyUsedKeys = [];
+  PromptField({
     super.key,
     required this.field,
     this.onRemove,
     required this.isValidated,
+    required this.alReadyUsedKeys,
   });
 
   @override
@@ -73,13 +74,12 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                             onChanged: (value) {
                               controller.field?.value.key!(value);
                               controller.field?.refresh();
-                              controller.formKey.currentState?.validate();
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Required";
                               }
-                              if (isValidated) {
+                              if (alReadyUsedKeys.contains(value)) {
                                 return "Key must be unique";
                               }
                               return null;
@@ -144,6 +144,10 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                   const SizedBox(height: 10),
                   _buildArrayTypeSelection(context, controller.field!.value),
                 ],
+                if (!isValidated.value) ...[
+                  const SizedBox(height: 10),
+                  Text("Key must be unique", style: Get.textTheme.bodySmall),
+                ]
               ],
             );
           }),
@@ -266,29 +270,33 @@ class PromptField extends GetView<PromptFieldWidgetController> {
       ),
       children: [
         ConstrainedBox(
-            constraints:
-                BoxConstraints(maxHeight: Get.height * 0.4, minHeight: 50),
-            child: ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: const BouncingScrollPhysics(),
-              itemCount: parentField.subFields?.length,
-              itemBuilder: (context, idx) {
-                final field = parentField.subFields![idx];
-                return PromptField(
-                  field: field,
-                  isValidated: field.allSubFieldKeyUnique,
-                  key: ValueKey(
-                      'child:${parentField.id}:${field.id}'), // Ensure unique key
-                  onRemove: () {
-                    parentField.subFields!.removeWhere(
-                      (element) => element.id == field.id,
-                    );
-                    controller.field?.refresh();
-                  },
-                );
-              },
-            )),
+          constraints:
+              BoxConstraints(maxHeight: Get.height * 0.4, minHeight: 50),
+          child: ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            physics: const BouncingScrollPhysics(),
+            itemCount: parentField.subFields?.length,
+            itemBuilder: (context, idx) {
+              final field = parentField.subFields![idx];
+              return PromptField(
+                field: field,
+                isValidated: field.allSubFieldKeyUnique.obs,
+                alReadyUsedKeys: [
+                  ...parentField.subFields!.map((e) => e.key!.value),
+                ],
+                key: ValueKey(
+                    'child:${parentField.id}:${field.id}'), // Ensure unique key
+                onRemove: () {
+                  parentField.subFields!.removeWhere(
+                    (element) => element.id == field.id,
+                  );
+                  controller.field?.refresh();
+                },
+              );
+            },
+          ),
+        ),
       ],
     );
   }

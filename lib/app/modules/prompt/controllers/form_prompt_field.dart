@@ -7,6 +7,7 @@ import 'package:schematic/app/services/google_generative_service.dart';
 class FormPromptFieldController extends GetxController {
   final generativeService = Get.find<GoogleGenerativeService>();
   RxString output = ''.obs;
+  RxBool isLoading = false.obs;
   Rx<Prompt> prompt = Prompt(
     text: '',
     fields: [
@@ -18,6 +19,7 @@ class FormPromptFieldController extends GetxController {
       ),
       Field(
         key: 'category'.obs,
+        type: FieldType.object.obs,
         subFields: [
           Field(
             key: 'name'.obs,
@@ -91,6 +93,7 @@ class FormPromptFieldController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     output.bindStream(generativeService.output.stream);
+    isLoading.bindStream(generativeService.isLoading.stream);
   }
 
   // Remove a field by ID

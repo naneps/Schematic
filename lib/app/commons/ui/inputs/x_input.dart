@@ -92,7 +92,7 @@ class XInputState extends State<XInput> {
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         floatingLabelBehavior:
-            widget.floatingLabelBehavior ?? FloatingLabelBehavior.auto,
+            widget.floatingLabelBehavior ?? FloatingLabelBehavior.always,
         counter: widget.hasCounter == true
             ? buildCounter(
                 context: context,
