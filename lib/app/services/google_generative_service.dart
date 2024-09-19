@@ -36,12 +36,10 @@ void main() async {
 }
 
 class GoogleGenerativeService extends GetxService {
-  final apiKey = Platform.environment['GEMINI_API_KEY'];
   RxString output = ''.obs;
   RxBool isLoading = false.obs;
   Future<void> setPrompt(String prompt) async {
     if (prompt.isEmpty) return;
-    print('APIKEY: $apiKey');
     isLoading.value = true;
     output.value = '';
     final model = GenerativeModel(
