@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:schematic/app/themes/theme.dart';
-
-import 'app/routes/app_pages.dart';
+import 'package:schematic/app/main_app.dart';
+import 'package:schematic/app/services/app_translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+  AppTranslations appTranslations = AppTranslations();
+  await appTranslations.load(); // Wait for translations to be loaded
   runApp(
-    GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "SCHEMATIC STUDIO",
-      initialRoute: Routes.CORE,
-      getPages: AppPages.routes,
-      theme: ThemeApp.defaultTheme,
-    ),
+    MainApp(translations: appTranslations),
   );
 }

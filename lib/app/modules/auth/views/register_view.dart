@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schematic/app/common/input/x_field.dart';
+import 'package:schematic/app/commons/ui/inputs/input_secure.dart';
+import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/modules/auth/controllers/auth_controller.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RegisterView extends GetView<AuthController> {
   const RegisterView({super.key});
@@ -28,9 +28,8 @@ class RegisterView extends GetView<AuthController> {
               const SizedBox(
                 height: 15,
               ),
-              XTextField(
-                labelText: "Phone",
-                prefixIcon: MdiIcons.phoneOutline,
+              XInput(
+                label: "Phone",
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -42,9 +41,8 @@ class RegisterView extends GetView<AuthController> {
               const SizedBox(
                 height: 15,
               ),
-              XTextField(
-                labelText: "Name",
-                prefixIcon: MdiIcons.accountOutline,
+              XInput(
+                label: "Name",
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -56,10 +54,8 @@ class RegisterView extends GetView<AuthController> {
               const SizedBox(
                 height: 15,
               ),
-              XTextField(
-                labelText: "Password",
-                prefixIcon: MdiIcons.lockOutline,
-                keyboardType: TextInputType.visiblePassword,
+              SecureInput(
+                label: "Password",
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Password is required";
@@ -70,17 +66,9 @@ class RegisterView extends GetView<AuthController> {
               const SizedBox(
                 height: 15,
               ),
-              XTextField(
-                labelText: "Confirm Password",
-                prefixIcon: MdiIcons.lockOutline,
-                keyboardType: TextInputType.visiblePassword,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Confirm Password is required";
-                  }
-                  return null;
-                },
-              ),
+              const SecureInput(
+                label: "Confirm Password",
+              )
             ],
           ),
         ),

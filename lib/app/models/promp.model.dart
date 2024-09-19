@@ -1,50 +1,46 @@
-class Field {
-  String? key;
-  FieldType? type;
-  String? description;
-  List<Field>? subFields;
-  FieldType? subType; // You need to add this
+import 'dart:core';
 
-  Field({this.key, this.type, this.subFields, this.subType});
-
-  get arrayElementType => null;
-
-  bool get isArrayOfObjects =>
-      type == FieldType.array && subType == FieldType.object;
-
-  // Convert the field to a prompt representation
-  String toPrompt() {
-    if (type == FieldType.object) {
-      return '$key: { ${subFields?.map((f) => f.toPrompt()).join(', ')} }';
-    } else if (type == FieldType.array) {
-      return '$key: [ ${subFields?.map((f) => f.toPrompt()).join(', ')} ]';
-    } else {
-      return '$key: ${type.toString().split('.').last}';
-    }
-  }
-}
-
-enum FieldType {
-  string,
-  number,
-  object,
-  array,
-}
+import 'package:get/get.dart';
+import 'package:schematic/app/models/field.model.dart';
 
 class Prompt {
   String? text;
-  List<Field>? fields;
+  RxList<Field>? fields;
+  RxInt? maxData;
 
-  Prompt({this.text, this.fields});
+  Prompt({
+    this.text,
+    this.fields,
+  });
 
-  // Convert the prompt and fields to a prompt representation
-  String toPrompt() {
-    final fieldDescriptions = fields?.map((f) => f.toPrompt()).join(', ') ?? '';
-    return '$text { $fieldDescriptions }';
+  // Check if all field keys are unique
+  bool get allFieldKeyUnique =>
+      fields?.map((f) => f.key?.value).toSet().length == fields?.length;
+
+  // Convert fields to Markdown
+  String get fieldsToMarkdown =>
+      fields?.map((f) => f.toMarkdown()).join() ?? '';
+
+  // Remove a field by its ID
+  void removeField(String id) {
+    fields?.removeWhere((element) => element.id == id);
   }
-}
 
-extension FieldTypeExtension on FieldType {
-  String get name => toString().split('.').last.toUpperCase();
-  String get value => toString().split('.').last;
+  // Convert the prompt to Markdown format
+  String toMarkdown() {
+    final fieldsMarkdown =
+        fields?.map((f) => f.toMarkdown(indentLevel: 1)).join(',\n') ?? '';
+    return '''
+```json
+{
+$fieldsMarkdown
+}
+''';
+  }
+
+  // Convert fields to prompt format
+  String toPrompt() {
+    final fieldsPrompt = fields?.map((f) => f.toPrompt()).join(', ') ?? '';
+    return ' ${text ?? ''},with fields { $fieldsPrompt }';
+  }
 }

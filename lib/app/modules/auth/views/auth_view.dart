@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schematic/app/common/buttons/x_button.dart';
-import 'package:schematic/app/common/input/x_field.dart';
-import 'package:schematic/app/routes/app_pages.dart';
-import 'package:schematic/app/themes/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/x_button.dart';
+import 'package:schematic/app/commons/ui/inputs/input_secure.dart';
+import 'package:schematic/app/commons/ui/inputs/x_input.dart';
+import 'package:schematic/app/routes/app_pages.dart';
 
 import '../controllers/auth_controller.dart';
 
@@ -42,7 +43,7 @@ class AuthView extends GetView<AuthController> {
                           TextSpan(
                             text: "Welcome to ",
                             style: TextStyle(
-                              color: ThemeApp.darkColor,
+                              color: ThemeManager().blackColor,
                               fontSize: 22,
                               fontWeight: FontWeight.w500,
                             ),
@@ -50,7 +51,7 @@ class AuthView extends GetView<AuthController> {
                               TextSpan(
                                 text: "GetX",
                                 style: GoogleFonts.poppins(
-                                  color: ThemeApp.primaryColor,
+                                  color: ThemeManager().primaryColor,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -58,7 +59,7 @@ class AuthView extends GetView<AuthController> {
                               TextSpan(
                                 text: " Starter",
                                 style: GoogleFonts.poppins(
-                                  color: ThemeApp.darkColor,
+                                  color: ThemeManager().blackColor,
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -72,7 +73,7 @@ class AuthView extends GetView<AuthController> {
                   Text(
                     "Login to your account",
                     style: TextStyle(
-                      color: ThemeApp.darkColor,
+                      color: ThemeManager().blackColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -80,11 +81,13 @@ class AuthView extends GetView<AuthController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  XTextField(
-                    labelText: "Phone",
+                  XInput(
+                    label: "Phone",
                     hintText: "+6281xxxx",
-                    prefixIcon: MdiIcons.phoneOutline,
-                    onSave: (val) {
+                    prefixIcon: const Icon(
+                      MdiIcons.phoneOutline,
+                    ),
+                    onSaved: (val) {
                       // controller.phone.value = val!;
                     },
                     validator: (value) {
@@ -97,35 +100,7 @@ class AuthView extends GetView<AuthController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Obx(
-                    () {
-                      return XTextField(
-                        labelText: "password",
-                        hintText: "pass****123",
-                        prefixIcon: MdiIcons.lockOutline,
-                        onSave: (val) {
-                          controller.password.value = val!;
-                        },
-                        suffixIcon: controller.isShowPass.value
-                            ? MdiIcons.eyeOutline
-                            : MdiIcons.eyeOffOutline,
-                        obscureText: !controller.isShowPass.value,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "password can't be empty";
-                          }
-                          if (value.length < 8) {
-                            return "Minimum 8 character";
-                          }
-                          return null;
-                        },
-                        onPressSuffix: () {
-                          controller.isShowPass.value =
-                              !controller.isShowPass.value;
-                        },
-                      );
-                    },
-                  ),
+                  const SecureInput(),
                   Container(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -133,7 +108,7 @@ class AuthView extends GetView<AuthController> {
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(
-                          color: ThemeApp.darkColor,
+                          color: ThemeManager().blackColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -142,8 +117,6 @@ class AuthView extends GetView<AuthController> {
                   ),
                   XButton(
                     text: "Login",
-                    hasIcon: true,
-                    icon: MdiIcons.login,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
@@ -158,7 +131,7 @@ class AuthView extends GetView<AuthController> {
                     children: [
                       Expanded(
                         child: Divider(
-                          color: ThemeApp.darkColor,
+                          color: ThemeManager().blackColor,
                           thickness: 1,
                         ),
                       ),
@@ -168,7 +141,7 @@ class AuthView extends GetView<AuthController> {
                       Text(
                         "Or",
                         style: TextStyle(
-                          color: ThemeApp.darkColor,
+                          color: ThemeManager().blackColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -178,7 +151,7 @@ class AuthView extends GetView<AuthController> {
                       ),
                       Expanded(
                         child: Divider(
-                          color: ThemeApp.darkColor,
+                          color: ThemeManager().blackColor,
                           thickness: 1,
                         ),
                       ),
@@ -190,8 +163,6 @@ class AuthView extends GetView<AuthController> {
                   // register
                   XButton(
                     text: "Register",
-                    hasIcon: true,
-                    icon: MdiIcons.accountPlusOutline,
                     onPressed: () {
                       // controller.register();
                       Get.toNamed(Routes.REGISTER);

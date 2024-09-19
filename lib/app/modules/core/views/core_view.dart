@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:schematic/app/commons/typewriter_markdown.dart';
+import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
 import 'package:schematic/app/modules/prompt/views/prompt_view.dart';
 
 import '../controllers/core_controller.dart';
@@ -12,17 +14,25 @@ class CoreView extends GetView<CoreController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Schematic Studio'),
+        title: Text(
+          'Schematic Studio',
+          style: Get.textTheme.labelLarge,
+        ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MdiIcons.github,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: IconButton.filled(
+              onPressed: () {},
+              icon: const Icon(
+                MdiIcons.github,
+                size: 30,
+              ),
             ),
           ),
         ],
       ),
+      drawer: const Drawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
@@ -40,10 +50,36 @@ class CoreView extends GetView<CoreController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Preview Can Be Here",
-                      style: Get.textTheme.titleLarge,
+                    Expanded(
+                      child: Obx(
+                        () {
+                          return SingleChildScrollView(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              width: Get.width,
+                              child: TypewriterMarkdown(
+                                Get.find<FormPromptFieldController>()
+                                    .output
+                                    .value,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
+                    // Expanded(
+                    //   child: Obx(
+                    //     () {
+                    //       return Container(
+                    //         margin: const EdgeInsets.all(10),
+                    //         width: Get.width,
+                    //         child: CodePreview(
+                    //           controller.prompt.value.toMarkdown(),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
