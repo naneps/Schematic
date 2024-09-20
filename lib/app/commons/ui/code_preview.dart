@@ -20,6 +20,7 @@ class CodePreview extends StatelessWidget {
       child: MarkdownWidget(
         data: code,
         tocController: TocController(),
+        markdownGenerator: MarkdownGenerator(),
         config: MarkdownConfig(configs: [
           const BlockquoteConfig(),
           const PConfig(),

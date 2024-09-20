@@ -16,6 +16,7 @@ class CoreController extends GetxController
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    prompt.value = Get.find<FormPromptFieldController>().prompt.value;
     prompt.bindStream(Get.find<FormPromptFieldController>().prompt.stream);
     isLoading.bindStream(generativeService.isLoading.stream);
 

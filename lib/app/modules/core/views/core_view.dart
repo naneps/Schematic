@@ -71,18 +71,16 @@ class CoreView extends GetView<CoreController> {
                       child: TabBarView(
                         controller: controller.tabController,
                         children: [
-                          Expanded(
-                              child: Markdown(
+                          Markdown(
                             data: controller.prompt.value.toMarkdown(),
                             styleSheet: MarkdownStyleSheet(
-                              p: const TextStyle(
-                                color: Colors.white,
+                              code: const TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 14,
                               ),
                             ),
-                          )),
-                          Expanded(
-                            child: OutputPromptView(controller: controller),
                           ),
+                          OutputPromptView(controller: controller),
                         ],
                       ),
                     )
@@ -98,12 +96,12 @@ class CoreView extends GetView<CoreController> {
 }
 
 class OutputPromptView extends StatelessWidget {
+  final CoreController controller;
+
   const OutputPromptView({
     super.key,
     required this.controller,
   });
-
-  final CoreController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +136,8 @@ class OutputPromptView extends StatelessWidget {
                         ],
                       )
                     : SingleChildScrollView(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          width: Get.width,
+                        child: SizedBox(
+                          height: Get.height,
                           child: TypewriterMarkdown(
                             Get.find<FormPromptFieldController>().output.value,
                           ),

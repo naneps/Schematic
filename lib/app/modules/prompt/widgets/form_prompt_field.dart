@@ -31,6 +31,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
         children: [
           XInput(
             label: "Prompt",
+            initialValue: controller.prompt.value.text,
             hintText: "e.g generate product data",
             onChanged: (value) {
               controller.prompt.value.text = value;
@@ -112,6 +113,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: ThemeManager().primaryColor,
                 fixedSize: Size(Get.width, 50),
+                foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelMedium!,
               ),
               onPressed: () {

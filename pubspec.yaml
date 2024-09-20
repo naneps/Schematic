@@ -29,6 +29,11 @@ dependencies:
   markdown_widget: ^2.3.2+6
   expandable: ^5.0.1
   url_launcher: ^6.3.0
+  firebase_analytics: ^11.1.0
+  flutter_dotenv: ^5.1.0
+  webview_flutter: ^4.8.0
+  firebase_messaging: ^15.0.2
+  cloud_firestore: ^5.0.2
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -40,6 +45,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/lang/
+    - .env
   uses-material-design: true
 
 

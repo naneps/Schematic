@@ -1,15 +1,11 @@
 import 'package:get/get.dart';
+import 'package:schematic/app/services/firebase/firebase_auth_service.dart';
 
 class AuthController extends GetxController {
   //TODO: Implement AuthController
-  RxBool isShowPass = false.obs;
-  RxBool isShowPassConfirm = false.obs;
-  RxBool isLoading = false.obs;
-  RxString phone = ''.obs;
-  RxString password = ''.obs;
-  final count = 0.obs;
+  final authService = Get.find<FirebaseAuthService>();
 
-  @override
-  void onClose() {}
-  void increment() => count.value++;
+  void signWithGitHub() {
+    authService.signInWithGitHub();
+  }
 }

@@ -9,7 +9,7 @@ class FormPromptFieldController extends GetxController {
   RxString output = ''.obs;
   RxBool isLoading = false.obs;
   Rx<Prompt> prompt = Prompt(
-    text: '',
+    text: 'data product camera',
     fields: [
       Field(
         key: 'name'.obs,
@@ -18,11 +18,49 @@ class FormPromptFieldController extends GetxController {
         subFields: RxList<Field>([]),
       ),
       Field(
-        key: 'category'.obs,
+        key: 'description'.obs,
+        type: FieldType.string.obs,
+        subType: FieldType.string.obs,
+        subFields: RxList<Field>([]),
+      ),
+      Field(
+        key: 'model'.obs,
+        type: FieldType.string.obs,
+        subType: FieldType.string.obs,
+        subFields: RxList<Field>([]),
+      ),
+      Field(
+        key: 'images'.obs,
+        type: FieldType.array.obs,
+        subType: FieldType.string.obs,
+        subFields: RxList<Field>([]),
+      ),
+      Field(
+        key: 'specification'.obs,
         type: FieldType.object.obs,
+        subType: FieldType.string.obs,
+        description: ''.obs,
         subFields: [
           Field(
-            key: 'name'.obs,
+            key: 'brand'.obs,
+            type: FieldType.string.obs,
+            subType: FieldType.string.obs,
+            subFields: RxList<Field>([]),
+          ),
+          Field(
+            key: 'color'.obs,
+            type: FieldType.string.obs,
+            subType: FieldType.string.obs,
+            subFields: RxList<Field>([]),
+          ),
+          Field(
+            key: 'size'.obs,
+            type: FieldType.string.obs,
+            subType: FieldType.string.obs,
+            subFields: RxList<Field>([]),
+          ),
+          Field(
+            key: 'weight'.obs,
             type: FieldType.string.obs,
             subType: FieldType.string.obs,
             subFields: RxList<Field>([]),

@@ -13,7 +13,7 @@ import '../modules/prompt/views/prompt_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.CORE;
+  static const INITIAL = Routes.AUTH;
 
   static final routes = [
     GetPage(

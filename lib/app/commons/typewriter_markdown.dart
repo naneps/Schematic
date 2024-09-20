@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
+import 'package:markdown_widget/markdown_widget.dart';
+import 'package:schematic/app/commons/ui/code_preview.dart';
 
 class TypewriterMarkdown extends StatefulWidget {
   final String text;
@@ -12,7 +12,6 @@ class TypewriterMarkdown extends StatefulWidget {
 
 class _TypewriterMarkdownState extends State<TypewriterMarkdown>
     with TickerProviderStateMixin {
-  // Changed to TickerProviderStateMixin
   late AnimationController _controller;
   late Animation<int> _charCount;
 
@@ -22,18 +21,50 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
       animation: _charCount,
       builder: (context, child) {
         String text = widget.text.substring(0, _charCount.value);
-        return MarkdownBody(
+        return MarkdownWidget(
           data: text,
-          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
-          inlineSyntaxes: const [],
-          extensionSet: md.ExtensionSet(
-            md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-            <md.InlineSyntax>[
-              md.EmojiSyntax(),
-              ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes
+          tocController: TocController(),
+          markdownGenerator: MarkdownGenerator(),
+          config: MarkdownConfig(
+            configs: [
+              PreConfig(
+                // Styles for preformatted (code) blocks
+                textStyle: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'monospace',
+                ),
+                theme: {
+                  'pre': TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  'json': const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                    color: Colors.green, // Custom color for JSON blocks
+                  ),
+                  'quote':
+                      const TextStyle(color: Color.fromARGB(255, 6, 27, 255)),
+                  'code':
+                      const TextStyle(color: Color.fromARGB(255, 6, 27, 255)),
+                  'h1': const TextStyle(color: Colors.red),
+                },
+                wrapper: (child, code, language) {
+                  if (language == 'json') {
+                    return CodeWrapperWidget(child, code, language);
+                  }
+                  return CodeWrapperWidget(child, code, language);
+                },
+              ),
+              const PConfig(),
+              const HrConfig(),
+              const TableConfig(),
+              const CodeConfig(
+                style: TextStyle(fontFamily: 'monospace'),
+              ),
             ],
           ),
-          styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
         );
       },
     );
@@ -45,7 +76,7 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
     if (oldWidget.text != widget.text) {
       _controller.dispose();
       _controller = AnimationController(
-        duration: Duration(milliseconds: widget.text.length * 50),
+        duration: Duration(milliseconds: widget.text.length * 5),
         vsync: this,
       );
       _charCount =
@@ -64,7 +95,7 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(milliseconds: widget.text.length * 15),
+      duration: Duration(milliseconds: widget.text.length * 5),
       vsync: this,
     );
     _charCount =
