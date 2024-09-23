@@ -27,12 +27,20 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
           markdownGenerator: MarkdownGenerator(),
           config: MarkdownConfig(
             configs: [
+              const BlockquoteConfig(),
+              const HrConfig(),
+              const CodeConfig(
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                ),
+              ),
               PreConfig(
                 // Styles for preformatted (code) blocks
                 textStyle: const TextStyle(
                   fontSize: 14,
                   fontFamily: 'monospace',
                 ),
+
                 theme: {
                   'pre': TextStyle(
                     fontFamily: 'monospace',
@@ -61,7 +69,9 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
               const HrConfig(),
               const TableConfig(),
               const CodeConfig(
-                style: TextStyle(fontFamily: 'monospace'),
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                ),
               ),
             ],
           ),

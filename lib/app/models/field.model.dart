@@ -10,6 +10,7 @@ class Field {
   RxString? description;
   RxList<Field>? subFields;
   Rx<FieldType>? subType;
+  RxInt? count;
 
   Field({
     this.key,
@@ -17,6 +18,7 @@ class Field {
     this.subFields,
     this.subType,
     this.description,
+    this.count,
   }) : id = _generateUniqueId();
   bool get allSubFieldKeyUnique =>
       subFields?.map((f) => f.key?.value).toSet().length == subFields?.length;

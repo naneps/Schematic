@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:schematic/app/models/user.model.dart';
 
 class UserService extends GetxService {
+  // static UserService instance = Get.find();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Rx<UserModel> user = UserModel().obs;
@@ -151,11 +152,13 @@ class UserService extends GetxService {
     if (firebaseUser == null) {
       user.value = UserModel();
       user.value.online = false;
+      // Get.offAllNamed(Routes.AUTH);
     } else {
       _initializeFCMToken();
       user.value = (await _getUserFromFirestore(uid))!;
       user.value.online = true;
       setUserOnlineStatus(true);
+      // Get.offAllNamed(Routes.CORE);
     }
   }
 }

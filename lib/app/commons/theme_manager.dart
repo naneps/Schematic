@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 51, 112, 241);
+  Color primaryColor = const Color.fromARGB(255, 255, 188, 33);
   Color secondaryColor = const Color.fromARGB(255, 137, 206, 255);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
@@ -192,13 +192,13 @@ class ThemeManager {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          fixedSize: MaterialStateProperty.all(const Size(30, 30)),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
-          iconSize: MaterialStateProperty.all(20),
-          minimumSize: MaterialStateProperty.all(const Size(10, 10)),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(Colors.transparent),
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          fixedSize: WidgetStateProperty.all(const Size(30, 30)),
+          padding: WidgetStateProperty.all(const EdgeInsets.all(5)),
+          iconSize: WidgetStateProperty.all(20),
+          minimumSize: WidgetStateProperty.all(const Size(10, 10)),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               //   side: BorderSide(color: , width: 1),
@@ -208,11 +208,11 @@ class ThemeManager {
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          padding: WidgetStateProperty.all(
             const EdgeInsets.all(10),
           ),
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: primaryColor, width: 0),
@@ -236,16 +236,16 @@ class ThemeManager {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primaryColor),
-          foregroundColor: MaterialStateProperty.all(textColor),
-          fixedSize: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(primaryColor),
+          foregroundColor: WidgetStateProperty.all(textColor),
+          fixedSize: WidgetStateProperty.all(
             const Size(double.infinity, 40),
           ),
-          shadowColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
+          shadowColor: WidgetStateProperty.all(blackColor),
+          padding: WidgetStateProperty.all(
             const EdgeInsets.all(0),
           ),
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: primaryColor, width: 0),

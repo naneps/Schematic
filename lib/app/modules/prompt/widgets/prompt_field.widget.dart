@@ -42,14 +42,19 @@ class PromptField extends GetView<PromptFieldWidgetController> {
       },
       builder: (ctrl) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(
+            bottom: 10,
+            left: 5,
+            right: 5,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
-              color: Colors.grey.shade400,
-              width: 1,
+              color: ThemeManager().blackColor,
+              width: 2,
             ),
             borderRadius: BorderRadius.circular(10),
+            boxShadow: [ThemeManager().defaultShadow()],
           ),
           padding: const EdgeInsets.symmetric(
             vertical: 10,
@@ -161,9 +166,12 @@ class PromptField extends GetView<PromptFieldWidgetController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Additional Setting",
-          style: Get.textTheme.labelSmall,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Text(
+            "Additional Setting",
+            style: Get.textTheme.labelSmall,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -214,11 +222,16 @@ class PromptField extends GetView<PromptFieldWidgetController> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: NeoDropdown(
-                  items: const [],
-                  onChanged: (value) {},
-                ),
-              ),
+                  child: XInput(
+                label: "Count Data",
+                hintText: "e.g 10",
+                keyboardType: TextInputType.number,
+                initialValue: arrayField.count?.value.toString(),
+                onChanged: (value) {
+                  arrayField.count!.value = int.parse(value);
+                  controller.field?.refresh();
+                },
+              )),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
@@ -20,7 +21,16 @@ class MainApp extends StatelessWidget {
       theme: ThemeManager().themeData,
       initialRoute: AppPages.INITIAL,
       onInit: () {},
-      onReady: () {},
+      onReady: () {
+        // UserService.instance;
+        FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
+          if (firebaseUser == null) {
+            Get.offAllNamed(Routes.AUTH);
+          } else {
+            Get.offAllNamed(Routes.CORE);
+          }
+        });
+      },
     );
   }
 }

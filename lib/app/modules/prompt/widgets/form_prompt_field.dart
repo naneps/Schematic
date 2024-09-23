@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
@@ -19,13 +20,20 @@ class FormPromptField extends GetView<FormPromptFieldController> {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.5,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 20,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: Colors.grey.shade200,
-          width: 1,
+          color: ThemeManager().blackColor,
+          width: 2,
         ),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          ThemeManager().defaultShadow(),
+        ],
       ),
       child: Column(
         children: [
@@ -109,11 +117,10 @@ class FormPromptField extends GetView<FormPromptFieldController> {
           ),
           const SizedBox(height: 10),
           Obx(() {
-            return ElevatedButton(
+            return NeoButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: ThemeManager().primaryColor,
                 fixedSize: Size(Get.width, 50),
-                foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelMedium!,
               ),
               onPressed: () {

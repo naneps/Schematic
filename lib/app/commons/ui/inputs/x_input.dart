@@ -19,6 +19,7 @@ class XInput extends StatefulWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final EdgeInsets? contentPadding;
+  final TextEditingController? controller;
 //  onSaved: (value) => _onSaved(value),
   final FloatingLabelBehavior? floatingLabelBehavior;
   final String? hintText;
@@ -33,6 +34,7 @@ class XInput extends StatefulWidget {
     this.hasCounter = false,
     this.maxLength,
     this.onSaved,
+    this.controller,
     this.obscureText = false,
     this.maxLines = 1,
     this.readOnly = false,
@@ -143,6 +145,9 @@ class XInputState extends State<XInput> {
   @override
   void initState() {
     super.initState();
+    if (widget.controller != null) {
+      _controller = widget.controller!;
+    }
     _controller = TextEditingController(text: widget.initialValue);
     _controller.addListener(_updateState);
     _focusNode.addListener(_updateState);
