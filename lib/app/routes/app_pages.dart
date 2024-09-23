@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:schematic/app/services/auth_middlerware.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
@@ -20,11 +21,13 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: _Paths.AUTH,
       page: () => const AuthView(),
       binding: AuthBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: _Paths.REGISTER,
@@ -35,12 +38,14 @@ class AppPages {
       name: _Paths.CORE,
       page: () => const CoreView(),
       binding: CoreBinding(),
+      middlewares: [AuthMiddleware()],
       bindings: [PromptBinding()],
     ),
     GetPage(
       name: _Paths.PROMPT,
       page: () => const PromptView(),
       binding: PromptBinding(),
+      middlewares: [AuthMiddleware()],
     ),
   ];
 
