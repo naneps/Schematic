@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/inputs/neo_dropdown_formfield.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/enums/type_field.enum.dart';
 import 'package:schematic/app/models/field.model.dart';
@@ -91,7 +92,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: DropdownButtonFormField<FieldType>(
+                        child: NeoDropdown<FieldType>(
                           items: [
                             ...FieldType.values.map((type) {
                               return DropdownMenuItem(
@@ -169,7 +170,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
           child: Row(
             children: [
               Expanded(
-                child: DropdownButtonFormField<FieldType>(
+                child: NeoDropdown<FieldType>(
                   items: [
                     DropdownMenuItem(
                       value: FieldType.string,
@@ -213,7 +214,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: DropdownButtonFormField(
+                child: NeoDropdown(
                   items: const [],
                   onChanged: (value) {},
                 ),

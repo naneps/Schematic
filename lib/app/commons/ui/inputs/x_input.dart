@@ -63,45 +63,53 @@ class XInputState extends State<XInput> {
       'hasCounter and maxLength must be set together',
     );
 
-    return TextFormField(
-      key: _formKey,
-      controller: _controller,
-      focusNode: _focusNode,
-      onTap: widget.onTap,
-      validator: widget.validator,
-      obscureText: widget.obscureText,
-      readOnly: widget.readOnly!,
-      onSaved: (newValue) => widget.onSaved?.call(newValue ?? ''),
-      onChanged: (value) {
-        if (widget.onChanged != null) {
-          widget.onChanged!(value);
-        }
-        _formKey.currentState?.validate(); // Trigger revalidation
-      },
-      maxLength: widget.hasCounter == true ? widget.maxLength : null,
-      maxLines: widget.maxLines,
-      minLines: 1,
-      keyboardType: widget.keyboardType,
-      cursorColor: ThemeManager().primaryColor,
-      inputFormatters: widget.inputFormatters,
-      decoration: InputDecoration(
-        labelText: widget.label,
-        contentPadding: widget.contentPadding,
-        hintText:
-            widget.hintText ?? 'Enter your ${widget.label!.toLowerCase()}',
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.suffixIcon,
-        floatingLabelBehavior:
-            widget.floatingLabelBehavior ?? FloatingLabelBehavior.always,
-        counter: widget.hasCounter == true
-            ? buildCounter(
-                context: context,
-                maxLength: widget.maxLength!,
-                currentLength: _controller.text.length,
-                isFocused: _focusNode.hasFocus,
-                hasError: _formKey.currentState?.hasError ?? false,
-              )
-            : null,
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          ThemeManager().defaultShadow(),
+        ],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextFormField(
+        key: _formKey,
+        controller: _controller,
+        focusNode: _focusNode,
+        onTap: widget.onTap,
+        validator: widget.validator,
+        obscureText: widget.obscureText,
+        readOnly: widget.readOnly!,
+        onSaved: (newValue) => widget.onSaved?.call(newValue ?? ''),
+        onChanged: (value) {
+          if (widget.onChanged != null) {
+            widget.onChanged!(value);
+          }
+          _formKey.currentState?.validate(); // Trigger revalidation
+        },
+        maxLength: widget.hasCounter == true ? widget.maxLength : null,
+        maxLines: widget.maxLines,
+        minLines: 1,
+        keyboardType: widget.keyboardType,
+        cursorColor: ThemeManager().primaryColor,
+        inputFormatters: widget.inputFormatters,
+        decoration: InputDecoration(
+          labelText: widget.label,
+          contentPadding: widget.contentPadding,
+          hintText:
+              widget.hintText ?? 'Enter your ${widget.label!.toLowerCase()}',
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.suffixIcon,
+          floatingLabelBehavior:
+              widget.floatingLabelBehavior ?? FloatingLabelBehavior.always,
+          counter: widget.hasCounter == true
+              ? buildCounter(
+                  context: context,
+                  maxLength: widget.maxLength!,
+                  currentLength: _controller.text.length,
+                  isFocused: _focusNode.hasFocus,
+                  hasError: _formKey.currentState?.hasError ?? false,
+                )
+              : null,
+        ),
       ),
     );
   }

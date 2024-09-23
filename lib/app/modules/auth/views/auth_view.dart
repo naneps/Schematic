@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 
 import '../controllers/auth_controller.dart';
@@ -19,15 +20,21 @@ class AuthView extends GetView<AuthController> {
             key: formKey,
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: const Alignment(-1, -1),
-                  end: const Alignment(1, 0.75),
-                  colors: [
-                    ThemeManager().primaryColor,
-                    ThemeManager().blackColor
-                  ],
-                  stops: null,
-                  tileMode: TileMode.clamp,
+                // gradient: LinearGradient(
+                // //   begin: const Alignment(-1, -1),
+                // //   end: const Alignment(1, 0.5),
+                // //   colors: [
+                // //     ThemeManager().primaryColor,
+                // //     ThemeManager().blackColor
+                // //   ],
+                // //   stops: const [0, 0.4],
+                //   tileMode: TileMode.clamp,
+                // ),
+                border: Border(
+                  bottom: BorderSide(
+                    color: ThemeManager().blackColor,
+                    width: 2,
+                  ),
                 ),
               ),
               height: Get.height,
@@ -56,17 +63,15 @@ class FormSignIn extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.3,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
+        border: Border.all(color: ThemeManager().blackColor, width: 3),
         boxShadow: [
-          BoxShadow(
-            color: ThemeManager().blackColor,
-            blurRadius: 0,
-            spreadRadius: 1.2098895318253613,
-            offset: const Offset(2.8143082588111596, 4.2346133613887815),
-            blurStyle: BlurStyle.normal,
-          ),
+          ThemeManager().defaultShadow(),
         ],
         borderRadius: BorderRadius.circular(10),
       ),
@@ -102,15 +107,17 @@ class FormSignIn extends GetView<AuthController> {
                 child: XInput(
                   label: "Email",
                   hintText: "e.g. 0k5uJ@example.com",
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   prefixIcon: Icon(FontAwesomeIcons.ethereum),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 flex: 3,
-                child: ElevatedButton(
+                child: NeoButton(
                   onPressed: () {},
-                  child: const Text('Sign in'),
+                  child: const Text("Sign In"),
                 ),
               ),
             ],
@@ -131,7 +138,7 @@ class FormSignIn extends GetView<AuthController> {
             ],
           ),
           const SizedBox(height: 10),
-          ElevatedButton.icon(
+          NeoButton.icon(
             icon: const Icon(FontAwesomeIcons.user),
             style: ElevatedButton.styleFrom(
               foregroundColor: ThemeManager().blackColor,
@@ -139,19 +146,19 @@ class FormSignIn extends GetView<AuthController> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              side: BorderSide(
-                color: ThemeManager().blackColor,
-              ),
             ),
             onPressed: () {},
             label: const Text('Sign in Anonymously'),
           ),
           const SizedBox(height: 10),
-          ElevatedButton.icon(
-            icon: const Icon(FontAwesomeIcons.github),
+          NeoButton.icon(
+            icon: Icon(
+              FontAwesomeIcons.github,
+              color: ThemeManager().blackColor,
+            ),
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: ThemeManager().blackColor,
+              foregroundColor: ThemeManager().blackColor,
+              backgroundColor: Colors.grey.shade300,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

@@ -72,6 +72,7 @@ class ThemeManager {
         ),
         scrolledUnderElevation: 0,
       ),
+      shadowColor: blackColor,
       expansionTileTheme: ExpansionTileThemeData(
         iconColor: primaryColor,
         textColor: textColor,
@@ -146,16 +147,24 @@ class ThemeManager {
           fontWeight: FontWeight.bold,
         ),
       ),
+
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(color: Colors.grey.shade400),
         labelStyle: TextStyle(color: textColor, fontSize: 14),
         errorStyle: TextStyle(color: errorColor),
         counterStyle: TextStyle(color: hintColor),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: blackColor),
+          borderSide: BorderSide(
+            color: blackColor,
+            width: 3,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
+          borderSide: BorderSide(
+            color: blackColor,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(6),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: errorColor),
@@ -229,10 +238,10 @@ class ThemeManager {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(primaryColor),
           foregroundColor: MaterialStateProperty.all(textColor),
-          elevation: MaterialStateProperty.all(0),
           fixedSize: MaterialStateProperty.all(
             const Size(double.infinity, 40),
           ),
+          shadowColor: MaterialStateProperty.all(blackColor),
           padding: MaterialStateProperty.all(
             const EdgeInsets.all(0),
           ),
@@ -245,6 +254,16 @@ class ThemeManager {
         ),
       ),
       //   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
+    );
+  }
+
+  BoxShadow defaultShadow() {
+    return BoxShadow(
+      color: ThemeManager().blackColor,
+      blurRadius: 0,
+      spreadRadius: 1,
+      offset: const Offset(3, 3),
+      blurStyle: BlurStyle.normal,
     );
   }
 }
