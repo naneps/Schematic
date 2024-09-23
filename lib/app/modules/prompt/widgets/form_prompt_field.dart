@@ -19,7 +19,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width * 0.5,
+      width: context.isPhone ? Get.width : Get.width * 0.5,
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 20,

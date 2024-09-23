@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/modules/prompt/views/output_prompt_view.dart';
+import 'package:schematic/app/modules/prompt/views/preview_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/prompt_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/core_controller.dart';
 
@@ -24,7 +25,14 @@ class CoreView extends GetView<CoreController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: IconButton.filled(
-              onPressed: () {},
+              onPressed: () async {
+                // launchUrl(
+                //url launcher
+                await launchUrl(
+                  Uri.parse('https://github.com/naneps/schematic'),
+                  mode: LaunchMode.externalApplication,
+                );
+              },
               icon: const Icon(
                 MdiIcons.github,
                 size: 30,
@@ -36,167 +44,91 @@ class CoreView extends GetView<CoreController> {
       drawer: const Drawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            const Expanded(
-              child: PromptView(),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ThemeManager().primaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    ThemeManager().defaultShadow(),
-                  ],
-                  border: Border.all(
-                    color: ThemeManager().blackColor,
-                    width: 2,
-                  ),
+        child: context.isPhone
+            ? Column(children: [
+                const Expanded(
+                  child: PromptView(),
                 ),
-                child: Obx(() {
-                  return Column(
-                    children: [
-                      TabBar(
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              "Preview Prompt",
-                              style: Get.textTheme.labelLarge,
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Output",
-                              style: Get.textTheme.labelLarge,
-                            ),
-                          ),
-                        ],
-                        controller: controller.tabController,
-                      ),
-                      const SizedBox(height: 10),
-                      Expanded(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                const SizedBox(height: 20),
+                Expanded(
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: ThemeManager().primaryColor,
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
-                              ThemeManager().defaultShadow(),
-                            ],
-                          ),
-                          child: TabBarView(
-                            controller: controller.tabController,
-                            children: [
-                              PreviewPromptView(controller: controller),
-                              OutputPromptView(controller: controller),
-                            ],
-                          ),
+                      ThemeManager().defaultShadow(),
+                    ])))
+              ])
+            : Row(
+                children: [
+                  const Expanded(
+                    child: PromptView(),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: ThemeManager().primaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          ThemeManager().defaultShadow(),
+                        ],
+                        border: Border.all(
+                          color: ThemeManager().blackColor,
+                          width: 2,
                         ),
-                      )
-                    ],
-                  );
-                }),
+                      ),
+                      child: Obx(() {
+                        return Column(
+                          children: [
+                            TabBar(
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              tabs: [
+                                Tab(
+                                  child: Text(
+                                    "Preview Prompt",
+                                    style: Get.textTheme.labelLarge,
+                                  ),
+                                ),
+                                Tab(
+                                  child: Text(
+                                    "Output",
+                                    style: Get.textTheme.labelLarge,
+                                  ),
+                                ),
+                              ],
+                              controller: controller.tabController,
+                            ),
+                            const SizedBox(height: 10),
+                            Expanded(
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    ThemeManager().defaultShadow(),
+                                  ],
+                                ),
+                                child: TabBarView(
+                                  controller: controller.tabController,
+                                  children: [
+                                    PreviewPromptView(controller: controller),
+                                    OutputPromptView(controller: controller),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      }),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PreviewPromptView extends StatelessWidget {
-  const PreviewPromptView({
-    super.key,
-    required this.controller,
-  });
-
-  final CoreController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Markdown(
-      data: controller.prompt.value.toMarkdown(),
-      styleSheet: MarkdownStyleSheet(
-        code: const TextStyle(
-          fontFamily: 'monospace',
-          color: Colors.white,
-          fontSize: 16,
-          backgroundColor: Colors.transparent,
-        ),
-        codeblockDecoration: BoxDecoration(
-          color: ThemeManager().blackColor,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-            color: ThemeManager().blackColor,
-            width: 2,
-          ),
-          boxShadow: [
-            ThemeManager().defaultShadow(),
-          ],
-        ),
-        blockquote: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-          fontStyle: FontStyle.italic,
-        ),
-        h1: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 20,
-          color: ThemeManager().blackColor,
-        ),
-        h2: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 18,
-          color: ThemeManager().blackColor,
-        ),
-        h3: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-        ),
-        h4: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 14,
-          color: ThemeManager().blackColor,
-        ),
-        h5: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 12,
-          color: ThemeManager().blackColor,
-        ),
-        h6: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 10,
-          color: ThemeManager().blackColor,
-        ),
-        p: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-        ),
-        strong: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-        ),
-        em: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-        ),
-        tableBody: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 16,
-          color: ThemeManager().blackColor,
-        ),
       ),
     );
   }
