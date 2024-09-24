@@ -57,7 +57,7 @@ class GoogleGenerativeService extends GetxService {
         temperature: 1,
         topK: 64,
         topP: 0.95,
-        maxOutputTokens: 8192,
+        maxOutputTokens: 10000,
         responseMimeType: 'text/plain',
       ),
       safetySettings: [

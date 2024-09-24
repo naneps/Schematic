@@ -4,12 +4,12 @@ import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 
 class PreviewPromptView extends StatelessWidget {
+  final CoreController controller;
+
   const PreviewPromptView({
     super.key,
     required this.controller,
   });
-
-  final CoreController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PreviewPromptView extends StatelessWidget {
         ),
         blockquote: TextStyle(
           fontFamily: 'monospace',
-          fontSize: 16,
+          fontSize: 14,
           color: ThemeManager().blackColor,
           fontStyle: FontStyle.italic,
         ),

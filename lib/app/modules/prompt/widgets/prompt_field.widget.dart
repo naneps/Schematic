@@ -266,6 +266,11 @@ class PromptField extends GetView<PromptFieldWidgetController> {
         'Child From: ${parentField.key}',
         style: Get.textTheme.labelMedium,
       ),
+      initiallyExpanded: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide.none,
+      ),
       dense: true,
       visualDensity: VisualDensity.compact,
       tilePadding: const EdgeInsets.only(left: 20, right: 20),

@@ -22,7 +22,6 @@ class MainApp extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       onInit: () {},
       onReady: () {
-        // UserService.instance;
         FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
           if (firebaseUser == null) {
             Get.offAllNamed(Routes.AUTH);

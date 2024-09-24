@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/code_preview.dart';
 
 class TypewriterMarkdown extends StatefulWidget {
@@ -24,53 +25,46 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
         return MarkdownWidget(
           data: text,
           tocController: TocController(),
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
           markdownGenerator: MarkdownGenerator(),
           config: MarkdownConfig(
             configs: [
-              const BlockquoteConfig(),
-              const HrConfig(),
               const CodeConfig(
                 style: TextStyle(
                   fontFamily: 'monospace',
+                  color: Colors.white,
                 ),
               ),
               PreConfig(
-                // Styles for preformatted (code) blocks
                 textStyle: const TextStyle(
                   fontSize: 14,
+                  color: Colors.white,
                   fontFamily: 'monospace',
                 ),
-
-                theme: {
-                  'pre': TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                    color: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  border: Border.all(
+                    color: ThemeManager().blackColor,
+                    width: 2,
                   ),
-                  'json': const TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                    color: Colors.green, // Custom color for JSON blocks
-                  ),
-                  'quote':
-                      const TextStyle(color: Color.fromARGB(255, 6, 27, 255)),
-                  'code':
-                      const TextStyle(color: Color.fromARGB(255, 6, 27, 255)),
-                  'h1': const TextStyle(color: Colors.red),
-                },
+                  boxShadow: [
+                    ThemeManager().defaultShadow(),
+                  ],
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 wrapper: (child, code, language) {
-                  if (language == 'json') {
-                    return CodeWrapperWidget(child, code, language);
-                  }
                   return CodeWrapperWidget(child, code, language);
                 },
               ),
-              const PConfig(),
-              const HrConfig(),
-              const TableConfig(),
-              const CodeConfig(
+              CodeConfig(
                 style: TextStyle(
                   fontFamily: 'monospace',
+                  fontSize: 14,
+                  backgroundColor: ThemeManager().blackColor,
                 ),
               ),
             ],

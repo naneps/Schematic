@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/responsive_layout.dart';
 import 'package:schematic/app/modules/prompt/views/output_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/preview_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/prompt_view.dart';
@@ -26,109 +27,97 @@ class CoreView extends GetView<CoreController> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: IconButton.filled(
               onPressed: () async {
-                // launchUrl(
-                //url launcher
                 await launchUrl(
                   Uri.parse('https://github.com/naneps/schematic'),
                   mode: LaunchMode.externalApplication,
                 );
               },
-              icon: const Icon(
-                MdiIcons.github,
-                size: 30,
-              ),
+              icon: const Icon(MdiIcons.github, size: 30),
             ),
           ),
         ],
       ),
       drawer: const Drawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: context.isPhone
-            ? Column(children: [
-                const Expanded(
-                  child: PromptView(),
+      body: ResponsiveLayout(
+        mobile: const PromptView(),
+        tablet: Row(
+          children: [
+            const Expanded(
+              child: PromptView(),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 15,
                 ),
-                const SizedBox(height: 20),
-                Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: ThemeManager().primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                      ThemeManager().defaultShadow(),
-                    ])))
-              ])
-            : Row(
-                children: [
-                  const Expanded(
-                    child: PromptView(),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    ThemeManager().defaultShadow(),
+                  ],
+                  border: Border.all(
+                    color: ThemeManager().blackColor,
+                    width: 2,
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: ThemeManager().primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          ThemeManager().defaultShadow(),
-                        ],
-                        border: Border.all(
-                          color: ThemeManager().blackColor,
-                          width: 2,
+                ),
+                child: Column(
+                  children: [
+                    TabBar(
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: ThemeManager().primaryColor,
+                          boxShadow: [
+                            ThemeManager().defaultShadow(),
+                          ]),
+                      tabs: [
+                        Tab(
+                          child: Text(
+                            "Preview Prompt",
+                            style: Get.textTheme.labelLarge,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            "Output",
+                            style: Get.textTheme.labelLarge,
+                          ),
+                        ),
+                      ],
+                      controller: controller.tabController,
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            ThemeManager().defaultShadow(),
+                          ],
+                        ),
+                        child: TabBarView(
+                          controller: controller.tabController,
+                          children: [
+                            PreviewPromptView(controller: controller),
+                            OutputPromptView(controller: controller),
+                          ],
                         ),
                       ),
-                      child: Obx(() {
-                        return Column(
-                          children: [
-                            TabBar(
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              tabs: [
-                                Tab(
-                                  child: Text(
-                                    "Preview Prompt",
-                                    style: Get.textTheme.labelLarge,
-                                  ),
-                                ),
-                                Tab(
-                                  child: Text(
-                                    "Output",
-                                    style: Get.textTheme.labelLarge,
-                                  ),
-                                ),
-                              ],
-                              controller: controller.tabController,
-                            ),
-                            const SizedBox(height: 10),
-                            Expanded(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 500),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    ThemeManager().defaultShadow(),
-                                  ],
-                                ),
-                                child: TabBarView(
-                                  controller: controller.tabController,
-                                  children: [
-                                    PreviewPromptView(controller: controller),
-                                    OutputPromptView(controller: controller),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      }),
-                    ),
-                  ),
-                ],
+                    )
+                  ],
+                ),
               ),
+            ),
+          ],
+        ),
       ),
     );
   }

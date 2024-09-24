@@ -14,78 +14,6 @@ class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final UserService userService = Get.find<UserService>();
 
-  Future<void> registerWithEmailOnly(String email) async {
-    try {
-      LoadingDialog.show(Get.context!);
-      final actionCodeSettings = ActionCodeSettings(
-        url: 'https://your-app-url.com',
-        handleCodeInApp: true,
-        androidPackageName: 'com.example.app',
-        androidInstallApp: true,
-        androidMinimumVersion: '12',
-        iOSBundleId: 'com.example.app',
-      );
-
-      await _auth.sendSignInLinkToEmail(
-        email: email,
-        actionCodeSettings: actionCodeSettings,
-      );
-
-      Get.snackbar('Success', 'Verification email sent to $email');
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to send email link: $e');
-      print('Error sending email link: $e');
-    } finally {
-      LoadingDialog.hide(Get.context!);
-    }
-  }
-
-  // Fungsi sign-in hanya menggunakan email link
-  Future<void> signInWithEmailLink(String email, String emailLink) async {
-    try {
-      LoadingDialog.show(Get.context!);
-
-      if (_auth.isSignInWithEmailLink(emailLink)) {
-        final UserCredential userCredential = await _auth.signInWithEmailLink(
-          email: email,
-          emailLink: emailLink,
-        );
-
-        if (userCredential.user != null) {
-          await userService.createUserInFirestore(userCredential.user!);
-          Get.snackbar('Success', 'Logged in successfully');
-        } else {
-          Get.snackbar('Error', 'Failed to login');
-        }
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to sign in: $e');
-      print('Error signing in: $e');
-    } finally {
-      LoadingDialog.hide(Get.context!);
-    }
-  }
-
-  // Fungsi sign-in anonymouse
-  Future<void> signInAnonymously() async {
-    try {
-      LoadingDialog.show(Get.context!);
-      final UserCredential userCredential = await _auth.signInAnonymously();
-
-      if (userCredential.user != null) {
-        await userService.createUserInFirestore(userCredential.user!);
-        Get.snackbar('Success', 'Signed in anonymously');
-      } else {
-        Get.snackbar('Error', 'Failed to sign in anonymously');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to sign in anonymously: $e');
-      print('Error signing in anonymously: $e');
-    } finally {
-      LoadingDialog.hide(Get.context!);
-    }
-  }
-
   Future<Response> post(String url, Map<String, String> body) async {
     final response = await post(
       url,
@@ -136,6 +64,32 @@ class FirebaseAuthService {
     }
   }
 
+  Future<void> registerWithEmailOnly(String email) async {
+    try {
+      LoadingDialog.show(Get.context!);
+      final actionCodeSettings = ActionCodeSettings(
+        url: 'https://your-app-url.com',
+        handleCodeInApp: true,
+        androidPackageName: 'com.example.app',
+        androidInstallApp: true,
+        androidMinimumVersion: '12',
+        iOSBundleId: 'com.example.app',
+      );
+
+      await _auth.sendSignInLinkToEmail(
+        email: email,
+        actionCodeSettings: actionCodeSettings,
+      );
+
+      Get.snackbar('Success', 'Verification email sent to $email');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to send email link: $e');
+      print('Error sending email link: $e');
+    } finally {
+      LoadingDialog.hide(Get.context!);
+    }
+  }
+
   void sendEmailVerification() {
     final user = _auth.currentUser;
     if (user != null) {
@@ -150,6 +104,26 @@ class FirebaseAuthService {
     } catch (e) {
       Get.snackbar('Error', 'Failed to send password reset email: $e');
       print('Error during password reset: $e');
+    }
+  }
+
+  // Fungsi sign-in anonymouse
+  Future<void> signInAnonymously() async {
+    try {
+      LoadingDialog.show(Get.context!);
+      final UserCredential userCredential = await _auth.signInAnonymously();
+
+      if (userCredential.user != null) {
+        await userService.createUserInFirestore(userCredential.user!);
+        Get.snackbar('Success', 'Signed in anonymously');
+      } else {
+        Get.snackbar('Error', 'Failed to sign in anonymously');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to sign in anonymously: $e');
+      print('Error signing in anonymously: $e');
+    } finally {
+      //   LoadingDialog.hide(Get.context!);
     }
   }
 
@@ -183,6 +157,32 @@ class FirebaseAuthService {
     } catch (e) {
       Get.snackbar('Error', 'Failed to login: $e');
       print('Error during login: $e');
+    } finally {
+      LoadingDialog.hide(Get.context!);
+    }
+  }
+
+  // Fungsi sign-in hanya menggunakan email link
+  Future<void> signInWithEmailLink(String email, String emailLink) async {
+    try {
+      LoadingDialog.show(Get.context!);
+
+      if (_auth.isSignInWithEmailLink(emailLink)) {
+        final UserCredential userCredential = await _auth.signInWithEmailLink(
+          email: email,
+          emailLink: emailLink,
+        );
+
+        if (userCredential.user != null) {
+          await userService.createUserInFirestore(userCredential.user!);
+          Get.snackbar('Success', 'Logged in successfully');
+        } else {
+          Get.snackbar('Error', 'Failed to login');
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to sign in: $e');
+      print('Error signing in: $e');
     } finally {
       LoadingDialog.hide(Get.context!);
     }

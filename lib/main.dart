@@ -12,11 +12,7 @@ void main() async {
     await dotenv.load(fileName: ".env");
   }
   AppTranslations appTranslations = AppTranslations();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await appTranslations.load(); // Wait for translations to be loaded
-  runApp(
-    MainApp(translations: appTranslations),
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await appTranslations.load();
+  runApp(MainApp(translations: appTranslations));
 }
