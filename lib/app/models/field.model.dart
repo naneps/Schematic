@@ -69,7 +69,7 @@ class Field {
     if (type?.value == FieldType.object) {
       return '${key?.value}: { ${subFields?.map((f) => f.toPrompt()).join(', ')} }';
     } else if (type?.value == FieldType.array) {
-      return '${key?.value}: [ ${subFields?.map((f) => f.toPrompt()).join(', ')} ]';
+      return '${key?.value}: [ ${subFields?.map((f) => f.toPrompt()).join(', ')} ] | Array Of: ${subType?.value.toString().split('.').last} | Description: ${description?.value} | Count: ${count?.value}';
     } else {
       return '${key?.value}: ${type?.value.toString().split('.').last}';
     }
