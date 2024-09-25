@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_icon_button.dart';
 import 'package:schematic/app/commons/ui/inputs/neo_dropdown_formfield.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/enums/type_field.enum.dart';
@@ -73,6 +74,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
+                        flex: 6,
                         child: Obx(() {
                           return XInput(
                             label: "Key",
@@ -97,6 +99,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
+                        flex: 5,
                         child: NeoDropdown<FieldType>(
                           items: [
                             ...FieldType.values.map((type) {
@@ -128,15 +131,22 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                         ),
                       ),
                       const SizedBox(width: 5),
-                      IconButton(
-                        onPressed: () {
-                          onRemove?.call();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(30, 30),
-                          foregroundColor: ThemeManager().errorColor,
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: NeoIconButton(
+                            onPressed: () {
+                              onRemove?.call();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(30, 30),
+                              backgroundColor: Colors.white,
+                              shape: const CircleBorder(),
+                              foregroundColor: ThemeManager().errorColor,
+                            ),
+                            icon: const Icon(Icons.delete),
+                          ),
                         ),
-                        icon: const Icon(Icons.delete),
                       ),
                     ],
                   ),
@@ -275,7 +285,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
       visualDensity: VisualDensity.compact,
       tilePadding: const EdgeInsets.only(left: 20, right: 20),
       childrenPadding: const EdgeInsets.only(left: 20, right: 20),
-      trailing: IconButton(
+      trailing: NeoIconButton(
         onPressed: () {
           controller.addField();
           controller.field?.refresh();

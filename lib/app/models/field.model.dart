@@ -20,6 +20,22 @@ class Field {
     this.description,
     this.count,
   }) : id = _generateUniqueId();
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      key: RxString(
+          json['key'] ?? ''), // Fallback to empty string if 'key' is null
+      type: FieldTypeExtension.fromString(json['type'] ?? 'string').obs,
+      description: RxString(json['description'] ??
+          ''), // Fallback to empty string if 'description' is null
+      subFields: json['subFields'] != null && json['subFields'] is List
+          ? RxList<Field>.from(json['subFields']
+              .map((x) => Field.fromJson(x))) // Safely map over subFields
+          : RxList<Field>([]), // Use an empty list if 'subFields' is null
+      subType: FieldTypeExtension.fromString(json['subType'] ?? 'string').obs,
+      count: RxInt(json['count'] ?? 4), // Default count value
+    );
+  }
+
   bool get allSubFieldKeyUnique =>
       subFields?.map((f) => f.key?.value).toSet().length == subFields?.length;
   bool get isArrayOfObjects =>

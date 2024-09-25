@@ -37,14 +37,66 @@ class FormPromptField extends GetView<FormPromptFieldController> {
       ),
       child: Column(
         children: [
-          XInput(
-            label: "Prompt",
-            initialValue: controller.prompt.value.text,
-            hintText: "e.g generate product data",
-            onChanged: (value) {
-              controller.prompt.value.text = value;
-            },
-            prefixIcon: const Icon(MdiIcons.formatListBulleted),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Obx(() {
+                  return XInput(
+                    label: "Prompt",
+                    controller: controller.textPromptController,
+                    hintText: "e.g generate product data",
+                    maxLines: 5,
+                    suffixIcon: controller.isEnhancing.value
+                        ? Column(
+                            children: [
+                              LoadingAnimationWidget.hexagonDots(
+                                color: ThemeManager().blackColor,
+                                size: 20,
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "Optimizing...",
+                                style: Get.textTheme.bodyMedium!.copyWith(
+                                  color: ThemeManager().blackColor,
+                                ),
+                              ),
+                            ],
+                          )
+                        : null,
+                    onChanged: (value) {
+                      controller.prompt.value.text =
+                          value; // Update the observable prompt
+                      controller.textPromptController.text =
+                          value; // Also update the controller
+                      controller.prompt
+                          .refresh(); // Make sure it triggers reactive UI updates
+                    },
+                    prefixIcon: Icon(
+                      MdiIcons.textBoxMultipleOutline,
+                      size: 20,
+                      color: ThemeManager().blackColor,
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(width: 10),
+              NeoButton(
+                onPressed: () {
+                  if (controller.prompt.value.text == "") {
+                    Get.snackbar(
+                      "Error",
+                      "Please enter a prompt",
+                    );
+                    return;
+                  }
+                  controller.enhancePrompt();
+                },
+                child: const Text(
+                  "Optimize Prompt",
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 5),
           Expanded(
@@ -67,21 +119,28 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                           style: Get.textTheme.labelMedium,
                         ),
                         const Spacer(),
-                        IconButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: ThemeManager().blackColor,
-                            fixedSize: const Size(30, 30),
-                          ),
+                        NeoButton(
                           onPressed: () {
                             controller.addField();
                           },
-                          icon: const Icon(
-                            MdiIcons.plus,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ThemeManager().primaryColor,
+                            textStyle: Get.textTheme.labelMedium!,
                           ),
+                          child: const Text("Add Field"),
+                        ),
+                        const SizedBox(width: 10),
+                        //generateField
+                        NeoButton(
+                          child: const Text("Generate Fields"),
+                          onPressed: () {
+                            controller.generateFields();
+                          },
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 10),
                   Obx(() {
                     return Expanded(
                       child: ListView.builder(
@@ -123,7 +182,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 fixedSize: Size(Get.width, 50),
                 textStyle: Get.textTheme.labelMedium!,
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (controller.isLoading.value) return;
                 controller.generate();
                 Get.find<CoreController>().tabController!.animateTo(1);

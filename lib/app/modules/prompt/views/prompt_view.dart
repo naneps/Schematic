@@ -8,8 +8,6 @@ class PromptView extends GetView<PromptController> {
   const PromptView({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: FormPromptField(),
-    );
+    return const Scaffold(body: FormPromptField());
   }
 }

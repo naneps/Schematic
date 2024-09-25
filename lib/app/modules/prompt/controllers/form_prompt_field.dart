@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/enums/type_field.enum.dart';
 import 'package:schematic/app/models/field.model.dart';
@@ -8,6 +11,7 @@ class FormPromptFieldController extends GetxController {
   final generativeService = Get.find<GoogleGenerativeService>();
   RxString output = ''.obs;
   RxBool isLoading = false.obs;
+  RxBool isEnhancing = false.obs;
   Rx<Prompt> prompt = Prompt(
     text: 'data product camera',
     fields: [
@@ -70,7 +74,8 @@ class FormPromptFieldController extends GetxController {
     ].obs,
   ).obs;
 
-  // Add a field
+  TextEditingController textPromptController = TextEditingController();
+
   void addField() {
     prompt.value.fields?.add(Field(
       key: ''.obs,
@@ -122,19 +127,80 @@ class FormPromptFieldController extends GetxController {
     prompt.refresh();
   }
 
-  void generate() async {
-    await generativeService.setPrompt(prompt.value.toPrompt());
+  void enhancePrompt() async {
+    isEnhancing.value = true;
+    await generativeService.enhancePrompt(prompt.value.text!).then((value) {
+      prompt.value.text = value;
+      textPromptController.text = value;
+      prompt.refresh();
+    });
+    isEnhancing.value = false;
+  }
+
+  Future<void> generate() async {
+    try {
+      isLoading.value = true;
+      await generativeService.generateData(prompt.value.toPrompt()).then(
+        (value) {
+          output.value = value;
+        },
+      );
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Remove a field by ID
+  void generateFields() async {
+    isLoading.value = true; // Set loading state to true
+    try {
+      final value = await generativeService.generateFields(prompt.value.text!);
+      print('Generated fields: $value');
+
+      final Map<String, dynamic> jsonResponse = json.decode(value);
+
+      final generatedFields = parseGeneratedFields(jsonResponse);
+      prompt.value.fields?.clear();
+      prompt.value.fields
+          ?.addAll(generatedFields); // Add generated fields to prompt
+      prompt.refresh(); // Refresh the prompt to update the UI
+    } catch (e) {
+      print("Error generating fields: $e"); // Handle error appropriately
+    } finally {
+      isLoading.value = false; // Set loading state to false after completion
+    }
   }
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    output.bindStream(generativeService.output.stream);
-    isLoading.bindStream(generativeService.isLoading.stream);
+    textPromptController.text = prompt.value.text!;
   }
 
-  // Remove a field by ID
+  List<Field> parseGeneratedFields(Map<String, dynamic> jsonResponse) {
+    if (jsonResponse['success'] == true) {
+      print("Successfully generated fields: ${jsonResponse['data']}");
+      final data = jsonResponse['data'];
+      if (data != null && data is List) {
+        return data.map<Field>((fieldData) {
+          // Debug output for each fieldData
+          print("Processing field data: $fieldData");
+          if (fieldData == null) {
+            throw Exception("Received null field data");
+          }
+          return Field.fromJson(fieldData);
+        }).toList();
+      } else {
+        throw Exception(
+            "Expected 'data' to be a List but got: ${data.runtimeType}");
+      }
+    } else {
+      throw Exception("Failed to generate fields: ${jsonResponse['message']}");
+    }
+  }
+
   void removeField(String id) {
     prompt.value.removeField(id);
     prompt.refresh();

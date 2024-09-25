@@ -59,12 +59,6 @@ class XInputState extends State<XInput> {
 
   @override
   Widget build(BuildContext context) {
-    assert(
-      widget.hasCounter == true && widget.maxLength != null ||
-          widget.hasCounter == false && widget.maxLength == null,
-      'hasCounter and maxLength must be set together',
-    );
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -82,6 +76,7 @@ class XInputState extends State<XInput> {
         readOnly: widget.readOnly!,
         onSaved: (newValue) => widget.onSaved?.call(newValue ?? ''),
         onChanged: (value) {
+          // Ensure onChanged propagates changes
           if (widget.onChanged != null) {
             widget.onChanged!(value);
           }
@@ -137,6 +132,8 @@ class XInputState extends State<XInput> {
 
   @override
   void dispose() {
+    _controller.removeListener(_updateState);
+    _focusNode.removeListener(_updateState);
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
@@ -145,15 +142,17 @@ class XInputState extends State<XInput> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller != null) {
-      _controller = widget.controller!;
-    }
-    _controller = TextEditingController(text: widget.initialValue);
+
+    // Use the provided controller if it exists; otherwise, create a new one
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
+
+    // Add listener to sync with parent changes if necessary
     _controller.addListener(_updateState);
     _focusNode.addListener(_updateState);
   }
 
   void _updateState() {
-    setState(() {});
+    setState(() {}); // Ensures UI updates based on changes
   }
 }

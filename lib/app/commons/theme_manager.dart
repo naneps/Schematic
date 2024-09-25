@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 255, 188, 33);
+  Color primaryColor = const Color.fromARGB(255, 250, 179, 12);
   Color secondaryColor = const Color.fromARGB(255, 128, 54, 247);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
@@ -172,7 +172,8 @@ class ThemeManager {
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: errorColor),
         ),
-        contentPadding: const EdgeInsets.all(10),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         filled: true,
         fillColor: Colors.white,
         constraints: const BoxConstraints(minHeight: 40),
@@ -192,7 +193,7 @@ class ThemeManager {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          backgroundColor: MaterialStateProperty.all(Colors.white),
           foregroundColor: MaterialStateProperty.all(blackColor),
           fixedSize: MaterialStateProperty.all(const Size(30, 30)),
           padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
@@ -239,16 +240,18 @@ class ThemeManager {
           backgroundColor: MaterialStateProperty.all(primaryColor),
           foregroundColor: MaterialStateProperty.all(textColor),
           fixedSize: MaterialStateProperty.all(
-            const Size(double.infinity, 40),
+            const Size(double.infinity, 30),
+          ),
+          minimumSize: MaterialStateProperty.all(
+            const Size(30, 30),
           ),
           shadowColor: MaterialStateProperty.all(blackColor),
           padding: MaterialStateProperty.all(
-            const EdgeInsets.all(0),
+            const EdgeInsets.symmetric(horizontal: 10),
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: primaryColor, width: 0),
             ),
           ),
         ),
@@ -262,8 +265,8 @@ class ThemeManager {
       color: ThemeManager().blackColor,
       blurRadius: 0,
       spreadRadius: 1,
-      offset: const Offset(3, 3),
-      blurStyle: BlurStyle.normal,
+      offset: const Offset(2, 3),
+      blurStyle: BlurStyle.solid,
     );
   }
 }

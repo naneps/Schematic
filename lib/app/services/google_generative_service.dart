@@ -1,64 +1,48 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
-void main() async {
-  final apiKey = Platform.environment['GEMINI_API_KEY'];
-  if (apiKey == null) {
-    stderr.writeln(r'No $GEMINI_API_KEY environment variable');
-    exit(1);
+class GoogleGenerativeService extends GetxService {
+  String coreSystemInstruction =
+      'You are an AI that generates content based on user requests in the form of API-style JSON responses. You should follow these specifications:\n\n- If the user provides a valid prompt, return a success response in the following format:\n  ```json\n  {\n    "success": true,\n    "data": [\n      ...{data}\n    ],\n    "message": "Data retrieved successfully.",\n    "status": 200\n  }\n  ```\n\n- If the user provides an nvalid prompt or one that is out of context, return an error response in the following format:\n  ```json\n  {\n    "success": false,\n    "data": [],\n    "message": "Invalid request. Please provide a valid prompt.",\n    "status": 400\n  }\n  ```\n\n#### Example of Valid Prompts:\n\n1.  Prompt: `Generate Dummy Product`\n   - Provide dummy product data with fields: `id:string`, `name:string`, `price:int`, `category:object->{id:string, name:string}`.\n\n2. Prompt: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   - Provide multiple dummy entries in the format specified by the user.\n\n#### Example Responses for Valid Prompts:\n\n1. **Prompt**: `Generate Dummy Product`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Mouse",\n         "price": 25000,\n         "category": {\n           "id": "cat_01",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Bluetooth Headset",\n         "price": 50000,\n         "category": {\n           "id": "cat_02",\n           "name": "Accessories"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\n2. **Prompt**: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Keyboard",\n         "price": 30000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Gaming Mouse",\n         "price": 75000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\nExample Response for Invalid Prompts:\n\n1. **Prompt**: `Invalid Prompt`\n   ```json\n   {\n     "success": false,\n     "data": [],\n     "message": "Invalid request. Please provide a valid prompt.",\n     "status": 400\n   }\n   ```\n\nExplanation:\n- **success**: Indicates whether the request was successful (`true`) or failed (`false`).\n- **data**: Contains dummy data in case of success, or an empty array if there’s an error.\n- **message**: Displays a success or error message explaining the result of the request.\n- **status**: HTTP status code, `200` for success, and `400` (or others) for errors.\n\n';
+
+  String fieldSystemInstruction =
+      '\n\n### System Instruction:\n\nYou are an AI that can optimize prompts from users.\n\nIn this context, the prompt given by the user is in the form of an exclamatory sentence to generate data, such as any data related to cars, sales, products, books, dishes, and other related data.\n\nYou are asked to optimize the default prompt from the user. \n\n1. Parse the prompt to identify key entities and infer relevant fields.\n2. Generate appropriate fields with an ID, key, type, description, and subtype (if applicable).\n   - For arrays, specify the subtype (e.g., "array of object" or "array of string").\n   - For nested structures, generate subfields accordingly.\n3. Return the generated fields in JSON format.\n\n### Example Flow:\n\n**User Prompt**:  \n`Give me a list of popular Korean dishes with their ingredients and cooking instructions.`\n\n**Generated Response**:\n```json\n{\n  "success": true,\n  "data": [\n    {\n      "id": "field_001",\n      "key": "dish_name",\n      "type": "string",\n      "description": "Name of the Korean dish",\n      "subtype": "string"\n    },\n    {\n      "id": "field_002",\n      "key": "ingredients",\n      "type": "array",\n      "description": "List of ingredients required for the dish",\n      "subtype": "object",\n      "subFields": [\n        {\n          "id": "sub_field_001",\n          "key": "ingredient_name",\n          "type": "string",\n          "description": "Name of the ingredient",\n          "subtype": "string"\n        },\n        {\n          "id": "sub_field_002",\n          "key": "quantity",\n          "type": "string",\n          "description": "Quantity of the ingredient",\n          "subtype": "string"\n        }\n      ]\n    },\n    {\n      "id": "field_003",\n      "key": "cooking_instructions",\n      "type": "array",\n      "description": "Step-by-step instructions to cook the dish",\n      "subtype": "array of string"\n    }\n  ],\n  "message": "Fields generated successfully.",\n  "status": 200\n}\n```\n\n**Invalid Prompt Example**:  \n`Please give me everything you have on design.`\n\n**Generated Response**:\n```json\n{\n  "success": false,\n  "data": [],\n  "message": "Invalid request. Please provide a valid prompt.",\n  "status": 400\n}\n```\n\n### Note:\n- Ensure that the output only generates fields based on the context of the prompt.\n- The generated fields must be descriptive and clear, enhancing the understanding and usability of the data structure.\n';
+
+  Future<String> enhancePrompt(String prompt) async {
+    String output = await generate(
+      prompt,
+      maxTokens: 200,
+      temperature: 0,
+      systemInstruction:
+          'You are an AI that optimizes user prompts.\n\nIn this context, the prompts provided by users are exclamatory sentences for generating data, such as information about cars, sales, products, books, and other related topics.\n\nYour task is to enhance the user\'s default prompts for clarity and descriptiveness. For example, transform the incorrect input "I need a data book" into a clearer format like "I need book data from Indonesia with details such as title, author, etc."\n\nThe output should be a single or double, concise exclamatory sentence, not a question',
+    );
+    return output;
   }
 
-  final model = GenerativeModel(
-    model: 'gemini-1.5-pro',
-    apiKey: apiKey,
-    // safetySettings: Adjust safety settings
-    // See https://ai.google.dev/gemini-api/docs/safety-settings
-    generationConfig: GenerationConfig(
-      temperature: 1,
-      topK: 64,
-      topP: 0.95,
-      maxOutputTokens: 8192,
-      responseMimeType: 'text/plain',
-    ),
-    systemInstruction: Content.system(
-        'You are an AI that generates content based on user requests in the form of API-style JSON responses. You should follow these specifications:\n\n- If the user provides a valid prompt, return a success response in the following format:\n  ```json\n  {\n    "success": true,\n    "data": [\n      ...{data}\n    ],\n    "message": "Data retrieved successfully.",\n    "status": 200\n  }\n  ```\n\n- If the user provides an nvalid prompt or one that is out of context, return an error response in the following format:\n  ```json\n  {\n    "success": false,\n    "data": [],\n    "message": "Invalid request. Please provide a valid prompt.",\n    "status": 400\n  }\n  ```\n\n#### Example of Valid Prompts:\n\n1.  Prompt: `Generate Dummy Product`\n   - Provide dummy product data with fields: `id:string`, `name:string`, `price:int`, `category:object->{id:string, name:string}`.\n\n2. Prompt: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   - Provide multiple dummy entries in the format specified by the user.\n\n#### Example Responses for Valid Prompts:\n\n1. **Prompt**: `Generate Dummy Product`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Mouse",\n         "price": 25000,\n         "category": {\n           "id": "cat_01",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Bluetooth Headset",\n         "price": 50000,\n         "category": {\n           "id": "cat_02",\n           "name": "Accessories"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\n2. **Prompt**: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Keyboard",\n         "price": 30000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Gaming Mouse",\n         "price": 75000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\nExample Response for Invalid Prompts:\n\n1. **Prompt**: `Invalid Prompt`\n   ```json\n   {\n     "success": false,\n     "data": [],\n     "message": "Invalid request. Please provide a valid prompt.",\n     "status": 400\n   }\n   ```\n\nExplanation:\n- **success**: Indicates whether the request was successful (`true`) or failed (`false`).\n- **data**: Contains dummy data in case of success, or an empty array if there’s an error.\n- **message**: Displays a success or error message explaining the result of the request.\n- **status**: HTTP status code, `200` for success, and `400` (or others) for errors.\n\n'),
-  );
+  Future<String> generate(
+    String prompt, {
+    int maxTokens = 100,
+    int temperature = 0,
+    String? systemInstruction,
+    String? responseMimeType = 'text/plain',
+  }) async {
+    String output = '';
 
-  final chat = model.startChat(history: []);
-  const message = 'INSERT_INPUT_HERE';
-  final content = Content.multi([
-    TextPart(message),
-  ]);
-
-  final response = await chat.sendMessage(content);
-}
-
-class GoogleGenerativeService extends GetxService {
-  RxString output = ''.obs;
-  RxBool isLoading = false.obs;
-  Future<void> setPrompt(String prompt) async {
-    if (prompt.isEmpty) return;
-    isLoading.value = true;
-    output.value = '';
     final model = GenerativeModel(
       model: 'gemini-1.5-pro',
-      apiKey: "AIzaSyBXQdMOoqoWx7CBNlIfqdGTX4r7VCGXeLM",
-      systemInstruction: Content.system(
-          'You are an AI that generates content based on user requests in the form of API-style JSON responses. You should follow these specifications:\n\n- If the user provides a valid prompt, return a success response in the following format:\n  ```json\n  {\n    "success": true,\n    "data": [\n      ...{data}\n    ],\n    "message": "Data retrieved successfully.",\n    "status": 200\n  }\n  ```\n\n- If the user provides an nvalid prompt or one that is out of context, return an error response in the following format:\n  ```json\n  {\n    "success": false,\n    "data": [],\n    "message": "Invalid request. Please provide a valid prompt.",\n    "status": 400\n  }\n  ```\n\n#### Example of Valid Prompts:\n\n1.  Prompt: `Generate Dummy Product`\n   - Provide dummy product data with fields: `id:string`, `name:string`, `price:int`, `category:object->{id:string, name:string}`.\n\n2. Prompt: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   - Provide multiple dummy entries in the format specified by the user.\n\n#### Example Responses for Valid Prompts:\n\n1. **Prompt**: `Generate Dummy Product`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Mouse",\n         "price": 25000,\n         "category": {\n           "id": "cat_01",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Bluetooth Headset",\n         "price": 50000,\n         "category": {\n           "id": "cat_02",\n           "name": "Accessories"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\n2. **Prompt**: `field {id:string, name:string, price:int, category:object->{id:string, name}}`\n   ```json\n   {\n     "success": true,\n     "data": [\n       {\n         "id": "prod_01",\n         "name": "Wireless Keyboard",\n         "price": 30000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       },\n       {\n         "id": "prod_02",\n         "name": "Gaming Mouse",\n         "price": 75000,\n         "category": {\n           "id": "cat_03",\n           "name": "Electronics"\n         }\n       }\n     ],\n     "message": "Products retrieved successfully.",\n     "status": 200\n   }\n   ```\n\nExample Response for Invalid Prompts:\n\n1. **Prompt**: `Invalid Prompt`\n   ```json\n   {\n     "success": false,\n     "data": [],\n     "message": "Invalid request. Please provide a valid prompt.",\n     "status": 400\n   }\n   ```\n\nExplanation:\n- **success**: Indicates whether the request was successful (`true`) or failed (`false`).\n- **data**: Contains dummy data in case of success, or an empty array if there’s an error.\n- **message**: Displays a success or error message explaining the result of the request.\n- **status**: HTTP status code, `200` for success, and `400` (or others) for errors.\n\n'),
+      apiKey: "AIzaSyBWTtO8ws1Vy46kDgujZvjnbwrUwxLUpXI",
+      //   apiKey: "AIzaSyBXQdMOoqoWx7CBNlIfqdGTX4r7VCGXeLM",
+      systemInstruction: Content.system(systemInstruction ?? ''),
     );
-    final content = [
-      Content.text(prompt),
-    ];
-    model.generateContentStream(
+
+    final content = [Content.text(prompt)];
+
+    await model.generateContentStream(
       content,
       generationConfig: GenerationConfig(
-        temperature: 1,
-        topK: 64,
-        topP: 0.95,
-        maxOutputTokens: 10000,
-        responseMimeType: 'text/plain',
+        temperature: temperature.toDouble(),
+        maxOutputTokens: maxTokens,
+        responseMimeType: responseMimeType,
       ),
       safetySettings: [
         SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
@@ -66,11 +50,27 @@ class GoogleGenerativeService extends GetxService {
       ],
     ).listen((event) {
       if (event.text != null) {
-        output.value += event.text!;
-        output.refresh();
+        output += event.text!;
       }
-    }, onDone: () {
-      isLoading.value = false;
-    });
+    }).asFuture();
+
+    return output;
+  }
+
+  Future<String> generateData(String prompt) async {
+    return generate(
+      prompt,
+      maxTokens: 10000,
+      systemInstruction: coreSystemInstruction,
+    );
+  }
+
+  Future<String> generateFields(String prompt) async {
+    return generate(
+      prompt,
+      maxTokens: 10000,
+      systemInstruction: fieldSystemInstruction,
+      responseMimeType: 'application/json',
+    );
   }
 }

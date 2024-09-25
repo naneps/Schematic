@@ -17,6 +17,7 @@ class NeoButton extends StatelessWidget {
         ],
         border: Border.all(color: ThemeManager().blackColor, width: 2),
       ),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       child: ElevatedButton(
         style: style ??
             ElevatedButton.styleFrom(
