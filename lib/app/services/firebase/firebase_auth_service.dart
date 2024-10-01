@@ -170,7 +170,7 @@ class FirebaseAuthService {
       if (_auth.isSignInWithEmailLink(emailLink)) {
         final UserCredential userCredential = await _auth.signInWithEmailLink(
           email: email,
-          emailLink: emailLink,
+          emailLink: "https://shcematic.page.link/email-link",
         );
 
         if (userCredential.user != null) {

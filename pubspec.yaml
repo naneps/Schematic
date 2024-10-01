@@ -34,6 +34,7 @@ dependencies:
   webview_flutter: ^4.8.0
   firebase_messaging: ^15.0.2
   cloud_firestore: ^5.0.2
+  firebase_remote_config: ^5.0.2
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -44,6 +45,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icons/
     - assets/lang/
     - .env
   uses-material-design: true

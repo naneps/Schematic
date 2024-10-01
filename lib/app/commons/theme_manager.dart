@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 48, 233, 135);
+  Color primaryColor = const Color.fromARGB(255, 233, 30, 99);
   Color secondaryColor = const Color.fromARGB(255, 48, 199, 233);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
@@ -70,6 +70,7 @@ class ThemeManager {
         ),
         scrolledUnderElevation: 0,
       ),
+
       drawerTheme: const DrawerThemeData(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -252,26 +253,22 @@ class ThemeManager {
         unselectedItemColor: hintColor,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primaryColor),
-          foregroundColor: MaterialStateProperty.all(textColor),
-          fixedSize: MaterialStateProperty.all(
-            const Size(double.infinity, 30),
-          ),
-          minimumSize: MaterialStateProperty.all(
-            const Size(30, 20),
-          ),
-          shadowColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
-            const EdgeInsets.symmetric(horizontal: 10),
-          ),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: blackColor,
+          fixedSize: const Size(100, 40),
+          minimumSize: const Size(100, 40),
+          shadowColor: blackColor,
+          elevation: 0,
+          disabledBackgroundColor: Colors.grey.shade200,
+          disabledForegroundColor: Colors.grey.shade400,
+          padding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),
+
       //   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
     );
   }
