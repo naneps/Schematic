@@ -131,26 +131,40 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                         ),
                       ),
                       const SizedBox(width: 5),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: NeoIconButton(
-                            onPressed: () {
-                              onRemove?.call();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(30, 30),
-                              backgroundColor: Colors.white,
-                              shape: const CircleBorder(),
-                              foregroundColor: ThemeManager().errorColor,
-                            ),
-                            icon: const Icon(Icons.delete),
+                      SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: NeoIconButton(
+                          onPressed: () {
+                            onRemove?.call();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(30, 30),
+                            backgroundColor: Colors.white,
+                            shape: const CircleBorder(),
+                            side: const BorderSide(color: Colors.black),
+                            foregroundColor: ThemeManager().errorColor,
                           ),
+                          icon: const Icon(Icons.delete),
                         ),
                       ),
                     ],
                   ),
                 ),
+                if (controller.field?.value.type?.value != FieldType.array &&
+                    controller.field?.value.type?.value !=
+                        FieldType.object) ...[
+                  const SizedBox(height: 15),
+                  XInput(
+                    label: "description",
+                    hintText: "specify content of this field",
+                    maxLines: 2,
+                    initialValue: controller.field?.value.description?.value,
+                    onChanged: (val) {
+                      controller.field?.value.description?.value = val;
+                    },
+                  )
+                ],
                 if (controller.field?.value.type?.value ==
                     FieldType.object) ...[
                   const SizedBox(height: 10),
@@ -179,7 +193,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Text(
-            "Additional Setting",
+            "Additional Properties ${arrayField.type}",
             style: Get.textTheme.labelSmall,
           ),
         ),
@@ -207,7 +221,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                     DropdownMenuItem(
                       value: FieldType.object,
                       child: Text(
-                        'Array of Objects',
+                        'Array of Object',
                         style: Get.textTheme.bodyMedium,
                       ),
                     ),
@@ -284,7 +298,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
       dense: true,
       visualDensity: VisualDensity.compact,
       tilePadding: const EdgeInsets.only(left: 20, right: 20),
-      childrenPadding: const EdgeInsets.only(left: 20, right: 20),
+      childrenPadding: const EdgeInsets.only(left: 20, right: 20, top: 10),
       trailing: NeoIconButton(
         onPressed: () {
           controller.addField();
@@ -292,19 +306,24 @@ class PromptField extends GetView<PromptFieldWidgetController> {
         },
         icon: const Icon(MdiIcons.plus),
         style: ElevatedButton.styleFrom(
+          backgroundColor: ThemeManager().infoColor,
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(0),
+          side: BorderSide(color: ThemeManager().blackColor),
           foregroundColor: ThemeManager().blackColor,
-          fixedSize: const Size(30, 30),
+          minimumSize: const Size(20, 20),
         ),
         color: ThemeManager().primaryColor,
       ),
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ConstrainedBox(
           constraints:
-              BoxConstraints(maxHeight: Get.height * 0.4, minHeight: 50),
+              const BoxConstraints(maxHeight: double.infinity, minHeight: 50),
           child: ListView.builder(
             shrinkWrap: true,
             primary: false,
-            physics: const BouncingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: parentField.subFields?.length,
             itemBuilder: (context, idx) {
               final field = parentField.subFields![idx];
@@ -342,6 +361,8 @@ class PromptFieldWidgetController extends GetxController {
         type: FieldType.string.obs,
         subType: FieldType.string.obs,
         subFields: RxList<Field>([]),
+        description: ''.obs,
+        count: 0.obs,
       ),
     );
   }

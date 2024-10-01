@@ -33,6 +33,7 @@ class NeoDropdown<T> extends StatelessWidget {
         items: items,
         hint: hint,
         value: value,
+        menuMaxHeight: 200,
         isDense: isDense!,
         style: style,
         decoration: decoration,

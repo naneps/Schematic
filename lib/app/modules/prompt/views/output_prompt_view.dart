@@ -16,57 +16,56 @@ class OutputPromptView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Obx(
-              () {
-                return controller.isLoading.value
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoadingAnimationWidget.staggeredDotsWave(
-                            color: ThemeManager().primaryColor,
-                            size: 40,
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Generating...',
-                            style: Get.textTheme.labelLarge!.copyWith(
-                              color: ThemeManager().secondaryColor,
-                            ),
-                          ),
-                        ],
-                      )
-                    : SingleChildScrollView(
-                        child: SizedBox(
-                          height: Get.height,
-                          child: TypewriterMarkdown(
-                            Get.find<FormPromptFieldController>().output.value,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Row(
+          children: [],
+        ),
+        Expanded(
+          child: Obx(
+            () {
+              return controller.isLoading.value
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingAnimationWidget.staggeredDotsWave(
+                          color: ThemeManager().primaryColor,
+                          size: 40,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Generating...',
+                          style: Get.textTheme.labelLarge!.copyWith(
+                            color: ThemeManager().secondaryColor,
                           ),
                         ),
-                      );
-              },
-            ),
+                      ],
+                    )
+                  : SizedBox(
+                      height: Get.height,
+                      child: TypewriterMarkdown(
+                        Get.find<FormPromptFieldController>().output.value,
+                      ),
+                    );
+            },
           ),
-          // Expanded(
-          //   child: Obx(
-          //     () {
-          //       return Container(
-          //         margin: const EdgeInsets.all(10),
-          //         width: Get.width,
-          //         child: CodePreview(
-          //           controller.prompt.value.toMarkdown(),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-        ],
-      ),
+        ),
+        // Expanded(
+        //   child: Obx(
+        //     () {
+        //       return Container(
+        //         margin: const EdgeInsets.all(10),
+        //         width: Get.width,
+        //         child: CodePreview(
+        //           controller.prompt.value.toMarkdown(),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ),
+      ],
     );
   }
 }

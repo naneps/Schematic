@@ -31,7 +31,7 @@ class Field {
           ? RxList<Field>.from(json['subFields']
               .map((x) => Field.fromJson(x))) // Safely map over subFields
           : RxList<Field>([]), // Use an empty list if 'subFields' is null
-      subType: FieldTypeExtension.fromString(json['subType'] ?? 'string').obs,
+      subType: FieldTypeExtension.fromString(json['subtype'] ?? 'string').obs,
       count: RxInt(json['count'] ?? 4), // Default count value
     );
   }
@@ -83,12 +83,18 @@ class Field {
 
   String toPrompt() {
     if (type?.value == FieldType.object) {
-      return '${key?.value}: { ${subFields?.map((f) => f.toPrompt()).join(', ')} }';
+      return '${key?.value}: { ${subFields?.map((f) => f.toPrompt()).join(', ')} } | Description: ${description?.value} ';
     } else if (type?.value == FieldType.array) {
       return '${key?.value}: [ ${subFields?.map((f) => f.toPrompt()).join(', ')} ] | Array Of: ${subType?.value.toString().split('.').last} | Description: ${description?.value} | Count: ${count?.value}';
     } else {
-      return '${key?.value}: ${type?.value.toString().split('.').last}';
+      return '${key?.value}: ${type?.value.toString().split('.').last} | Description: ${description?.value}';
     }
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "key: ${key?.value}, type: ${type?.value}, description: ${description?.value}, subFields: ${subFields?.length}, subType: ${subType?.value}, count: ${count?.value}";
   }
 
   static Field defaultValue() => Field(

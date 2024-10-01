@@ -12,66 +12,11 @@ class FormPromptFieldController extends GetxController {
   RxString output = ''.obs;
   RxBool isLoading = false.obs;
   RxBool isEnhancing = false.obs;
+  RxBool isGeneratingFields = false.obs;
   Rx<Prompt> prompt = Prompt(
-    text: 'data product camera',
-    fields: [
-      Field(
-        key: 'name'.obs,
-        type: FieldType.string.obs,
-        subType: FieldType.string.obs,
-        subFields: RxList<Field>([]),
-      ),
-      Field(
-        key: 'description'.obs,
-        type: FieldType.string.obs,
-        subType: FieldType.string.obs,
-        subFields: RxList<Field>([]),
-      ),
-      Field(
-        key: 'model'.obs,
-        type: FieldType.string.obs,
-        subType: FieldType.string.obs,
-        subFields: RxList<Field>([]),
-      ),
-      Field(
-        key: 'images'.obs,
-        type: FieldType.array.obs,
-        subType: FieldType.string.obs,
-        subFields: RxList<Field>([]),
-      ),
-      Field(
-        key: 'specification'.obs,
-        type: FieldType.object.obs,
-        subType: FieldType.string.obs,
-        description: ''.obs,
-        subFields: [
-          Field(
-            key: 'brand'.obs,
-            type: FieldType.string.obs,
-            subType: FieldType.string.obs,
-            subFields: RxList<Field>([]),
-          ),
-          Field(
-            key: 'color'.obs,
-            type: FieldType.string.obs,
-            subType: FieldType.string.obs,
-            subFields: RxList<Field>([]),
-          ),
-          Field(
-            key: 'size'.obs,
-            type: FieldType.string.obs,
-            subType: FieldType.string.obs,
-            subFields: RxList<Field>([]),
-          ),
-          Field(
-            key: 'weight'.obs,
-            type: FieldType.string.obs,
-            subType: FieldType.string.obs,
-            subFields: RxList<Field>([]),
-          ),
-        ].obs,
-      )
-    ].obs,
+    text:
+        'Give me a list of Indonesian films with their titles, directors, release years, genres, and actors! ',
+    fields: <Field>[].obs,
   ).obs;
 
   TextEditingController textPromptController = TextEditingController();
@@ -82,6 +27,8 @@ class FormPromptFieldController extends GetxController {
       type: FieldType.string.obs,
       subType: FieldType.string.obs,
       subFields: RxList<Field>([]),
+      description: ''.obs,
+      count: 0.obs,
     ));
     prompt.refresh();
   }
@@ -89,14 +36,35 @@ class FormPromptFieldController extends GetxController {
   // Add sample film structure
   void addFilmStructure() {
     prompt.value.fields?.addAll([
-      Field(key: 'title'.obs, type: FieldType.string.obs),
-      Field(key: 'genre'.obs, type: FieldType.string.obs),
-      Field(key: 'releaseYear'.obs, type: FieldType.number.obs),
-      Field(key: 'director'.obs, type: FieldType.string.obs),
+      Field(
+        key: 'title'.obs,
+        type: FieldType.string.obs,
+        description: ''.obs,
+      ),
+      Field(
+        key: 'genre'.obs,
+        type: FieldType.string.obs,
+        description: ''.obs,
+      ),
+      Field(
+        key: 'releaseYear'.obs,
+        description: ''.obs,
+        type: FieldType.number.obs,
+      ),
+      Field(
+        description: ''.obs,
+        key: 'director'.obs,
+        type: FieldType.string.obs,
+      ),
       Field(
         key: 'cast'.obs,
+        description: ''.obs,
         subFields: [
-          Field(key: 'name'.obs, type: FieldType.string.obs),
+          Field(
+            description: ''.obs,
+            key: 'name'.obs,
+            type: FieldType.string.obs,
+          ),
         ].obs,
       ),
     ]);
@@ -118,13 +86,17 @@ class FormPromptFieldController extends GetxController {
       Field(
         key: 'description'.obs,
         type: FieldType.string.obs,
-      ), // Product Description
+      ),
       Field(
         key: 'availability'.obs,
         type: FieldType.string.obs,
-      ), // Availability status
+      ),
     ]);
     prompt.refresh();
+  }
+
+  void clearFields() {
+    prompt.value.fields?.clear();
   }
 
   void enhancePrompt() async {
@@ -154,11 +126,10 @@ class FormPromptFieldController extends GetxController {
 
   // Remove a field by ID
   void generateFields() async {
-    isLoading.value = true; // Set loading state to true
+    isGeneratingFields.value = true;
     try {
       final value = await generativeService.generateFields(prompt.value.text!);
       print('Generated fields: $value');
-
       final Map<String, dynamic> jsonResponse = json.decode(value);
 
       final generatedFields = parseGeneratedFields(jsonResponse);
@@ -169,7 +140,7 @@ class FormPromptFieldController extends GetxController {
     } catch (e) {
       print("Error generating fields: $e"); // Handle error appropriately
     } finally {
-      isLoading.value = false; // Set loading state to false after completion
+      isGeneratingFields.value = false;
     }
   }
 
@@ -185,8 +156,6 @@ class FormPromptFieldController extends GetxController {
       final data = jsonResponse['data'];
       if (data != null && data is List) {
         return data.map<Field>((fieldData) {
-          // Debug output for each fieldData
-          print("Processing field data: $fieldData");
           if (fieldData == null) {
             throw Exception("Received null field data");
           }

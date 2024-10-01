@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/logo.dart';
 import 'package:schematic/app/commons/ui/responsive_layout.dart';
 import 'package:schematic/app/modules/prompt/views/output_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/preview_prompt_view.dart';
@@ -17,9 +18,8 @@ class CoreView extends GetView<CoreController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Schematic Studio',
-          style: Get.textTheme.labelLarge,
+        title: const Logo(
+          fontSize: 16,
         ),
         centerTitle: true,
         actions: [
@@ -65,51 +65,44 @@ class CoreView extends GetView<CoreController> {
                 ),
                 child: Column(
                   children: [
-                    TabBar(
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      indicator: BoxDecoration(
+                    SizedBox(
+                      height: 40,
+                      child: TabBar(
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerHeight: 0,
+                        padding: EdgeInsets.zero,
+                        indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: ThemeManager().primaryColor,
                           boxShadow: [
                             ThemeManager().defaultShadow(),
-                          ]),
-                      tabs: [
-                        Tab(
-                          child: Text(
-                            "Preview Prompt",
-                            style: Get.textTheme.labelLarge,
-                          ),
+                          ],
                         ),
-                        Tab(
-                          child: Text(
-                            "Output",
-                            style: Get.textTheme.labelLarge,
+                        tabs: [
+                          Tab(
+                            child: Text(
+                              "Preview Prompt",
+                              style: Get.textTheme.labelMedium,
+                            ),
                           ),
-                        ),
-                      ],
-                      controller: controller.tabController,
+                          Tab(
+                            child: Text(
+                              "Output",
+                              style: Get.textTheme.labelMedium,
+                            ),
+                          ),
+                        ],
+                        controller: controller.tabController,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            ThemeManager().defaultShadow(),
-                          ],
-                        ),
-                        child: TabBarView(
-                          controller: controller.tabController,
-                          children: [
-                            PreviewPromptView(controller: controller),
-                            OutputPromptView(controller: controller),
-                          ],
-                        ),
+                      child: TabBarView(
+                        controller: controller.tabController,
+                        children: [
+                          PreviewPromptView(controller: controller),
+                          OutputPromptView(controller: controller),
+                        ],
                       ),
                     )
                   ],

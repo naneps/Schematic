@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({
-    super.key,
-  });
+  final double? fontSize;
+  const Logo({super.key, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +37,17 @@ class Logo extends StatelessWidget {
               style: Get.textTheme.displayMedium!.copyWith(
                 color: Colors.white,
                 height: 1.3,
+                fontFamily: 'Poppins',
                 letterSpacing: 1.5,
+                fontSize: fontSize ?? 20,
               ),
             ),
             TextSpan(
               text: 'matic ',
               style: Get.textTheme.displayMedium!.copyWith(
                 color: ThemeManager().blackColor,
+                fontFamily: 'Poppins',
+                fontSize: fontSize ?? 20,
                 height: 1.3,
                 letterSpacing: 1.5,
               ),
