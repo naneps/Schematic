@@ -1,8 +1,13 @@
 enum FieldType {
   string,
   number,
+  boolean,
   object,
   array,
+//   date,
+//   dateTime,
+//   time,
+//   url,
 }
 
 extension FieldTypeExtension on FieldType {
@@ -16,6 +21,8 @@ extension FieldTypeExtension on FieldType {
         return FieldType.object;
       case 'array':
         return FieldType.array;
+      case 'boolean':
+        return FieldType.boolean;
       default:
         return FieldType.string;
     }

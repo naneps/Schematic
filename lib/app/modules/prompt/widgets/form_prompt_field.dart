@@ -4,7 +4,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_icon_button.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
+import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
 import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_field.widget.dart';
@@ -21,8 +23,8 @@ class FormPromptField extends GetView<FormPromptFieldController> {
     return Container(
       width: context.isPhone ? Get.width : Get.width * 0.5,
       padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 20,
+        horizontal: 15,
+        vertical: 5,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -36,7 +38,21 @@ class FormPromptField extends GetView<FormPromptFieldController> {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
+          Row(
+            children: [
+              Text(
+                "Prompt",
+                style: Get.textTheme.headlineSmall,
+              ),
+              const Spacer(),
+              //   help
+              const NeoIconButton(icon: Icon(MdiIcons.helpCircle)),
+            ],
+          ),
+          const SizedBox(height: 15),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,24 +97,28 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 }),
               ),
               const SizedBox(width: 10),
-              NeoButton(
-                onPressed: () {
-                  if (controller.prompt.value.text == "") {
-                    Get.snackbar(
-                      "Error",
-                      "Please enter a prompt",
-                    );
-                    return;
-                  }
-                  controller.enhancePrompt();
-                },
-                child: const Text(
-                  "Optimize Prompt",
+              SizedBox(
+                height: 40,
+                child: NeoButton(
+                  onPressed: () {
+                    if (controller.prompt.value.text == "") {
+                      XSnackBar.show(
+                        context: context,
+                        message: "Prompt cannot be empty",
+                        type: SnackBarType.error,
+                      );
+                      return;
+                    }
+                    controller.enhancePrompt();
+                  },
+                  child: const Text(
+                    "Optimize Prompt",
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 15),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(
@@ -106,7 +126,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
               ),
               constraints: BoxConstraints(maxHeight: Get.height),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -119,62 +139,136 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                           style: Get.textTheme.labelMedium,
                         ),
                         const Spacer(),
-                        NeoButton(
-                          onPressed: () {
-                            controller.addField();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeManager().primaryColor,
-                            textStyle: Get.textTheme.labelMedium!,
+                        SizedBox(
+                          height: 30,
+                          child: NeoButton(
+                            onPressed: () {
+                              controller.addField();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ThemeManager().infoColor,
+                              textStyle: Get.textTheme.labelMedium!,
+                            ),
+                            child: const Text("Add Field"),
                           ),
-                          child: const Text("Add Field"),
                         ),
                         const SizedBox(width: 10),
-                        //generateField
-                        NeoButton(
-                          child: const Text("Generate Fields"),
-                          onPressed: () {
-                            controller.generateFields();
-                          },
+                        SizedBox(
+                          height: 30,
+                          child: NeoButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: ThemeManager().primaryColor),
+                            child: const Text("Generate Fields"),
+                            onPressed: () {
+                              if (controller.prompt.value.text == "") {
+                                XSnackBar.show(
+                                  context: context,
+                                  message: "fill prompt first",
+                                  type: SnackBarType.warning,
+                                );
+                                return;
+                              }
+                              controller.generateFields();
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          height: 30,
+                          child: NeoButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: ThemeManager().warningColor),
+                            child: const Text("Clear Fields"),
+                            onPressed: () {
+                              controller.clearFields();
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   Obx(() {
                     return Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: controller.prompt.value.fields?.length,
-                        itemBuilder: (context, index) {
-                          final field = controller.prompt.value.fields![index];
-                          return Obx(() {
-                            return PromptField(
-                              field: field,
-                              alReadyUsedKeys: [
-                                ...controller.prompt.value.fields!
-                                    .map((e) => e.key!.value),
+                      child: controller.isGeneratingFields.value
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                LoadingAnimationWidget.staggeredDotsWave(
+                                  color: ThemeManager().blackColor,
+                                  size: 50,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "Generating fields...",
+                                  style: Get.textTheme.bodyMedium!.copyWith(
+                                    color: ThemeManager().blackColor,
+                                  ),
+                                ),
                               ],
-                              isValidated:
-                                  controller.prompt.value.allFieldKeyUnique.obs,
-                              key: ValueKey("parent${field.id}"),
-                              onRemove: () {
-                                controller.removeField(field.id);
-                                controller.prompt.refresh();
-                              },
-                            );
-                          });
-                        },
-                      ),
+                            )
+                          : controller.prompt.value.fields!.isEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 10,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "No fields added yet. Add some fields to get started.",
+                                        style: Get.textTheme.bodySmall,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      SizedBox(
+                                        height: 30,
+                                        child: NeoButton(
+                                          child: const Text("Add Field"),
+                                          onPressed: () {
+                                            controller.addField();
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount:
+                                      controller.prompt.value.fields?.length,
+                                  itemBuilder: (context, index) {
+                                    final field =
+                                        controller.prompt.value.fields![index];
+                                    return Obx(() {
+                                      return PromptField(
+                                        field: field,
+                                        alReadyUsedKeys: [
+                                          ...controller.prompt.value.fields!
+                                              .map((e) => e.key!.value),
+                                        ],
+                                        isValidated: controller
+                                            .prompt.value.allFieldKeyUnique.obs,
+                                        key: ValueKey("parent${field.id}"),
+                                        onRemove: () {
+                                          controller.removeField(field.id);
+                                          controller.prompt.refresh();
+                                        },
+                                      );
+                                    });
+                                  },
+                                ),
                     );
                   }),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Obx(() {
             return NeoButton(
               style: ElevatedButton.styleFrom(
@@ -183,7 +277,14 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 textStyle: Get.textTheme.labelMedium!,
               ),
               onPressed: () async {
-                if (controller.isLoading.value) return;
+                if (cantGenerateIf()) {
+                  XSnackBar.show(
+                    context: context,
+                    message: "Please fill prompt and add fields first",
+                    type: SnackBarType.warning,
+                  );
+                  return;
+                }
                 controller.generate();
                 Get.find<CoreController>().tabController!.animateTo(1);
               },
@@ -198,5 +299,11 @@ class FormPromptField extends GetView<FormPromptFieldController> {
         ],
       ),
     );
+  }
+
+  bool cantGenerateIf() {
+    return controller.isLoading.value ||
+        controller.prompt.value.text == "" ||
+        controller.prompt.value.fields!.isEmpty;
   }
 }

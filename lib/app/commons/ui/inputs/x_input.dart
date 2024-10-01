@@ -146,7 +146,9 @@ class XInputState extends State<XInput> {
     // Use the provided controller if it exists; otherwise, create a new one
     _controller =
         widget.controller ?? TextEditingController(text: widget.initialValue);
-
+    if (widget.initialValue != null) {
+      _controller.text = widget.initialValue!;
+    }
     // Add listener to sync with parent changes if necessary
     _controller.addListener(_updateState);
     _focusNode.addListener(_updateState);

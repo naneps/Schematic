@@ -80,7 +80,7 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
     if (oldWidget.text != widget.text) {
       _controller.dispose();
       _controller = AnimationController(
-        duration: Duration(milliseconds: widget.text.length * 5),
+        duration: Duration(milliseconds: widget.text.length * 2),
         vsync: this,
       );
       _charCount =
@@ -99,7 +99,7 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(milliseconds: widget.text.length * 5),
+      duration: Duration(milliseconds: widget.text.length * 2),
       vsync: this,
     );
     _charCount =

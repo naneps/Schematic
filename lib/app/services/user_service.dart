@@ -57,7 +57,7 @@ class UserService extends GetxService {
   void onInit() async {
     super.onInit();
     _auth.authStateChanges().listen(_onAuthStateChanged);
-    _initializeFCMToken();
+    // _initializeFCMToken();
   }
 
   void setUserIsTyping(bool isTyping, String chatRoomId) {
@@ -126,7 +126,7 @@ class UserService extends GetxService {
       final userDoc = await _firestore.collection('users').doc(uid).get();
       if (userDoc.exists) {
         print('User found in Firestore');
-
+        print(userDoc.data());
         return UserModel.fromJson(userDoc.data()!);
       }
     } catch (e) {
@@ -154,7 +154,7 @@ class UserService extends GetxService {
       user.value.online = false;
       // Get.offAllNamed(Routes.AUTH);
     } else {
-      _initializeFCMToken();
+      //   _initializeFCMToken();
       user.value = (await _getUserFromFirestore(uid))!;
       user.value.online = true;
       setUserOnlineStatus(true);

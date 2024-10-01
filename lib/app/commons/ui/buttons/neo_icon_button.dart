@@ -23,12 +23,12 @@ class NeoIconButton extends StatelessWidget {
           ThemeManager().defaultShadow(),
         ],
         shape: BoxShape.circle,
-        border: Border.all(color: ThemeManager().blackColor, width: 2),
       ),
       child: IconButton(
         style: style ??
             ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
+              padding: EdgeInsets.zero,
               foregroundColor: color ?? ThemeManager().blackColor,
               shape: const CircleBorder(),
             ),

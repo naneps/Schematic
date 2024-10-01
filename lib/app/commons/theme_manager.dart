@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 250, 179, 12);
-  Color secondaryColor = const Color.fromARGB(255, 128, 54, 247);
+  Color primaryColor = const Color.fromARGB(255, 48, 233, 135);
+  Color secondaryColor = const Color.fromARGB(255, 48, 199, 233);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
   Color textColor = const Color(0xFF0C1C2C);
   Color blackColor = const Color(0xFF0C1C2C);
   Color accentColor = const Color.fromARGB(255, 68, 255, 243);
   Color hintColor = const Color(0xFF6C757D);
-  Color errorColor = const Color(0xFFFF4443);
+  Color errorColor = const Color.fromARGB(255, 234, 73, 73);
   Color successColor = const Color(0xff24C38E);
   Color warningColor = const Color(0xFFF38B01);
-  Color infoColor = const Color(0xFF03A9F4);
-
+  Color infoColor = const Color.fromARGB(255, 48, 199, 233);
   Color shadowColor = Colors.grey[300]!;
   Color borderColor = Colors.grey[300]!;
   Color scaffoldBackgroundColor = const Color(0xFFF8F8F8);
@@ -29,18 +28,17 @@ class ThemeManager {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
+
       tabBarTheme: TabBarTheme(
         labelColor: primaryColor,
         unselectedLabelColor: textColor,
         labelStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
-          fontFamily: 'Inter',
         ),
         unselectedLabelStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.bold,
-          fontFamily: 'Inter',
         ),
         indicatorSize: TabBarIndicatorSize.label,
         indicator: BoxDecoration(
@@ -72,85 +70,103 @@ class ThemeManager {
         ),
         scrolledUnderElevation: 0,
       ),
+      drawerTheme: const DrawerThemeData(
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
       shadowColor: blackColor,
       expansionTileTheme: ExpansionTileThemeData(
         iconColor: primaryColor,
         textColor: textColor,
       ),
-      fontFamily: 'Inter',
+      fontFamily: 'monospace',
       textTheme: TextTheme(
         displayLarge: TextStyle(
           color: textColor,
           fontSize: 24,
           fontWeight: FontWeight.bold,
+          fontFamily: 'monospace',
         ),
         displayMedium: TextStyle(
           color: textColor,
           fontSize: 22,
+          fontFamily: 'monospace',
           fontWeight: FontWeight.bold,
         ),
         displaySmall: TextStyle(
           color: textColor,
           fontSize: 20,
+          fontFamily: 'monospace',
           fontWeight: FontWeight.bold,
         ),
         headlineMedium: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
         headlineSmall: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         titleLarge: TextStyle(
+          fontFamily: 'monospace',
           color: textColor,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
         bodyLarge: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 14,
         ),
         bodyMedium: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 12,
         ),
         bodySmall: TextStyle(
+          fontFamily: 'monospace',
           color: textColor,
           fontSize: 10,
         ),
         titleMedium: TextStyle(
+          fontFamily: 'monospace',
           color: textColor,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         titleSmall: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
         labelLarge: TextStyle(
+          fontFamily: 'monospace',
           color: textColor,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         labelMedium: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
         labelSmall: TextStyle(
           color: textColor,
+          fontFamily: 'monospace',
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        labelStyle: TextStyle(color: textColor, fontSize: 14),
+        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+        labelStyle: TextStyle(color: textColor, fontSize: 12),
         errorStyle: TextStyle(color: errorColor),
         counterStyle: TextStyle(color: hintColor),
         focusedBorder: OutlineInputBorder(
@@ -202,7 +218,7 @@ class ThemeManager {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              //   side: BorderSide(color: , width: 1),
+              // side: BorderSide(color: , width: 1),
             ),
           ),
         ),
@@ -243,7 +259,7 @@ class ThemeManager {
             const Size(double.infinity, 30),
           ),
           minimumSize: MaterialStateProperty.all(
-            const Size(30, 30),
+            const Size(30, 20),
           ),
           shadowColor: MaterialStateProperty.all(blackColor),
           padding: MaterialStateProperty.all(
