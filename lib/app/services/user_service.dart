@@ -23,9 +23,10 @@ class UserService extends GetxService {
       if (!docSnapshot.exists) {
         final newUser = UserModel(
           uid: firebaseUser.uid,
-          avatar: firebaseUser.photoURL ?? '',
+          avatar:
+              firebaseUser.photoURL ?? 'https://avatar.iran.liara.run/public',
           email: firebaseUser.email,
-          name: firebaseUser.displayName ?? name ?? 'User',
+          name: firebaseUser.displayName ?? name ?? 'Anonymous',
           username: 'user_${firebaseUser.uid.substring(0, 5)}',
           online: true,
           typingStatus: {}, // Initialize typingStatus as an empty map

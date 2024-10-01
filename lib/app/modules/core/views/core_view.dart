@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/logo.dart';
 import 'package:schematic/app/commons/ui/responsive_layout.dart';
 import 'package:schematic/app/modules/prompt/views/output_prompt_view.dart';
@@ -37,7 +38,69 @@ class CoreView extends GetView<CoreController> {
           ),
         ],
       ),
-      drawer: const Drawer(),
+      drawer: Container(
+        margin: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          boxShadow: [ThemeManager().defaultShadow()],
+        ),
+        child: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border:
+                      Border.all(color: ThemeManager().blackColor, width: 2),
+                  boxShadow: [
+                    ThemeManager().defaultShadow(),
+                  ],
+                ),
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Obx(() {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage(
+                            controller.userService.user.value.avatar ??
+                                'https://avatar.iran.liara.run/public',
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          controller.userService.user.value.name!,
+                          style: Get.textTheme.labelLarge,
+                        ),
+                        const SizedBox(height: 10),
+                        // Text(controller.user.value.email),
+                        // const SizedBox(height: 10),
+                        // Text(controller.user.value.role),
+                      ],
+                    );
+                  }),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: NeoButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().errorColor,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Sign Out'),
+                  onPressed: () => controller.signOut(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: ResponsiveLayout(
         mobile: const PromptView(),
         tablet: Row(
