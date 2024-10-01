@@ -27,4 +27,9 @@ class CoreController extends GetxController
         .bindStream(Get.find<FormPromptFieldController>().isLoading.stream);
     tabController = TabController(length: 2, vsync: this);
   }
+
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+    userService.setUserOnlineStatus(false);
+  }
 }
