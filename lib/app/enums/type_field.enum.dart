@@ -11,6 +11,23 @@ enum FieldType {
 }
 
 extension FieldTypeExtension on FieldType {
+  String slug() {
+    switch (this) {
+      case FieldType.string:
+        return 'string';
+      case FieldType.number:
+        return 'number';
+      case FieldType.object:
+        return 'object';
+      case FieldType.array:
+        return 'array';
+      case FieldType.boolean:
+        return 'boolean';
+      default:
+        return 'string';
+    }
+  }
+
   static FieldType fromString(String type) {
     switch (type) {
       case 'string':

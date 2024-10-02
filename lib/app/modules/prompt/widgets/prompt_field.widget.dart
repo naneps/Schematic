@@ -174,10 +174,6 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                   const SizedBox(height: 10),
                   _buildArrayTypeSelection(context, controller.field!.value),
                 ],
-                if (!isValidated.value) ...[
-                  const SizedBox(height: 10),
-                  Text("Key must be unique", style: Get.textTheme.bodySmall),
-                ]
               ],
             );
           }),

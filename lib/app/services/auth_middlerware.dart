@@ -13,17 +13,13 @@ class AuthMiddleware extends GetMiddleware {
     // Check if the user is authenticated
     final user = FirebaseAuth.instance.currentUser;
 
-    // If the user is not authenticated and trying to access a protected route, redirect to AUTH
     if (user == null && route != Routes.AUTH) {
       return const RouteSettings(name: Routes.AUTH);
     }
 
-    // If the user is authenticated and trying to access the AUTH route, redirect to CORE
     if (user != null && route == Routes.AUTH) {
       return const RouteSettings(name: Routes.CORE);
     }
-
-    // Otherwise, allow access to the requested route
     return null;
   }
 }

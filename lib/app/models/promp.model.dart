@@ -13,23 +13,33 @@ class Prompt {
     this.fields,
   });
 
-  // Check if all field keys are unique
+  factory Prompt.fromJson(Map<String, dynamic> json) {
+    return Prompt(
+      text: json['text'],
+      fields: json['fields']?.map<Field>((f) => Field.fromJson(f)).toList(),
+    );
+  }
+
   bool get allFieldKeyUnique {
     final keys = fields?.map((f) => f.key?.value).toList() ?? [];
     return keys.toSet().length == keys.length;
   }
 
-  // Convert fields to Markdown
   String get fieldsToMarkdown =>
       fields?.map((f) => f.toMarkdown()).join() ?? '';
-
-  // Remove a field by its ID
 
   void removeField(String id) {
     fields?.removeWhere((element) => element.id == id);
   }
 
-  // Convert the prompt to Markdown format
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'fields': fields?.map((f) => f.toJson()).toList(),
+      'maxData': maxData
+    };
+  }
+
   String toMarkdown() {
     final fieldsMarkdown =
         fields?.map((f) => f.toMarkdown(indentLevel: 1)).join(',\n') ?? '';
@@ -41,7 +51,6 @@ $fieldsMarkdown
 ''';
   }
 
-  // Convert fields to prompt format
   String toPrompt() {
     final fieldsPrompt = fields?.map((f) => f.toPrompt()).join(', ') ?? '';
     return ' ${text ?? ''},with fields { $fieldsPrompt }';

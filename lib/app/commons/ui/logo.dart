@@ -34,6 +34,7 @@ class Logo extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset('assets/icons/icon.png', width: 30, height: 30),
+          const SizedBox(width: 10),
           Text.rich(
             TextSpan(
               text: "",
@@ -42,7 +43,7 @@ class Logo extends StatelessWidget {
                 TextSpan(
                   text: 'Sche',
                   style: Get.textTheme.labelLarge!.copyWith(
-                    color: Colors.pink,
+                    color: ThemeManager().blackColor,
                     height: 1.3,
                     fontFamily: 'Poppins',
                     letterSpacing: 1.5,
