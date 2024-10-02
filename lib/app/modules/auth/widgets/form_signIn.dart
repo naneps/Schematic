@@ -5,6 +5,7 @@ import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/commons/ui/logo.dart';
+import 'package:schematic/app/commons/ui/overlays/under_construction.dart';
 import 'package:schematic/app/modules/auth/controllers/auth_controller.dart';
 
 class FormSignIn extends GetView<AuthController> {
@@ -15,7 +16,7 @@ class FormSignIn extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width.isFinite ? Get.width * 0.7 : Get.width,
+      width: context.isPhone ? Get.width : Get.width * 0.3,
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
@@ -73,12 +74,13 @@ class FormSignIn extends GetView<AuthController> {
                 child: NeoButton(
                   onPressed: () {
                     // Call the controller method to sign in with email
-                    if (controller.emailController.text.isNotEmpty) {
-                      controller
-                          .signInWithEmailLink(controller.emailController.text);
-                    } else {
-                      Get.snackbar("Error", "Please enter a valid email");
-                    }
+                    Get.dialog(const UnderConstruction());
+                    // if (controller.emailController.text.isNotEmpty) {
+                    //   controller
+                    //       .signInWithEmailLink(controller.emailController.text);
+                    // } else {
+                    //   Get.snackbar("Error", "Please enter a valid email");
+                    // }
                   },
                   child: const Text("Sign In"),
                 ),
@@ -101,21 +103,27 @@ class FormSignIn extends GetView<AuthController> {
             ],
           ),
           const SizedBox(height: 10),
-          NeoButton.icon(
-            icon: const Icon(FontAwesomeIcons.user),
-            style: ElevatedButton.styleFrom(
-              foregroundColor: ThemeManager().blackColor,
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+          Opacity(
+            opacity: 0.2,
+            child: NeoButton.icon(
+              icon: const Icon(FontAwesomeIcons.user),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: ThemeManager().blackColor,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
+              onPressed: () {
+                // Call the Anonymous sign in method
+                // Get.dialog(const UnderConstruction());
+                // return;
+                controller.signInAnonymously();
+              },
+              label: const Text('Sign in Anonymously'),
             ),
-            onPressed: () {
-              controller.signInAnonymously();
-            },
-            label: const Text('Sign in Anonymously'),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           NeoButton.icon(
             icon: Icon(
               FontAwesomeIcons.github,
@@ -129,41 +137,40 @@ class FormSignIn extends GetView<AuthController> {
               ),
             ),
             onPressed: () {
-              // Call the GitHub sign in method
               controller.signWithGitHub();
             },
             label: const Text('Sign in with GitHub'),
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              const Expanded(
-                child: Divider(),
-              ),
-              Text(
-                " don't have an account? ",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const Expanded(
-                child: Divider(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          NeoButton(
-            style: ElevatedButton.styleFrom(
-              foregroundColor: ThemeManager().blackColor,
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () {
-              // Navigate to create account page
-              // controller.navigateToSignUp();
-            },
-            child: const Text('Create Account'),
-          ),
+          //   Row(
+          //     children: [
+          //       const Expanded(
+          //         child: Divider(),
+          //       ),
+          //       Text(
+          //         " don't have an account? ",
+          //         style: Theme.of(context).textTheme.bodyMedium,
+          //       ),
+          //       const Expanded(
+          //         child: Divider(),
+          //       ),
+          //     ],
+          //   ),
+          //   const SizedBox(height: 10),
+          //   NeoButton(
+          //     style: ElevatedButton.styleFrom(
+          //       foregroundColor: ThemeManager().blackColor,
+          //       backgroundColor: Colors.white,
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //     ),
+          //     onPressed: () {
+          //       // Navigate to create account page
+          //       // controller.navigateToSignUp();
+          //     },
+          //     child: const Text('Create Account'),
+          //   ),
         ],
       ),
     );

@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:schematic/app/main_app.dart';
 import 'package:schematic/app/services/app_translation.dart';
+import 'package:schematic/app/services/firebase/remote_config_service.dart';
 import 'package:schematic/firebase_options.dart';
 
 void main() async {
@@ -14,5 +16,10 @@ void main() async {
   AppTranslations appTranslations = AppTranslations();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await appTranslations.load();
-  runApp(MainApp(translations: appTranslations));
+  Get.putAsync(() => FirebaseRemoteConfigService().init());
+  runApp(
+    MainApp(
+      translations: appTranslations,
+    ),
+  );
 }

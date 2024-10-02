@@ -5,10 +5,22 @@ import 'package:get/get.dart';
 import 'package:schematic/app/enums/type_field.enum.dart';
 import 'package:schematic/app/models/field.model.dart';
 import 'package:schematic/app/models/promp.model.dart';
+import 'package:schematic/app/models/user_prompot.dart';
+import 'package:schematic/app/repositories/prompt_repository.dart';
 import 'package:schematic/app/services/google_generative_service.dart';
+import 'package:schematic/app/services/user_service.dart';
 
 class FormPromptFieldController extends GetxController {
   final generativeService = Get.find<GoogleGenerativeService>();
+  final promptRepo = Get.find<PromptRepository>();
+  UserPromptModel? userPrompt = UserPromptModel(
+    title: "example",
+    prompt: Prompt(
+      text: "example",
+      fields: <Field>[].obs,
+    ),
+    userId: "example",
+  );
   RxString output = ''.obs;
   RxBool isLoading = false.obs;
   RxBool isEnhancing = false.obs;
@@ -71,30 +83,6 @@ class FormPromptFieldController extends GetxController {
     prompt.refresh();
   }
 
-  // Add sample product structure
-  void addProductStructure() {
-    prompt.value.fields?.addAll([
-      Field(key: 'name'.obs, type: FieldType.string.obs), // Product Name
-      Field(key: 'price'.obs, type: FieldType.number.obs), // Product Price
-      Field(
-        key: 'category'.obs,
-        subFields: [
-          Field(key: 'id'.obs, type: FieldType.string.obs),
-          Field(key: 'name'.obs, type: FieldType.string.obs),
-        ].obs,
-      ),
-      Field(
-        key: 'description'.obs,
-        type: FieldType.string.obs,
-      ),
-      Field(
-        key: 'availability'.obs,
-        type: FieldType.string.obs,
-      ),
-    ]);
-    prompt.refresh();
-  }
-
   void clearFields() {
     prompt.value.fields?.clear();
   }
@@ -124,14 +112,12 @@ class FormPromptFieldController extends GetxController {
     }
   }
 
-  // Remove a field by ID
   void generateFields() async {
     isGeneratingFields.value = true;
     try {
       final value = await generativeService.generateFields(prompt.value.text!);
       print('Generated fields: $value');
       final Map<String, dynamic> jsonResponse = json.decode(value);
-
       final generatedFields = parseGeneratedFields(jsonResponse);
       prompt.value.fields?.clear();
       prompt.value.fields
@@ -173,5 +159,12 @@ class FormPromptFieldController extends GetxController {
   void removeField(String id) {
     prompt.value.removeField(id);
     prompt.refresh();
+  }
+
+  void savePrompt() async {
+    userPrompt!.userId = Get.find<UserService>().user.value.uid;
+    userPrompt!.prompt = prompt.value;
+
+    await promptRepo.create(userPrompt!);
   }
 }

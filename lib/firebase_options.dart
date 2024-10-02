@@ -15,6 +15,32 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDWA1eJDDobweFwCQHAbi4FrDtdtAjYnuc',
+    appId: '1:831048811566:web:37bd51ac0d0f59395d4bbf',
+    messagingSenderId: '831048811566',
+    projectId: 'schematic-5cd75',
+    authDomain: 'schematic-5cd75.firebaseapp.com',
+    storageBucket: 'schematic-5cd75.appspot.com',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAUWgsT0tXYKzGhACLiCWsVD_wRJXQKDSg',
+    appId: '1:831048811566:android:035c174732b1abe05d4bbf',
+    messagingSenderId: '831048811566',
+    projectId: 'schematic-5cd75',
+    storageBucket: 'schematic-5cd75.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCpyKShkQVuxCg1fYR4ZF-iZjaP3WkRTp0',
+    appId: '1:831048811566:ios:f86cb87729c4087f5d4bbf',
+    messagingSenderId: '831048811566',
+    projectId: 'schematic-5cd75',
+    storageBucket: 'schematic-5cd75.appspot.com',
+    iosBundleId: 'com.shcematic.app',
+  );
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -45,31 +71,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDWA1eJDDobweFwCQHAbi4FrDtdtAjYnuc',
-    appId: '1:831048811566:web:37bd51ac0d0f59395d4bbf',
-    messagingSenderId: '831048811566',
-    projectId: 'schematic-5cd75',
-    authDomain: 'schematic-5cd75.firebaseapp.com',
-    storageBucket: 'schematic-5cd75.appspot.com',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAUWgsT0tXYKzGhACLiCWsVD_wRJXQKDSg',
-    appId: '1:831048811566:android:035c174732b1abe05d4bbf',
-    messagingSenderId: '831048811566',
-    projectId: 'schematic-5cd75',
-    storageBucket: 'schematic-5cd75.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCpyKShkQVuxCg1fYR4ZF-iZjaP3WkRTp0',
-    appId: '1:831048811566:ios:f86cb87729c4087f5d4bbf',
-    messagingSenderId: '831048811566',
-    projectId: 'schematic-5cd75',
-    storageBucket: 'schematic-5cd75.appspot.com',
-    iosBundleId: 'com.shcematic.app',
-  );
-
 }

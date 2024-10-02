@@ -23,6 +23,7 @@ class XInput extends StatefulWidget {
 //  onSaved: (value) => _onSaved(value),
   final FloatingLabelBehavior? floatingLabelBehavior;
   final String? hintText;
+  final int? minLines;
   const XInput({
     super.key,
     this.label,
@@ -37,6 +38,7 @@ class XInput extends StatefulWidget {
     this.controller,
     this.obscureText = false,
     this.maxLines = 1,
+    this.minLines = 1,
     this.readOnly = false,
     this.keyboardType,
     this.prefixIcon,
@@ -84,7 +86,7 @@ class XInputState extends State<XInput> {
         },
         maxLength: widget.hasCounter == true ? widget.maxLength : null,
         maxLines: widget.maxLines,
-        minLines: 1,
+        minLines: widget.minLines,
         keyboardType: widget.keyboardType,
         cursorColor: ThemeManager().primaryColor,
         inputFormatters: widget.inputFormatters,

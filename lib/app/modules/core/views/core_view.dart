@@ -41,6 +41,7 @@ class CoreView extends GetView<CoreController> {
       drawer: Container(
         margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
           boxShadow: [ThemeManager().defaultShadow()],
         ),
         child: Drawer(
@@ -73,7 +74,7 @@ class CoreView extends GetView<CoreController> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          controller.userService.user.value.name!,
+                          controller.userService.user.value.name ?? 'Anonymous',
                           style: Get.textTheme.labelLarge,
                         ),
                         const SizedBox(height: 10),

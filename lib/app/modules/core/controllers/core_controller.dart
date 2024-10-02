@@ -13,7 +13,6 @@ class CoreController extends GetxController
   RxBool isLoading = false.obs;
   UserService userService = Get.find<UserService>();
   TabController? tabController;
-
   void logout() {
     FirebaseAuth.instance.signOut();
   }

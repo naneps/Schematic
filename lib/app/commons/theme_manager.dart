@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 48, 233, 135);
+  Color primaryColor = const Color.fromARGB(255, 233, 30, 99);
   Color secondaryColor = const Color.fromARGB(255, 48, 199, 233);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
-  Color textColor = const Color(0xFF0C1C2C);
+  Color textColor = const Color.fromARGB(255, 28, 28, 33);
   Color blackColor = const Color(0xFF0C1C2C);
   Color accentColor = const Color.fromARGB(255, 68, 255, 243);
   Color hintColor = const Color(0xFF6C757D);
@@ -16,13 +16,16 @@ class ThemeManager {
   Color infoColor = const Color.fromARGB(255, 48, 199, 233);
   Color shadowColor = Colors.grey[300]!;
   Color borderColor = Colors.grey[300]!;
-  Color scaffoldBackgroundColor = const Color(0xFFF8F8F8);
+  Color scaffoldBackgroundColor = const Color.fromARGB(255, 255, 250, 241);
   Color appBarBackgroundColor = Colors.white;
 
   ThemeData get themeData {
     return ThemeData(
       primaryColor: primaryColor,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
+      canvasColor: scaffoldBackgroundColor,
+
+      visualDensity: VisualDensity.compact,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: blackColor,
         foregroundColor: Colors.white,
@@ -49,8 +52,8 @@ class ThemeManager {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: appBarBackgroundColor,
-        elevation: 0,
+        backgroundColor: scaffoldBackgroundColor,
+        titleSpacing: 0,
         centerTitle: true,
         titleTextStyle: TextStyle(
           color: textColor,
@@ -70,6 +73,7 @@ class ThemeManager {
         ),
         scrolledUnderElevation: 0,
       ),
+
       drawerTheme: const DrawerThemeData(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -191,7 +195,7 @@ class ThemeManager {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: scaffoldBackgroundColor,
         constraints: const BoxConstraints(minHeight: 40),
         isDense: true,
         suffixIconColor: blackColor,
@@ -200,6 +204,7 @@ class ThemeManager {
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
+
       buttonTheme: ButtonThemeData(
         buttonColor: primaryColor,
         shape: RoundedRectangleBorder(
@@ -252,33 +257,32 @@ class ThemeManager {
         unselectedItemColor: hintColor,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primaryColor),
-          foregroundColor: MaterialStateProperty.all(textColor),
-          fixedSize: MaterialStateProperty.all(
-            const Size(double.infinity, 30),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: blackColor,
+          minimumSize: const Size(100, 40),
+          shadowColor: blackColor,
+          elevation: 0,
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
           ),
-          minimumSize: MaterialStateProperty.all(
-            const Size(30, 20),
-          ),
-          shadowColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
-            const EdgeInsets.symmetric(horizontal: 10),
-          ),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
+          disabledBackgroundColor: Colors.grey.shade200,
+          disabledForegroundColor: Colors.grey.shade400,
+          padding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),
+
       //   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
     );
   }
 
-  BoxShadow defaultShadow() {
+  BoxShadow defaultShadow({Color? color}) {
     return BoxShadow(
-      color: ThemeManager().blackColor,
+      color: color ?? ThemeManager().blackColor,
       blurRadius: 0,
       spreadRadius: 1,
       offset: const Offset(2, 3),

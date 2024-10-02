@@ -30,7 +30,7 @@ class Field {
       subFields: json['subFields'] != null && json['subFields'] is List
           ? RxList<Field>.from(json['subFields']
               .map((x) => Field.fromJson(x))) // Safely map over subFields
-          : RxList<Field>([]), // Use an empty list if 'subFields' is null
+          : RxList<Field>([]), // Use an emp    ty list if 'subFields' is null
       subType: FieldTypeExtension.fromString(json['subtype'] ?? 'string').obs,
       count: RxInt(json['count'] ?? 4), // Default count value
     );
@@ -55,6 +55,15 @@ class Field {
       subType: subType ?? this.subType,
     );
   }
+
+  toJson() => {
+        'key': key?.value,
+        'type': type?.value.slug(),
+        'description': description?.value,
+        'subFields': subFields?.map((f) => f.toJson()).toList(),
+        'subtype': subType?.value.slug(),
+        if (type?.value == FieldType.array) 'count': count?.value
+      };
 
   String toMarkdown({int indentLevel = 0}) {
     final indent =

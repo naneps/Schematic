@@ -14,22 +14,46 @@ class XSnackBar {
     required String message,
     SnackBarType type = SnackBarType.info,
   }) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: type.textColor,
+        content: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: ThemeManager().scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: type.backgroundColor),
+              boxShadow: [
+                ThemeManager().defaultShadow(
+                  color: type.backgroundColor,
+                ),
+              ]),
+          child: Row(
+            children: [
+              Text(
+                message,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(),
               ),
+              const Spacer(),
+              IconButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  },
+                  icon: const Icon(Icons.close))
+            ],
+          ),
         ),
-        backgroundColor: type.backgroundColor,
-        margin: const EdgeInsets.all(10),
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 100,
+          left: 20,
+          right: 20,
+        ),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        showCloseIcon: true,
-        closeIconColor: type.textColor,
+        elevation: 0,
 
         // action: SnackBarAction(
         //   label: 'Close',
@@ -38,6 +62,7 @@ class XSnackBar {
         //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
         //   },
         // ),
+        hitTestBehavior: HitTestBehavior.opaque,
         padding: const EdgeInsets.all(10),
       ),
     );

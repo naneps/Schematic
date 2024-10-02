@@ -57,11 +57,13 @@ class FormPromptField extends GetView<FormPromptFieldController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
+                flex: 5,
                 child: Obx(() {
                   return XInput(
                     label: "Prompt",
                     controller: controller.textPromptController,
                     hintText: "e.g generate product data",
+                    minLines: 3,
                     maxLines: 5,
                     suffixIcon: controller.isEnhancing.value
                         ? Column(
@@ -97,23 +99,45 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 }),
               ),
               const SizedBox(width: 10),
-              SizedBox(
-                height: 40,
-                child: NeoButton(
-                  onPressed: () {
-                    if (controller.prompt.value.text == "") {
-                      XSnackBar.show(
-                        context: context,
-                        message: "Prompt cannot be empty",
-                        type: SnackBarType.error,
-                      );
-                      return;
-                    }
-                    controller.enhancePrompt();
-                  },
-                  child: const Text(
-                    "Optimize Prompt",
-                  ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: NeoButton(
+                        onPressed: () {
+                          if (controller.prompt.value.text == "") {
+                            XSnackBar.show(
+                              context: context,
+                              message: "Prompt cannot be empty",
+                              type: SnackBarType.error,
+                            );
+                            return;
+                          }
+                          controller.enhancePrompt();
+                        },
+                        child: const Text(
+                          "Optimize Prompt",
+                        ),
+                      ),
+                    ),
+                    //   load from saved prompt
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 40,
+                      child: NeoButton(
+                        onPressed: () {
+                          // controller.loadPrompt();
+                        },
+                        child: const Text(
+                          "Load Prompt",
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -270,30 +294,50 @@ class FormPromptField extends GetView<FormPromptFieldController> {
           ),
           const SizedBox(height: 15),
           Obx(() {
-            return NeoButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeManager().primaryColor,
-                fixedSize: Size(Get.width, 50),
-                textStyle: Get.textTheme.labelMedium!,
-              ),
-              onPressed: () async {
-                if (cantGenerateIf()) {
-                  XSnackBar.show(
-                    context: context,
-                    message: "Please fill prompt and add fields first",
-                    type: SnackBarType.warning,
-                  );
-                  return;
-                }
-                controller.generate();
-                Get.find<CoreController>().tabController!.animateTo(1);
-              },
-              child: controller.isLoading.value
-                  ? LoadingAnimationWidget.staggeredDotsWave(
-                      color: ThemeManager().blackColor,
-                      size: 30,
-                    )
-                  : const Text("Generate"),
+            return Row(
+              children: [
+                Expanded(
+                  child: NeoButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ThemeManager().warningColor,
+                      fixedSize: Size(Get.width, 50),
+                      textStyle: Get.textTheme.labelMedium!,
+                    ),
+                    onPressed: () {
+                      controller.savePrompt();
+                    },
+                    child: const Text("Save Prompt"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: NeoButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ThemeManager().primaryColor,
+                      fixedSize: Size(Get.width, 50),
+                      textStyle: Get.textTheme.labelMedium!,
+                    ),
+                    onPressed: () async {
+                      if (cantGenerateIf()) {
+                        XSnackBar.show(
+                          context: context,
+                          message: "Please fill prompt and add fields first",
+                          type: SnackBarType.warning,
+                        );
+                        return;
+                      }
+                      controller.generate();
+                      Get.find<CoreController>().tabController!.animateTo(1);
+                    },
+                    child: controller.isLoading.value
+                        ? LoadingAnimationWidget.staggeredDotsWave(
+                            color: ThemeManager().blackColor,
+                            size: 30,
+                          )
+                        : const Text("Generate"),
+                  ),
+                ),
+              ],
             );
           }),
         ],
