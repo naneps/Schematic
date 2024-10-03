@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -6,9 +7,12 @@ import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_icon_button.dart';
 import 'package:schematic/app/commons/ui/inputs/x_input.dart';
+import 'package:schematic/app/commons/ui/loading.widget.dart';
+import 'package:schematic/app/commons/ui/overlays/scale_dialog.dart';
 import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
 import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
+import 'package:schematic/app/modules/prompt/views/saved_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_field.widget.dart';
 
 class FormPromptField extends GetView<FormPromptFieldController> {
@@ -49,7 +53,26 @@ class FormPromptField extends GetView<FormPromptFieldController> {
               ),
               const Spacer(),
               //   help
-              const NeoIconButton(icon: Icon(MdiIcons.helpCircle)),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: NeoIconButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.zero,
+                    foregroundColor: ThemeManager().blackColor,
+                    shape: const CircleBorder(),
+                    side: BorderSide(
+                      color: ThemeManager().blackColor,
+                      width: 2,
+                    ),
+                  ),
+                  icon: const Icon(
+                    MdiIcons.helpCircle,
+                    size: 30,
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 15),
@@ -69,16 +92,20 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                         ? Column(
                             children: [
                               LoadingAnimationWidget.hexagonDots(
-                                color: ThemeManager().blackColor,
-                                size: 20,
+                                color: ThemeManager().primaryColor,
+                                size: 30,
                               ),
                               const SizedBox(height: 5),
-                              Text(
-                                "Optimizing...",
-                                style: Get.textTheme.bodyMedium!.copyWith(
-                                  color: ThemeManager().blackColor,
-                                ),
-                              ),
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                    "Optimizing...",
+                                    textStyle: Get.textTheme.labelMedium,
+                                    speed: const Duration(milliseconds: 100),
+                                  ),
+                                ],
+                                repeatForever: true,
+                              )
                             ],
                           )
                         : null,
@@ -100,7 +127,6 @@ class FormPromptField extends GetView<FormPromptFieldController> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                flex: 1,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -130,7 +156,21 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                       height: 40,
                       child: NeoButton(
                         onPressed: () {
-                          // controller.loadPrompt();
+                          Get.dialog(
+                            const ScaleDialog(
+                              child: AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                insetPadding: EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: ScaleDialog(
+                                  child: SaveDPrompts(),
+                                ),
+                              ),
+                            ),
+                          );
                         },
                         child: const Text(
                           "Load Prompt",
@@ -215,21 +255,8 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                   Obx(() {
                     return Expanded(
                       child: controller.isGeneratingFields.value
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                LoadingAnimationWidget.staggeredDotsWave(
-                                  color: ThemeManager().blackColor,
-                                  size: 50,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "Generating fields...",
-                                  style: Get.textTheme.bodyMedium!.copyWith(
-                                    color: ThemeManager().blackColor,
-                                  ),
-                                ),
-                              ],
+                          ? const LoadingWidget(
+                              text: ["Generating Fields...", "Please wait..."],
                             )
                           : controller.prompt.value.fields!.isEmpty
                               ? Container(

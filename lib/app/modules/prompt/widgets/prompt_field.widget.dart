@@ -159,6 +159,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                     label: "description",
                     hintText: "specify content of this field",
                     maxLines: 2,
+                    prefixIcon: const Icon(MdiIcons.text),
                     initialValue: controller.field?.value.description?.value,
                     onChanged: (val) {
                       controller.field?.value.description?.value = val;
@@ -189,7 +190,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Text(
-            "Additional Properties ${arrayField.type}",
+            "Additional Properties",
             style: Get.textTheme.labelSmall,
           ),
         ),
@@ -245,6 +246,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                   child: XInput(
                 label: "Count Data",
                 hintText: "e.g 10",
+                prefixIcon: const Icon(MdiIcons.numeric0BoxOutline),
                 keyboardType: TextInputType.number,
                 initialValue: arrayField.count?.value.toString(),
                 onChanged: (value) {

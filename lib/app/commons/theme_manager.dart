@@ -53,8 +53,13 @@ class ThemeManager {
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: scaffoldBackgroundColor,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         titleSpacing: 0,
         centerTitle: true,
+        toolbarTextStyle: TextStyle(
+          color: textColor,
+        ),
         titleTextStyle: TextStyle(
           color: textColor,
           fontSize: 16,

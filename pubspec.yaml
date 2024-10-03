@@ -36,6 +36,7 @@ dependencies:
   cloud_firestore: ^5.0.2
   firebase_remote_config: ^5.0.2
   firebase_database: ^11.0.2
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_lints: ^3.0.0

@@ -13,11 +13,23 @@ class UserPromptModel {
     this.userId,
   });
 
-  UserPromptModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    prompt = json['prompt'] != null ? Prompt.fromJson(json['prompt']) : null;
-    userId = json['userId'];
+  factory UserPromptModel.fromJson(Map<String, dynamic> json) {
+    // print("prompt ${json['prompt']}");
+    return UserPromptModel(
+      id: json['id'],
+      title: json['title'],
+      prompt: Prompt.fromJson(json['prompt']),
+      userId: json['userId'],
+    );
+  }
+  factory UserPromptModel.fromMap(Map<String, dynamic> map) {
+    return UserPromptModel(
+      id: map['id'],
+      title: map['title'],
+      userId: map['userId'],
+      prompt: Prompt.fromJson(Map<String, dynamic>.from(
+          map['prompt'] as Map)), // Pass the converted map
+    );
   }
 
   Map<String, dynamic> toJson() {

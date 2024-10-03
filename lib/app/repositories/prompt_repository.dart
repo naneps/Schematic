@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
 import 'package:schematic/app/models/user_prompot.dart';
 import 'package:schematic/app/services/firebase/firebase_rdb_service.dart';
+import 'package:schematic/app/services/user_service.dart';
 
 class PromptRepository extends FirebaseRDbService<UserPromptModel> {
+  final userService = Get.find<UserService>();
   PromptRepository() : super('prompts');
 
   @override
@@ -56,12 +58,24 @@ class PromptRepository extends FirebaseRDbService<UserPromptModel> {
   Future<List<UserPromptModel>> readAll() async {
     List<UserPromptModel> promptList = [];
     try {
-      DataSnapshot snapshot = await dbRef.child(collectionPath).get();
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+      DatabaseEvent event = await dbRef
+          .child(collectionPath)
+          .orderByChild('userId')
+          .equalTo(userService.user.value.uid)
+          .once();
+
+      DataSnapshot dataSnapshot = event.snapshot;
+
+      if (dataSnapshot.value != null) {
+        // Cast the returned map to Map<dynamic, dynamic>
+        Map<dynamic, dynamic> values =
+            dataSnapshot.value as Map<dynamic, dynamic>;
+
         values.forEach((key, value) {
-          promptList
-              .add(UserPromptModel.fromJson(value as Map<String, dynamic>));
+          if (value is Map) {
+            Map<String, dynamic> json = Map<String, dynamic>.from(value);
+            promptList.add(UserPromptModel.fromMap(json));
+          }
         });
       }
       return promptList;
