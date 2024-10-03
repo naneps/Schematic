@@ -14,27 +14,18 @@ class Logo extends StatelessWidget {
         vertical: 5,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        // gradient: LinearGradient(
-        //   begin: const Alignment(-0.29, -0.1),
-        //   end: const Alignment(0.05, 0.02),
-        //   colors: [
-        //     ThemeManager().blackColor,
-        //     ThemeManager().primaryColor,
-        //   ],
-        //   stops: const [0, 1],
-        //   tileMode: TileMode.clamp,
-        // ),
+        color: ThemeManager().scaffoldBackgroundColor,
         boxShadow: [
           ThemeManager().defaultShadow(),
         ],
+        border: Border.all(color: ThemeManager().blackColor, width: 2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset('assets/icons/icon.png', width: 30, height: 30),
-          const SizedBox(width: 10),
+          const SizedBox(width: 5),
           Text.rich(
             TextSpan(
               text: "",

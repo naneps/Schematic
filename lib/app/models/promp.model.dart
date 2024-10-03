@@ -8,15 +8,13 @@ class Prompt {
   RxList<Field>? fields;
   RxInt? maxData;
 
-  Prompt({
-    this.text,
-    this.fields,
-  });
+  Prompt({this.text, this.fields, this.maxData});
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
     return Prompt(
       text: json['text'],
-      fields: json['fields']?.map<Field>((f) => Field.fromJson(f)).toList(),
+      // fields: json['fields']?.map<Field>((f) => Field.fromJson(f)).toList(),
+      maxData: json['maxData'],
     );
   }
 

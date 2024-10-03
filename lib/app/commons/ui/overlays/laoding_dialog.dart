@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/loading.widget.dart';
 import 'package:schematic/app/commons/ui/overlays/scale_dialog.dart';
 
 class LoadingDialog extends StatefulWidget {
@@ -42,19 +41,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                LoadingAnimationWidget.flickr(
-                    size: 30,
-                    leftDotColor: Theme.of(context).primaryColor,
-                    rightDotColor: ThemeManager().secondaryColor),
-                Text(
-                  widget.message ?? 'Loading...',
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
+            child: const LoadingWidget(),
           ),
         ),
       ),
