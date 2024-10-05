@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 233, 30, 99);
+  Color primaryColor = const Color.fromARGB(255, 253, 75, 134);
   Color secondaryColor = const Color.fromARGB(255, 48, 199, 233);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
@@ -219,13 +219,13 @@ class ThemeManager {
 
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          fixedSize: MaterialStateProperty.all(const Size(30, 30)),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
-          iconSize: MaterialStateProperty.all(20),
-          minimumSize: MaterialStateProperty.all(const Size(10, 10)),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(Colors.white),
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          fixedSize: WidgetStateProperty.all(const Size(30, 30)),
+          padding: WidgetStateProperty.all(const EdgeInsets.all(5)),
+          iconSize: WidgetStateProperty.all(20),
+          minimumSize: WidgetStateProperty.all(const Size(10, 10)),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               // side: BorderSide(color: , width: 1),
@@ -235,11 +235,11 @@ class ThemeManager {
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(blackColor),
-          padding: MaterialStateProperty.all(
+          foregroundColor: WidgetStateProperty.all(blackColor),
+          padding: WidgetStateProperty.all(
             const EdgeInsets.all(10),
           ),
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: primaryColor, width: 0),
@@ -272,6 +272,7 @@ class ThemeManager {
             fontWeight: FontWeight.w500,
             fontSize: 14,
           ),
+          visualDensity: VisualDensity.compact,
           disabledBackgroundColor: Colors.grey.shade200,
           disabledForegroundColor: Colors.grey.shade400,
           padding: const EdgeInsets.all(10),

@@ -33,7 +33,7 @@ class CoreView extends GetView<CoreController> {
                   mode: LaunchMode.externalApplication,
                 );
               },
-              icon: const Icon(MdiIcons.github, size: 30),
+              icon: Icon(MdiIcons.github, size: 30),
             ),
           ),
         ],

@@ -93,7 +93,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                               return null;
                             },
                             initialValue: controller.field?.value.key?.value,
-                            prefixIcon: const Icon(MdiIcons.formatListBulleted),
+                            prefixIcon: Icon(MdiIcons.formatListBulleted),
                           );
                         }),
                       ),
@@ -116,7 +116,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                           ),
                           style: Get.textTheme.bodyMedium,
                           isDense: true,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             prefixIcon: Icon(MdiIcons.formatListBulleted),
                           ),
                           onChanged: (value) {
@@ -159,7 +159,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                     label: "description",
                     hintText: "specify content of this field",
                     maxLines: 2,
-                    prefixIcon: const Icon(MdiIcons.text),
+                    prefixIcon: Icon(MdiIcons.text),
                     initialValue: controller.field?.value.description?.value,
                     onChanged: (val) {
                       controller.field?.value.description?.value = val;
@@ -225,7 +225,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                   ],
                   hint: const Text("Array Type"),
                   isDense: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     prefixIcon: Icon(MdiIcons.formatListBulleted),
                   ),
                   onChanged: (value) {
@@ -246,7 +246,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
                   child: XInput(
                 label: "Count Data",
                 hintText: "e.g 10",
-                prefixIcon: const Icon(MdiIcons.numeric0BoxOutline),
+                prefixIcon: Icon(MdiIcons.numeric0BoxOutline),
                 keyboardType: TextInputType.number,
                 initialValue: arrayField.count?.value.toString(),
                 onChanged: (value) {
@@ -277,7 +277,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
           arrayField.description!(value);
           controller.field?.refresh();
         },
-        prefixIcon: const Icon(MdiIcons.formatListBulleted),
+        prefixIcon: Icon(MdiIcons.formatListBulleted),
       ),
     );
   }
@@ -302,7 +302,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
           controller.addField();
           controller.field?.refresh();
         },
-        icon: const Icon(MdiIcons.plus),
+        icon: Icon(MdiIcons.plus),
         style: ElevatedButton.styleFrom(
           backgroundColor: ThemeManager().infoColor,
           shape: const CircleBorder(),
