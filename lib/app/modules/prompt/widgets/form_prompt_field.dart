@@ -67,7 +67,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                       width: 2,
                     ),
                   ),
-                  icon: const Icon(
+                  icon: Icon(
                     MdiIcons.helpCircle,
                     size: 30,
                   ),

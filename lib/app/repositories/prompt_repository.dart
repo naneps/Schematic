@@ -74,7 +74,10 @@ class PromptRepository extends FirebaseRDbService<UserPromptModel> {
         values.forEach((key, value) {
           if (value is Map) {
             Map<String, dynamic> json = Map<String, dynamic>.from(value);
-            promptList.add(UserPromptModel.fromMap(json));
+            promptList.add(UserPromptModel.fromMap(
+              key as String,
+              json,
+            ));
           }
         });
       }

@@ -13,7 +13,11 @@ class Prompt {
   factory Prompt.fromJson(Map<String, dynamic> json) {
     return Prompt(
       text: json['text'],
-      // fields: json['fields']?.map<Field>((f) => Field.fromJson(f)).toList(),
+      fields: RxList(json['fields']?.map<Field>((f) {
+            print("Field: ${f.runtimeType}");
+            return Field.fromJson(Map<String, dynamic>.from(f));
+          }).toList() ??
+          []),
       maxData: json['maxData'],
     );
   }

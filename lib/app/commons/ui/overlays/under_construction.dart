@@ -42,7 +42,7 @@ class UnderConstruction extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       side: BorderSide(color: ThemeManager().blackColor),
                     ),
-                    icon: const Icon(MdiIcons.close),
+                    icon: Icon(MdiIcons.close),
                   ),
                 ],
               ),

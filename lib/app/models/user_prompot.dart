@@ -22,13 +22,12 @@ class UserPromptModel {
       userId: json['userId'],
     );
   }
-  factory UserPromptModel.fromMap(Map<String, dynamic> map) {
+  factory UserPromptModel.fromMap(String id, Map<String, dynamic> map) {
     return UserPromptModel(
-      id: map['id'],
+      id: id,
       title: map['title'],
       userId: map['userId'],
-      prompt: Prompt.fromJson(Map<String, dynamic>.from(
-          map['prompt'] as Map)), // Pass the converted map
+      prompt: Prompt.fromJson(Map<String, dynamic>.from(map['prompt'] as Map)),
     );
   }
 

@@ -18,8 +18,6 @@ void main() async {
   await appTranslations.load();
   Get.putAsync(() => FirebaseRemoteConfigService().init());
   runApp(
-    MainApp(
-      translations: appTranslations,
-    ),
+    MainApp(translations: appTranslations),
   );
 }
