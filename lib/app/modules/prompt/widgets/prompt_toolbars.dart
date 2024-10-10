@@ -63,7 +63,6 @@ class PromptToolbars extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              TextFormField()
             ],
           ),
           SizedBox(
