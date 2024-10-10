@@ -14,6 +14,7 @@ import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
 import 'package:schematic/app/modules/prompt/views/saved_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_field.widget.dart';
+import 'package:schematic/app/modules/prompt/widgets/prompt_toolbars.dart';
 
 class FormPromptField extends GetView<FormPromptFieldController> {
   const FormPromptField({
@@ -58,7 +59,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 height: 40,
                 child: NeoIconButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: ThemeManager().primaryColor,
                     padding: EdgeInsets.zero,
                     foregroundColor: ThemeManager().blackColor,
                     shape: const CircleBorder(),
@@ -194,63 +195,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Fields",
-                          style: Get.textTheme.labelMedium,
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          height: 30,
-                          child: NeoButton(
-                            onPressed: () {
-                              controller.addField();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ThemeManager().infoColor,
-                              textStyle: Get.textTheme.labelMedium!,
-                            ),
-                            child: const Text("Add Field"),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          height: 30,
-                          child: NeoButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeManager().primaryColor),
-                            child: const Text("Generate Fields"),
-                            onPressed: () {
-                              if (controller.prompt.value.text == "") {
-                                XSnackBar.show(
-                                  context: context,
-                                  message: "fill prompt first",
-                                  type: SnackBarType.warning,
-                                );
-                                return;
-                              }
-                              controller.generateFields();
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          height: 30,
-                          child: NeoButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeManager().warningColor),
-                            child: const Text("Clear Fields"),
-                            onPressed: () {
-                              controller.clearFields();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  PromptToolbars(controller: controller),
                   const SizedBox(height: 15),
                   Obx(() {
                     return Expanded(

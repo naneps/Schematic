@@ -14,7 +14,7 @@ class FormPromptFieldController extends GetxController {
   final generativeService = Get.find<GoogleGenerativeService>();
   final promptRepo = Get.find<PromptRepository>();
   UserPromptModel? userPrompt = UserPromptModel(
-    title: "example",
+    title: "Title",
     prompt: Prompt(
       text: "example",
       fields: <Field>[].obs,
@@ -26,8 +26,7 @@ class FormPromptFieldController extends GetxController {
   RxBool isEnhancing = false.obs;
   RxBool isGeneratingFields = false.obs;
   Rx<Prompt> prompt = Prompt(
-    text:
-        'Give me a list of Indonesian films with their titles, directors, release years, genres, and actors! ',
+    text: 'Data Article ',
     fields: <Field>[].obs,
   ).obs;
 
@@ -162,9 +161,11 @@ class FormPromptFieldController extends GetxController {
   }
 
   void savePrompt() async {
+    if (isLoading.value) return;
+    isLoading.value = true;
     userPrompt!.userId = Get.find<UserService>().user.value.uid;
     userPrompt!.prompt = prompt.value;
-
     await promptRepo.create(userPrompt!);
+    isLoading.value = false;
   }
 }

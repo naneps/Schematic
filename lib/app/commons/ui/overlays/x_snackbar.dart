@@ -44,8 +44,8 @@ class XSnackBar {
           ),
         ),
         backgroundColor: Colors.transparent,
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 100,
+        margin: const EdgeInsets.only(
+          bottom: 20,
           left: 20,
           right: 20,
         ),
