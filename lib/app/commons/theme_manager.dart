@@ -24,7 +24,6 @@ class ThemeManager {
       primaryColor: primaryColor,
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       canvasColor: scaffoldBackgroundColor,
-
       visualDensity: VisualDensity.compact,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: blackColor,
@@ -52,8 +51,10 @@ class ThemeManager {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: scaffoldBackgroundColor,
+        backgroundColor: primaryColor,
+        foregroundColor: textColor,
         elevation: 0,
+        shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         titleSpacing: 0,
         centerTitle: true,
@@ -67,22 +68,42 @@ class ThemeManager {
         ),
         iconTheme: IconThemeData(
           color: textColor,
+          fill: 0.2,
         ),
         actionsIconTheme: IconThemeData(
           color: textColor,
+          opticalSize: 0.2,
         ),
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: appBarBackgroundColor,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: primaryColor,
+          systemNavigationBarDividerColor: primaryColor,
+          statusBarColor: primaryColor,
         ),
         scrolledUnderElevation: 0,
       ),
-
-      drawerTheme: const DrawerThemeData(
+      drawerTheme: DrawerThemeData(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: scaffoldBackgroundColor,
       ),
+      toggleButtonsTheme: ToggleButtonsThemeData(
+        selectedColor: primaryColor,
+        selectedBorderColor: primaryColor,
+        fillColor: primaryColor,
+        splashColor: primaryColor,
+        focusColor: primaryColor,
+        hoverColor: primaryColor,
+        color: textColor,
+        borderColor: primaryColor,
+      ),
+      iconTheme: IconThemeData(
+        color: textColor,
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: primaryColor,
+        selectionColor: primaryColor,
+        selectionHandleColor: primaryColor,
+      ),
+      highlightColor: primaryColor,
       shadowColor: blackColor,
       expansionTileTheme: ExpansionTileThemeData(
         iconColor: primaryColor,

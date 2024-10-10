@@ -1,3 +1,6 @@
 {
-    "dart.flutterSdkPath": "~/dev/flutter"
+    "dart.flutterSdkPath": "~/dev/flutter",
+    "cSpell.words": [
+        "Iconbutton"
+    ]
 }

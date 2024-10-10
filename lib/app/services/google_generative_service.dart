@@ -29,7 +29,8 @@ class GoogleGenerativeService extends GetxService {
 
     final model = GenerativeModel(
       model: 'gemini-1.5-pro',
-      apiKey: "AIzaSyBWTtO8ws1Vy46kDgujZvjnbwrUwxLUpXI",
+      //   apiKey: "AIzaSyBWTtO8ws1Vy46kDgujZvjnbwrUwxLUpXI",
+      apiKey: "AIzaSyBxymxe8qiQQfJhP0B_jaG9AIaDP19Qs0w",
       //   apiKey: "AIzaSyBXQdMOoqoWx7CBNlIfqdGTX4r7VCGXeLM",
       systemInstruction: Content.system(systemInstruction ?? ''),
     );

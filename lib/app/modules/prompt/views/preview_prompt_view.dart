@@ -17,6 +17,8 @@ class PreviewPromptView extends StatelessWidget {
     return Obx(() {
       return Markdown(
         data: controller.prompt.value.toMarkdown(),
+        selectable: true,
+        builders: const {},
         styleSheet: MarkdownStyleSheet(
           code: const TextStyle(
             fontFamily: 'monospace',
