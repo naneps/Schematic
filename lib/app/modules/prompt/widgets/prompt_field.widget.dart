@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
@@ -12,6 +13,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
   final Field field;
   final VoidCallback? onRemove;
   final RxBool isValidated;
+  int index;
   List<String> alReadyUsedKeys = [];
   PromptField({
     super.key,
@@ -19,6 +21,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
     this.onRemove,
     required this.isValidated,
     required this.alReadyUsedKeys,
+    required this.index,
   });
 
   @override
@@ -38,6 +41,10 @@ class PromptField extends GetView<PromptFieldWidgetController> {
     return GetBuilder(
       init: controller,
       autoRemove: false,
+      initState: (state) {},
+      didChangeDependencies: (state) {
+        controller.animationController.forward();
+      },
       dispose: (_) {
         Get.delete<PromptFieldWidgetController>(tag: tag);
       },
@@ -178,7 +185,16 @@ class PromptField extends GetView<PromptFieldWidgetController> {
               ],
             );
           }),
-        );
+        )
+            .animate(
+              controller: controller.animationController,
+            )
+            .fadeIn()
+            .slideX(
+              begin: index.isOdd ? -1 : 1,
+              end: 0.0,
+              delay: Duration(milliseconds: (index * 50).clamp(50, 500)),
+            );
       },
     );
   }
@@ -327,6 +343,7 @@ class PromptField extends GetView<PromptFieldWidgetController> {
               final field = parentField.subFields![idx];
               return PromptField(
                 field: field,
+                index: idx,
                 isValidated: field.allSubFieldKeyUnique.obs,
                 alReadyUsedKeys: [
                   ...parentField.subFields!.map((e) => e.key!.value),
@@ -348,9 +365,12 @@ class PromptField extends GetView<PromptFieldWidgetController> {
   }
 }
 
-class PromptFieldWidgetController extends GetxController {
+class PromptFieldWidgetController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   Rx<Field>? field = Field().obs;
   final formKey = GlobalKey<FormState>();
+  late AnimationController animationController;
+
   PromptFieldWidgetController({this.field});
   void addField() {
     field!.value.subFields!.add(
@@ -362,6 +382,16 @@ class PromptFieldWidgetController extends GetxController {
         description: ''.obs,
         count: 0.obs,
       ),
+    );
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
     );
   }
 

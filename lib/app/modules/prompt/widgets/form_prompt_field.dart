@@ -240,22 +240,25 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                                   itemBuilder: (context, index) {
                                     final field =
                                         controller.prompt.value.fields![index];
-                                    return Obx(() {
-                                      return PromptField(
-                                        field: field,
-                                        alReadyUsedKeys: [
-                                          ...controller.prompt.value.fields!
-                                              .map((e) => e.key!.value),
-                                        ],
-                                        isValidated: controller
-                                            .prompt.value.allFieldKeyUnique.obs,
-                                        key: ValueKey("parent${field.id}"),
-                                        onRemove: () {
-                                          controller.removeField(field.id);
-                                          controller.prompt.refresh();
-                                        },
-                                      );
-                                    });
+                                    return Obx(
+                                      () {
+                                        return PromptField(
+                                          field: field,
+                                          index: index,
+                                          alReadyUsedKeys: [
+                                            ...controller.prompt.value.fields!
+                                                .map((e) => e.key!.value),
+                                          ],
+                                          isValidated: controller.prompt.value
+                                              .allFieldKeyUnique.obs,
+                                          key: ValueKey("parent${field.id}"),
+                                          onRemove: () {
+                                            controller.removeField(field.id);
+                                            controller.prompt.refresh();
+                                          },
+                                        );
+                                      },
+                                    );
                                   },
                                 ),
                     );

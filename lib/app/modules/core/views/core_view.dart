@@ -8,6 +8,7 @@ import 'package:schematic/app/commons/ui/responsive_layout.dart';
 import 'package:schematic/app/modules/prompt/views/output_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/preview_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/views/prompt_view.dart';
+import 'package:schematic/app/modules/prompt/views/saved_prompt_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/core_controller.dart';
@@ -24,6 +25,19 @@ class CoreView extends GetView<CoreController> {
         ),
         centerTitle: true,
         actions: [
+          //setting
+          IconButton(
+            onPressed: () {
+              Get.dialog(
+                const AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  insetPadding: EdgeInsets.all(20),
+                  content: SaveDPrompts(),
+                ),
+              );
+            },
+            icon: Icon(MdiIcons.cogOutline, size: 30),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: IconButton.filled(

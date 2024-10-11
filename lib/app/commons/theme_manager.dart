@@ -51,7 +51,7 @@ class ThemeManager {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: primaryColor,
+        backgroundColor: appBarBackgroundColor,
         foregroundColor: textColor,
         elevation: 0,
         shadowColor: Colors.transparent,
