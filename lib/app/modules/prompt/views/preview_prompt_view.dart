@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
-import 'package:schematic/app/modules/core/controllers/core_controller.dart';
+import 'package:schematic/app/modules/prompt/controllers/prompt_controller.dart';
 
 class PreviewPromptView extends StatelessWidget {
-  final CoreController controller;
+  final PromptController controller;
 
   const PreviewPromptView({
     super.key,

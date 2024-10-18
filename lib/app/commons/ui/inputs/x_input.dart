@@ -20,14 +20,13 @@ class XInput extends StatefulWidget {
   final Widget? suffixIcon;
   final EdgeInsets? contentPadding;
   final TextEditingController? controller;
-//  onSaved: (value) => _onSaved(value),
   final FloatingLabelBehavior? floatingLabelBehavior;
   final String? hintText;
   final int? minLines;
+
   const XInput({
     super.key,
     this.label,
-    // this.initialValue = '',
     this.initialValue,
     this.validator,
     this.onChanged,
@@ -51,10 +50,10 @@ class XInput extends StatefulWidget {
   });
 
   @override
-  State<XInput> createState() => XInputState();
+  State<XInput> createState() => _XInputState();
 }
 
-class XInputState extends State<XInput> {
+class _XInputState extends State<XInput> {
   late TextEditingController _controller;
   final FocusNode _focusNode = FocusNode();
   final GlobalKey<FormFieldState> _formKey = GlobalKey<FormFieldState>();
@@ -63,9 +62,7 @@ class XInputState extends State<XInput> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          ThemeManager().defaultShadow(),
-        ],
+        boxShadow: [ThemeManager().defaultShadow()],
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextFormField(
@@ -75,14 +72,11 @@ class XInputState extends State<XInput> {
         onTap: widget.onTap,
         validator: widget.validator,
         obscureText: widget.obscureText,
-        readOnly: widget.readOnly!,
+        readOnly: widget.readOnly ?? false,
         onSaved: (newValue) => widget.onSaved?.call(newValue ?? ''),
         onChanged: (value) {
-          // Ensure onChanged propagates changes
-          if (widget.onChanged != null) {
-            widget.onChanged!(value);
-          }
-          _formKey.currentState?.validate(); // Trigger revalidation
+          widget.onChanged?.call(value);
+          _formKey.currentState?.validate();
         },
         maxLength: widget.hasCounter == true ? widget.maxLength : null,
         maxLines: widget.maxLines,
@@ -93,16 +87,16 @@ class XInputState extends State<XInput> {
         decoration: InputDecoration(
           labelText: widget.label,
           contentPadding: widget.contentPadding,
-          hintText:
-              widget.hintText ?? 'Enter your ${widget.label!.toLowerCase()}',
+          hintText: widget.hintText ??
+              'Enter your ${widget.label?.toLowerCase() ?? ''}',
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIcon,
           floatingLabelBehavior:
-              widget.floatingLabelBehavior ?? FloatingLabelBehavior.always,
+              widget.floatingLabelBehavior ?? FloatingLabelBehavior.auto,
           counter: widget.hasCounter == true
               ? buildCounter(
                   context: context,
-                  maxLength: widget.maxLength!,
+                  maxLength: widget.maxLength ?? 0,
                   currentLength: _controller.text.length,
                   isFocused: _focusNode.hasFocus,
                   hasError: _formKey.currentState?.hasError ?? false,
@@ -136,7 +130,10 @@ class XInputState extends State<XInput> {
   void dispose() {
     _controller.removeListener(_updateState);
     _focusNode.removeListener(_updateState);
-    _controller.dispose();
+    if (widget.controller == null) {
+      // Dispose only if the controller was created locally
+      _controller.dispose();
+    }
     _focusNode.dispose();
     super.dispose();
   }
@@ -144,19 +141,14 @@ class XInputState extends State<XInput> {
   @override
   void initState() {
     super.initState();
-
-    // Use the provided controller if it exists; otherwise, create a new one
+    // Use the provided controller or create a new one if not provided
     _controller =
         widget.controller ?? TextEditingController(text: widget.initialValue);
-    if (widget.initialValue != null) {
-      _controller.text = widget.initialValue!;
-    }
-    // Add listener to sync with parent changes if necessary
     _controller.addListener(_updateState);
     _focusNode.addListener(_updateState);
   }
 
   void _updateState() {
-    setState(() {}); // Ensures UI updates based on changes
+    setState(() {}); // Rebuild the widget on changes
   }
 }

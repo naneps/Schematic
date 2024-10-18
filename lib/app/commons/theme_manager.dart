@@ -24,7 +24,10 @@ class ThemeManager {
       primaryColor: primaryColor,
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       canvasColor: scaffoldBackgroundColor,
-      visualDensity: VisualDensity.compact,
+      visualDensity: const VisualDensity(
+        horizontal: -4,
+        vertical: -4,
+      ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: blackColor,
         foregroundColor: Colors.white,
@@ -34,6 +37,7 @@ class ThemeManager {
       tabBarTheme: TabBarTheme(
         labelColor: primaryColor,
         unselectedLabelColor: textColor,
+        dividerHeight: 0,
         labelStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
@@ -42,7 +46,7 @@ class ThemeManager {
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
-        indicatorSize: TabBarIndicatorSize.label,
+        indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
           border: Border(
               bottom: BorderSide(
@@ -51,7 +55,7 @@ class ThemeManager {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: primaryColor,
+        backgroundColor: appBarBackgroundColor,
         foregroundColor: textColor,
         elevation: 0,
         shadowColor: Colors.transparent,

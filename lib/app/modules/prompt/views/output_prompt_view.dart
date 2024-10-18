@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/typewriter_markdown.dart';
-import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
+import 'package:schematic/app/modules/prompt/controllers/prompt_controller.dart';
 
 class OutputPromptView extends StatelessWidget {
-  final CoreController controller;
+  final PromptController controller;
 
   const OutputPromptView({
     super.key,
