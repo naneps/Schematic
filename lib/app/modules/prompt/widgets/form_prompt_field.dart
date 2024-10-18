@@ -10,8 +10,8 @@ import 'package:schematic/app/commons/ui/inputs/x_input.dart';
 import 'package:schematic/app/commons/ui/loading.widget.dart';
 import 'package:schematic/app/commons/ui/overlays/scale_dialog.dart';
 import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
-import 'package:schematic/app/modules/core/controllers/core_controller.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
+import 'package:schematic/app/modules/prompt/controllers/prompt_controller.dart';
 import 'package:schematic/app/modules/prompt/views/saved_prompt_view.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_field.widget.dart';
 import 'package:schematic/app/modules/prompt/widgets/prompt_toolbars.dart';
@@ -302,7 +302,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                         return;
                       }
                       controller.generate();
-                      Get.find<CoreController>().tabController!.animateTo(1);
+                      Get.find<PromptController>().tabController!.animateTo(1);
                     },
                     child: controller.isLoading.value
                         ? LoadingAnimationWidget.staggeredDotsWave(

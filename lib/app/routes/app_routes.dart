@@ -8,6 +8,11 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   Routes._();
   static const PROMPT = _Paths.PROMPT;
+  static const TOOLS = _Paths.TOOLS;
+  static const SETTING = _Paths.SETTING;
+  static const GRADIENT_BUILDER = _Paths.GRADIENT_BUILDER;
+  static const BOXSHADOW_BUILDER = _Paths.BOXSHADOW_BUILDER;
+  static const CONTAINER_BUILDER = _Paths.CONTAINER_BUILDER;
 }
 
 abstract class _Paths {
@@ -17,4 +22,9 @@ abstract class _Paths {
   static const CORE = '/core';
   _Paths._();
   static const PROMPT = '/prompt';
+  static const TOOLS = '/tools';
+  static const SETTING = '/setting';
+  static const GRADIENT_BUILDER = '/gradient-builder';
+  static const BOXSHADOW_BUILDER = '/boxshadow-builder';
+  static const CONTAINER_BUILDER = '/container-builder';
 }
