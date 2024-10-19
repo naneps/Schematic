@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/overlays/scale_dialog.dart';
 
 class ColorPickerWidget extends StatefulWidget {
   final List<Color> initialColors;
   final ValueChanged<List<Color>> onColorsChanged;
   final int minColors;
-
+  final bool multiple;
   const ColorPickerWidget({
     super.key,
     required this.initialColors,
     required this.onColorsChanged,
     this.minColors = 1,
+    this.multiple = false,
   });
 
   @override
@@ -24,36 +27,27 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: ThemeManager().blackColor, width: 2),
+        boxShadow: [ThemeManager().defaultShadow()],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Selected Colors',
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: !GetPlatform.isWeb ? 40 : 90,
-            child: ReorderableListView.builder(
-              scrollDirection: Axis.horizontal,
-              onReorder: _onReorder,
-              footer: SizedBox(
-                height: 90,
-                child: _buildAddButton(),
+      child: SizedBox(
+        height: 40,
+        child: colors.isEmpty
+            ? _buildAddButton() // Show placeholder when no colors
+            : ReorderableListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                onReorder: _onReorder,
+                footer: _buildAddButton(),
+                itemCount: colors.length,
+                itemBuilder: (context, index) {
+                  return _buildColorItem(index);
+                },
               ),
-              itemCount: colors.length,
-              itemBuilder: (context, index) {
-                return _buildColorItem(index);
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -72,18 +66,18 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   }
 
   Widget _buildAddButton() {
-    return Container(
-      key: const ValueKey('add_button'),
-      margin: const EdgeInsets.only(right: 5),
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.grey.shade400),
+    return IconButton(
+      splashRadius: 20,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        fixedSize: const Size(40, 40),
+        shape: const CircleBorder(),
+        side: BorderSide(color: Colors.grey.shade300),
+        padding: const EdgeInsets.all(0),
+        shadowColor: Colors.grey.shade400,
       ),
-      child: IconButton(
-        icon: const Icon(Icons.add),
-        onPressed: _showColorPicker,
-      ),
+      icon: const Icon(Icons.add),
+      onPressed: _showColorPicker,
     );
   }
 
@@ -93,36 +87,26 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade400),
-        // color: colors[index],
-        // borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 15,
-            backgroundColor: colors[index],
-          ),
-          IconButton(
-            icon: const Icon(Icons.palette),
-            // color: Colors.white,
-            onPressed: () {
-              // Prevent removing if it would go below the minimum
-              if (colors.length > widget.minColors) {
-                _removeColor(index);
-              }
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.close),
-            // color: Colors.white,
-            onPressed: () {
-              if (colors.length > widget.minColors) {
-                _removeColor(index);
-              }
-            },
-          ),
-        ],
+      child: InkWell(
+        onDoubleTap: () {
+          _removeColor(index);
+        },
+        onTap: () {
+          _showColorPicker(isUpdate: true, index: index, color: colors[index]);
+        },
+        child: CircleAvatar(radius: 15, backgroundColor: colors[index]),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Text(
+        'No colors selected. Add a color.',
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }
@@ -139,64 +123,89 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   }
 
   void _removeColor(int index) {
-    setState(() {
-      colors.removeAt(index);
-      widget.onColorsChanged(colors);
-    });
+    if (colors.length > widget.minColors) {
+      setState(() {
+        colors.removeAt(index);
+        widget.onColorsChanged(colors);
+      });
+    } else {
+      // Show a warning or handle the case when below minimum colors
+      Get.snackbar(
+        "Minimum Color Requirement",
+        "You must keep at least ${widget.minColors} color(s).",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
-  void _showColorPicker() {
-    Color pickerColor = Colors.white;
+  void _showColorPicker({bool isUpdate = false, int index = 0, Color? color}) {
+    Color pickerColor = color ?? Colors.white;
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          scrollable: true,
-          content: Container(
-            width: 300,
-            decoration: BoxDecoration(
-              color: Colors.white,
+        return ScaleDialog(
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              children: [
-                ColorPicker(
-                  pickerColor: pickerColor,
-                  portraitOnly: true,
-                  onColorChanged: (color) {
-                    pickerColor = color;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      side: const BorderSide(color: Colors.black, width: 1),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _addColor(pickerColor);
-                        Navigator.of(context).pop();
-                      });
+            scrollable: true,
+            content: Container(
+              width: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  ColorPicker(
+                    pickerColor: pickerColor,
+                    portraitOnly: true,
+                    labelTypes:
+                        ColorLabelType.values.map((type) => type).toList(),
+                    onColorChanged: (color) {
+                      pickerColor = color;
                     },
-                    child: const Text('Select'),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        side: const BorderSide(color: Colors.black, width: 1),
+                      ),
+                      onPressed: () {
+                        if (isUpdate) {
+                          _updateColor(index, pickerColor);
+                        } else {
+                          _addColor(pickerColor);
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        isUpdate ? 'Update' : 'Add',
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  void _updateColor(int index, Color color) {
+    setState(() {
+      colors[index] = color;
+      widget.onColorsChanged(colors);
+    });
   }
 }
