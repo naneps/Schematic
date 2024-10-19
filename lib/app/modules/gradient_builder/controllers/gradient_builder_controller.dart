@@ -24,6 +24,9 @@ class GradientBuilderController extends GetxController {
             val!.width!.value = newContainer.width!.value;
             val.height!.value = newContainer.height!.value;
             val.decoration!.color = newContainer.decoration!.color;
+            val.decoration!.gradient = newContainer.decoration!.gradient;
+            val.decoration!.boxShadow = newContainer.decoration!.boxShadow;
+            val.decoration!.border = newContainer.decoration!.border;
           },
         );
       },

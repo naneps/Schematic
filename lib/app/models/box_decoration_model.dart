@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/models/border_model.dart';
 import 'package:schematic/app/models/gradient.model.dart';
 
 class BoxDecorationModel {
@@ -7,11 +7,13 @@ class BoxDecorationModel {
   List<BoxShadow>? boxShadow;
   GradientModel? gradient;
   BlendMode? backgroundBlendMode;
+  BorderModel? border;
   BoxDecorationModel({
     this.color,
     this.backgroundBlendMode,
     this.boxShadow,
     this.gradient,
+    this.border,
   });
 
   BoxDecoration toBoxDecoration() {
@@ -20,11 +22,8 @@ class BoxDecorationModel {
       backgroundBlendMode: backgroundBlendMode,
       boxShadow: boxShadow,
       gradient: gradient?.toGradient().value,
-      border: Border.all(
-        color: ThemeManager().blackColor,
-        width: 10,
-      ),
       borderRadius: BorderRadius.circular(20),
+      border: border?.toBorder,
     );
   }
 }
