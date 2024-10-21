@@ -6,24 +6,27 @@ class NeoIconButton extends StatelessWidget {
   final void Function()? onPressed;
   final ButtonStyle? style;
   final Color? color;
+  final Size? size;
   const NeoIconButton({
     super.key,
     required this.icon,
     this.onPressed,
     this.style,
     this.color,
+    this.size,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: size?.width,
+      height: size?.height,
       decoration: BoxDecoration(
-        // borderRadius: const BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          ThemeManager().defaultShadow(),
-        ],
         shape: BoxShape.circle,
+        border: ThemeManager().defaultBorder(),
       ),
+      clipBehavior: Clip.hardEdge,
+      alignment: Alignment.center,
       child: IconButton(
         style: style ??
             ElevatedButton.styleFrom(

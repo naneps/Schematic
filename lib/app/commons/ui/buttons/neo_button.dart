@@ -5,30 +5,18 @@ class NeoButton extends StatelessWidget {
   final Widget child;
   final void Function()? onPressed;
   final ButtonStyle? style;
-  const NeoButton({
-    super.key,
-    required this.child,
-    this.onPressed,
-    this.style,
-  });
+  const NeoButton({super.key, required this.child, this.onPressed, this.style});
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(
-        minHeight: 30,
-        maxHeight: 100,
-      ),
-      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          ThemeManager().defaultShadow(),
-        ],
-        border: Border.all(color: ThemeManager().blackColor, width: 2),
+        border: ThemeManager().defaultBorder(),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: ElevatedButton(
         style: style ??
             ElevatedButton.styleFrom(
+              fixedSize: const Size.fromHeight(40),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),

@@ -197,72 +197,78 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                 children: [
                   PromptToolbars(controller: controller),
                   const SizedBox(height: 15),
-                  Obx(() {
-                    return Expanded(
-                      child: controller.isGeneratingFields.value
-                          ? const LoadingWidget(
-                              text: ["Generating Fields...", "Please wait..."],
-                            )
-                          : controller.prompt.value.fields!.isEmpty
-                              ? Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 10,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "No fields added yet. Add some fields to get started.",
-                                        style: Get.textTheme.bodySmall,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      SizedBox(
-                                        height: 30,
-                                        child: NeoButton(
-                                          child: const Text("Add Field"),
-                                          onPressed: () {
-                                            controller.addField();
-                                          },
+                  Obx(
+                    () {
+                      return Expanded(
+                        child: controller.isGeneratingFields.value
+                            ? const LoadingWidget(
+                                text: [
+                                  "Generating Fields...",
+                                  "Please wait..."
+                                ],
+                              )
+                            : controller.prompt.value.fields!.isEmpty
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 10,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "No fields added yet. Add some fields to get started.",
+                                          style: Get.textTheme.bodySmall,
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(height: 10),
+                                        SizedBox(
+                                          height: 30,
+                                          child: NeoButton(
+                                            child: const Text("Add Field"),
+                                            onPressed: () {
+                                              controller.addField();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount:
+                                        controller.prompt.value.fields?.length,
+                                    itemBuilder: (context, index) {
+                                      final field = controller
+                                          .prompt.value.fields![index];
+                                      return Obx(
+                                        () {
+                                          return PromptField(
+                                            field: field,
+                                            index: index,
+                                            alReadyUsedKeys: [
+                                              ...controller.prompt.value.fields!
+                                                  .map((e) => e.key!.value),
+                                            ],
+                                            isValidated: controller.prompt.value
+                                                .allFieldKeyUnique.obs,
+                                            key: ValueKey("parent${field.id}"),
+                                            onRemove: () {
+                                              controller.removeField(field.id);
+                                              controller.prompt.refresh();
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
                                   ),
-                                )
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  primary: false,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount:
-                                      controller.prompt.value.fields?.length,
-                                  itemBuilder: (context, index) {
-                                    final field =
-                                        controller.prompt.value.fields![index];
-                                    return Obx(
-                                      () {
-                                        return PromptField(
-                                          field: field,
-                                          index: index,
-                                          alReadyUsedKeys: [
-                                            ...controller.prompt.value.fields!
-                                                .map((e) => e.key!.value),
-                                          ],
-                                          isValidated: controller.prompt.value
-                                              .allFieldKeyUnique.obs,
-                                          key: ValueKey("parent${field.id}"),
-                                          onRemove: () {
-                                            controller.removeField(field.id);
-                                            controller.prompt.refresh();
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                    );
-                  }),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

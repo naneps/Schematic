@@ -63,7 +63,7 @@ class _XInputState extends State<XInput> {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [ThemeManager().defaultShadow()],
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
         key: _formKey,

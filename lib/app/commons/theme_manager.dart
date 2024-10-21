@@ -25,8 +25,8 @@ class ThemeManager {
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       canvasColor: scaffoldBackgroundColor,
       visualDensity: const VisualDensity(
-        horizontal: -4,
-        vertical: -4,
+        horizontal: -2,
+        vertical: -2,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: blackColor,
@@ -54,6 +54,7 @@ class ThemeManager {
           )),
         ),
       ),
+
       appBarTheme: AppBarTheme(
         backgroundColor: appBarBackgroundColor,
         foregroundColor: textColor,
@@ -291,6 +292,7 @@ class ThemeManager {
           backgroundColor: primaryColor,
           foregroundColor: blackColor,
           minimumSize: const Size(100, 40),
+          fixedSize: const Size.fromHeight(40),
           shadowColor: blackColor,
           elevation: 0,
           textStyle: const TextStyle(
@@ -308,6 +310,27 @@ class ThemeManager {
       ),
 
       //   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
+    );
+  }
+
+  Border defaultBorder({Color? color}) {
+    return Border(
+      top: BorderSide(
+        width: 2,
+        color: color ?? ThemeManager().blackColor,
+      ),
+      left: BorderSide(
+        width: 2,
+        color: color ?? ThemeManager().blackColor,
+      ),
+      bottom: BorderSide(
+        width: 6,
+        color: color ?? ThemeManager().blackColor,
+      ),
+      right: BorderSide(
+        width: 6,
+        color: color ?? ThemeManager().blackColor,
+      ),
     );
   }
 
