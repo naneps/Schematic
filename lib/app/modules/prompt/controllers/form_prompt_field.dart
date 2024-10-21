@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
 import 'package:schematic/app/enums/type_field.enum.dart';
 import 'package:schematic/app/models/field.model.dart';
 import 'package:schematic/app/models/promp.model.dart';
@@ -114,16 +115,15 @@ class FormPromptFieldController extends GetxController {
   void generateFields() async {
     isGeneratingFields.value = true;
     try {
+      print("genereate field");
       final value = await generativeService.generateFields(prompt.value.text!);
-      print('Generated fields: $value');
       final Map<String, dynamic> jsonResponse = json.decode(value);
       final generatedFields = parseGeneratedFields(jsonResponse);
       prompt.value.fields?.clear();
-      prompt.value.fields
-          ?.addAll(generatedFields); // Add generated fields to prompt
-      prompt.refresh(); // Refresh the prompt to update the UI
+      prompt.value.fields?.addAll(generatedFields);
+      prompt.refresh();
     } catch (e) {
-      print("Error generating fields: $e"); // Handle error appropriately
+      print("Error generating fields: $e");
     } finally {
       isGeneratingFields.value = false;
     }
@@ -137,7 +137,6 @@ class FormPromptFieldController extends GetxController {
 
   List<Field> parseGeneratedFields(Map<String, dynamic> jsonResponse) {
     if (jsonResponse['success'] == true) {
-      print("Successfully generated fields: ${jsonResponse['data']}");
       final data = jsonResponse['data'];
       if (data != null && data is List) {
         return data.map<Field>((fieldData) {
@@ -151,6 +150,11 @@ class FormPromptFieldController extends GetxController {
             "Expected 'data' to be a List but got: ${data.runtimeType}");
       }
     } else {
+      XSnackBar.show(
+        context: Get.context!,
+        message: jsonResponse['message'],
+        type: SnackBarType.error,
+      );
       throw Exception("Failed to generate fields: ${jsonResponse['message']}");
     }
   }
