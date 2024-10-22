@@ -116,9 +116,9 @@ class FormSignIn extends GetView<AuthController> {
               ),
               onPressed: () {
                 // Call the Anonymous sign in method
-                // Get.dialog(const UnderConstruction());
-                // return;
-                controller.signInAnonymously();
+                Get.dialog(const UnderConstruction());
+                return;
+                // controller.signInAnonymously();
               },
               label: const Text('Sign in Anonymously'),
             ),

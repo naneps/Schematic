@@ -9,6 +9,7 @@ class NeoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         border: ThemeManager().defaultBorder(),
         borderRadius: const BorderRadius.all(Radius.circular(16)),

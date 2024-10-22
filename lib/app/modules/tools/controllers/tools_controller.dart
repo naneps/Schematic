@@ -18,7 +18,7 @@ class ToolsController extends GetxController {
       ),
       NavigationModel(
         title: 'Shadows Builder',
-        route: Routes.GRADIENT_BUILDER,
+        route: Routes.BOXSHADOW_BUILDER,
         iconData: MdiIcons.boxShadow,
       ),
     ];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:schematic/app/commons/ui/overlays/under_construction.dart';
 
 import '../controllers/boxshadow_builder_controller.dart';
 
@@ -13,12 +13,7 @@ class BoxshadowBuilderView extends GetView<BoxshadowBuilderController> {
         title: const Text('BoxshadowBuilderView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'BoxshadowBuilderView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: const Center(child: UnderConstruction()),
     );
   }
 }

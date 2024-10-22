@@ -1,0 +1,120 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:get/get.dart';
+import 'package:schematic/app/models/apikey_model.dart';
+import 'package:schematic/app/services/firebase/firebase_rdb_service.dart';
+import 'package:schematic/app/services/user_service.dart';
+
+class ApikeyRepository extends FirebaseRDbService<ApiKey> {
+  final userService = Get.find<UserService>();
+  bool _isUpdating = false; // Lock to prevent multiple simultaneous updates
+
+  ApikeyRepository() : super('apikeys');
+
+  @override
+  Future<void> create(ApiKey data) async {
+    try {
+      if (data.isDefault!.value) {
+        await _resetExistingDefaultKeys();
+      }
+      await _addApiKey(data);
+    } catch (e) {
+      throw Exception('Failed to create data: $e');
+    }
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    await dbRef.child(collectionPath).child(userService.uid).child(id).remove();
+  }
+
+  @override
+  Future<List<ApiKey>> readAll() async {
+    List<ApiKey> apiKeyList = [];
+    try {
+      DataSnapshot snapshot =
+          await dbRef.child(collectionPath).child(userService.uid).get();
+      if (snapshot.value != null) {
+        Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+        values.forEach((key, value) {
+          apiKeyList.add(ApiKey.fromJson(key, Map.from(value)));
+        });
+      }
+      return apiKeyList;
+    } catch (e) {
+      throw Exception('Failed to read all data: $e');
+    }
+  }
+
+  @override
+  Future<void> update(String id, Map<String, dynamic> updates) async {
+    if (_isUpdating) {
+      // Prevent multiple updates from happening at the same time
+      return;
+    }
+    _isUpdating = true;
+
+    try {
+      if (updates['isDefault']) {
+        await _resetExistingDefaultKeys(); // Ensure only one default key exists
+      }
+
+      // Firebase transaction to ensure atomic update
+      await dbRef
+          .child(collectionPath)
+          .child(userService.uid)
+          .child(id)
+          .runTransaction((currentData) {
+        if (currentData == null) {
+          return Transaction.abort();
+        }
+
+        final Map<String, dynamic> data =
+            Map<String, dynamic>.from(currentData as Map);
+
+        // Only allow update if the key is not already the default
+        if (updates['isDefault'] == true && data['isDefault'] == true) {
+          return Transaction.abort();
+        }
+
+        data.addAll(updates); // Now safely use addAll on the Map
+        return Transaction.success(data);
+      });
+
+      print('Data successfully updated');
+    } catch (e) {
+      throw Exception('Failed to update data: $e');
+    } finally {
+      _isUpdating = false;
+    }
+  }
+
+  // Function to add a new API key
+  Future<void> _addApiKey(ApiKey data) async {
+    await dbRef
+        .child(collectionPath)
+        .child(userService.uid)
+        .push()
+        .set(data.toCreateJson());
+  }
+
+  Future<void> _resetExistingDefaultKeys() async {
+    final snapshot = await dbRef
+        .child(collectionPath)
+        .child(userService.uid)
+        .orderByChild('isDefault')
+        .equalTo(true)
+        .get();
+
+    if (snapshot.exists) {
+      final existingKeys = Map<String, dynamic>.from(snapshot.value as Map);
+      await Future.wait(existingKeys.entries.map((entry) async {
+        final key = entry.key;
+        await dbRef
+            .child(collectionPath)
+            .child(userService.uid)
+            .child(key)
+            .update({'isDefault': false});
+      }));
+    }
+  }
+}

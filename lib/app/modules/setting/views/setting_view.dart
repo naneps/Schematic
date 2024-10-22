@@ -27,6 +27,6 @@ class SettingView extends GetView<SettingController> {
   }
 
   Widget buildContent() {
-    return ApikeyListView(controller: controller);
+    return const ApikeyListView();
   }
 }

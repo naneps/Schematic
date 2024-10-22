@@ -54,7 +54,6 @@ class ThemeManager {
           )),
         ),
       ),
-
       appBarTheme: AppBarTheme(
         backgroundColor: appBarBackgroundColor,
         foregroundColor: textColor,
