@@ -27,6 +27,21 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
     await dbRef.child(collectionPath).child(userService.uid).child(id).remove();
   }
 
+  Future<ApiKey> getDefaultApiKey() async {
+    final snapshot = await dbRef
+        .child(collectionPath)
+        .child(userService.uid)
+        .orderByChild('isDefault')
+        .equalTo(true)
+        .get();
+    if (snapshot.exists) {
+      return ApiKey.fromJson(
+          snapshot.key!, Map.from(snapshot.children.first.value as Map));
+    } else {
+      return ApiKey();
+    }
+  }
+
   @override
   Future<List<ApiKey>> readAll() async {
     List<ApiKey> apiKeyList = [];

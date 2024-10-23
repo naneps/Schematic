@@ -135,6 +135,9 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                     SizedBox(
                       height: 40,
                       child: NeoButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ThemeManager().secondaryColor,
+                        ),
                         onPressed: () {
                           if (controller.prompt.value.text == "") {
                             XSnackBar.show(
@@ -146,9 +149,7 @@ class FormPromptField extends GetView<FormPromptFieldController> {
                           }
                           controller.enhancePrompt();
                         },
-                        child: const Text(
-                          "Optimize Prompt",
-                        ),
+                        child: const Text("Optimize"),
                       ),
                     ),
                     //   load from saved prompt

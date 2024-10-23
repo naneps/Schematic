@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/buttons/neo_icon_button.dart';
 import 'package:schematic/app/models/apikey_model.dart';
 import 'package:schematic/app/modules/setting/controllers/apikey_controller.dart';
+import 'package:schematic/app/services/google_generative_service.dart';
 
 class ApikeyTile extends StatefulWidget {
   final ApiKey apiKey;
@@ -122,7 +124,8 @@ class _ApikeyTileState extends State<ApikeyTile> with TickerProviderStateMixin {
         subtitle: Text.rich(TextSpan(
           children: [
             TextSpan(
-              text: "${widget.apiKey.keyValue} ",
+              text:
+                  "${widget.apiKey.keyValue!.replaceRange(widget.apiKey.keyValue!.length ~/ 3, widget.apiKey.keyValue!.length, '*' * (widget.apiKey.keyValue!.length ~/ 4))} ",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             WidgetSpan(
@@ -132,7 +135,10 @@ class _ApikeyTileState extends State<ApikeyTile> with TickerProviderStateMixin {
                 size: 16,
               ),
               onTap: () {
-                Clipboard.setData(ClipboardData(text: widget.apiKey.keyValue!));
+                Clipboard.setData(ClipboardData(text: widget.apiKey.keyValue!))
+                    .then(
+                  (value) => Get.snackbar("Copied", "Key copied to clipboard!"),
+                );
               },
             ))
           ],
@@ -160,6 +166,7 @@ class _ApikeyTileState extends State<ApikeyTile> with TickerProviderStateMixin {
                         !widget.apiKey.isDefault!.value;
                   });
                   _flipTile();
+                  Get.find<GoogleGenerativeService>().setApikey();
                 },
               ),
               const SizedBox(width: 10),

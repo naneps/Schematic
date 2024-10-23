@@ -26,8 +26,8 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
           data: text,
           tocController: TocController(),
           padding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 20,
+            vertical: 0,
+            horizontal: 0,
           ),
           markdownGenerator: MarkdownGenerator(),
           config: MarkdownConfig(
@@ -44,16 +44,9 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
                   color: Colors.white,
                   fontFamily: 'monospace',
                 ),
-                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
-                  border: Border.all(
-                    color: ThemeManager().blackColor,
-                    width: 2,
-                  ),
-                  boxShadow: [
-                    ThemeManager().defaultShadow(),
-                  ],
+                  border: ThemeManager().defaultBorder(),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 wrapper: (child, code, language) {

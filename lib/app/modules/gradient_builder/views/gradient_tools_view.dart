@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/modules/container_builder/views/container_builder_view.dart';
 import 'package:schematic/app/modules/gradient_builder/controllers/gradient_tools_controller.dart';
+import 'package:schematic/app/modules/gradient_builder/views/gradient_editor_view.dart';
 
 class GradientToolsView extends GetView<GradientToolsController> {
   const GradientToolsView({super.key});
@@ -27,8 +29,44 @@ class GradientToolsView extends GetView<GradientToolsController> {
               physics: const NeverScrollableScrollPhysics(),
               controller: controller.tabController,
               children: [
-                Container(),
+                GradientEditorView(
+                  onChanged: (gradient) {
+                    controller.onGradientChanged(gradient);
+                  },
+                ),
                 const ContainerBuilderView(),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: NeoButton(
+                    onPressed: () {
+                      // controller.onSave();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ThemeManager().infoColor,
+                      textStyle: Get.textTheme.labelMedium,
+                    ),
+                    child: const Text("Make Template"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                    child: NeoButton(
+                  onPressed: () {
+                    //   controller.onReset();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().errorColor,
+                    textStyle: Get.textTheme.labelMedium,
+                  ),
+                  child: const Text("Reset"),
+                ))
               ],
             ),
           )

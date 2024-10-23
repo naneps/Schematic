@@ -19,7 +19,7 @@ class ApiKey {
         id: id,
         keyValue: json['keyValue'],
         name: json['name'],
-        isDefault: RxBool(json['isDefault']),
+        isDefault: RxBool(json['isDefault'] ?? false),
         userId: json['userId'],
       );
 
@@ -44,4 +44,8 @@ class ApiKey {
         'isDefault': isDefault!.value,
         'userId': userId,
       };
+  @override
+  String toString() {
+    return 'ApiKey{id: $id, keyValue: $keyValue, name: $name, isDefault: $isDefault, userId: $userId}';
+  }
 }

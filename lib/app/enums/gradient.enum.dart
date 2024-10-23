@@ -89,11 +89,11 @@ extension TileModeTypeExtension on TileModeType {
   String get name {
     switch (this) {
       case TileModeType.clamp:
-        return 'TileMode.clamp';
+        return 'clamp';
       case TileModeType.mirror:
-        return 'TileMode.mirror';
+        return 'mirror';
       case TileModeType.repeat:
-        return 'TileMode.repeated';
+        return 'repeated';
     }
   }
 }

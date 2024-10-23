@@ -8,7 +8,7 @@ class ApiKeyController extends GetxController with StateMixin<List<ApiKey>> {
     id: '',
     keyValue: '',
     name: '',
-    isDefault: false.obs,
+    isDefault: true.obs,
     userId: '',
   ).obs;
   RxList<ApiKey> apiKeys = <ApiKey>[].obs;
