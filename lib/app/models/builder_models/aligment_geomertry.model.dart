@@ -10,6 +10,15 @@ class AlignmentGeometryModel {
     required this.y,
     this.type,
   });
+  factory AlignmentGeometryModel.fromJson(Map<String, dynamic> json) {
+    return AlignmentGeometryModel(
+      x: json['x'],
+      y: json['y'],
+      type: AlignmentType.values
+          .firstWhere((element) => element.name == json['type']),
+    );
+  }
+
   AlignmentGeometryModel copyWith({
     double? x,
     double? y,
@@ -25,4 +34,6 @@ class AlignmentGeometryModel {
   AlignmentGeometry toAlignmentGeometry() {
     return type != null ? type!.alignment : Alignment(x, y);
   }
+
+  toJson() => {'x': x, 'y': y, 'type': type!.name};
 }

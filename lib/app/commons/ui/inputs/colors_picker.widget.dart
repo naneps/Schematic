@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/ui/overlays/scale_dialog.dart';
 
@@ -37,12 +38,32 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
       child: SizedBox(
         height: 40,
         child: colors.isEmpty
-            ? _buildAddButton() // Show placeholder when no colors
+            ? _buildAddButton()
             : ReorderableListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 onReorder: _onReorder,
-                footer: _buildAddButton(),
+                footer: Row(
+                  children: [
+                    _buildAddButton(),
+                    Tooltip(
+                      message:
+                          'Double tap to remove color \nTap to edit color \nHold to reorder colors',
+                      waitDuration: const Duration(seconds: 1),
+                      textStyle: Theme.of(context).textTheme.bodySmall,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: ThemeManager().defaultBorder(),
+                      ),
+                      child: Icon(
+                        MdiIcons.informationOutline,
+                        color: ThemeManager().infoColor,
+                        size: 20,
+                      ),
+                    )
+                  ],
+                ),
                 itemCount: colors.length,
                 itemBuilder: (context, index) {
                   return _buildColorItem(index);
@@ -97,7 +118,14 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
         onTap: () {
           _showColorPicker(isUpdate: true, index: index, color: colors[index]);
         },
-        child: CircleAvatar(radius: 15, backgroundColor: colors[index]),
+        child: CircleAvatar(
+          radius: 15,
+          backgroundColor: Colors.grey.shade300,
+          child: CircleAvatar(
+            radius: 12,
+            backgroundColor: colors[index],
+          ),
+        ),
       ),
     );
   }
