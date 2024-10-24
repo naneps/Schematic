@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:schematic/app/models/border_model.dart';
-import 'package:schematic/app/models/gradient.model.dart';
+import 'package:schematic/app/models/builder_models/border_model.dart';
+import 'package:schematic/app/models/builder_models/gradient.model.dart';
 
 class BoxDecorationModel {
   Color? color;

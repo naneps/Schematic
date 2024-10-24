@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/enums/gradient.enum.dart';
-import 'package:schematic/app/models/aligment_geomertry.model.dart';
-import 'package:schematic/app/models/stop.model.dart';
+import 'package:schematic/app/models/builder_models/aligment_geomertry.model.dart';
+import 'package:schematic/app/models/builder_models/stop.model.dart';
 
 class GradientModel {
   GradientType type;
@@ -33,6 +33,29 @@ class GradientModel {
     this.endAngle = 3.14,
   });
 
+  factory GradientModel.fromJson(Map<String, dynamic> json) {
+    return GradientModel(
+      type: GradientType.values
+          .firstWhere((element) => element.name == json['type']),
+      colors: (json['colors'] as List)
+          .map((color) => Color(int.parse(color)))
+          .toList()
+          .obs,
+      stops: (json['stops'] as List)
+          .map((stop) => StopModel.fromJson(stop))
+          .toList(),
+      begin: AlignmentGeometryModel.fromJson(json['begin']),
+      end: AlignmentGeometryModel.fromJson(json['end']),
+      tileMode: TileModeType.values
+          .firstWhere((element) => element.name == json['tileMode']),
+      radius: json['radius'],
+      // center = AlignmentGeometry(json['center']);
+      startAngle: json['startAngle'],
+      endAngle: json['endAngle'],
+      transform: json['transform'],
+    );
+  }
+
   String gradientCode() {
     switch (type) {
       case GradientType.linear:
@@ -50,13 +73,9 @@ class GradientModel {
     final StringBuffer buffer = StringBuffer();
 
     buffer.writeln('```dart');
-    buffer.writeln('Container(');
-    buffer.writeln('  width: 200,');
-    buffer.writeln('  height: 200,');
     buffer.writeln('  decoration: BoxDecoration(');
     buffer.writeln('    gradient: ${gradientCode()},');
-    buffer.writeln('  ),');
-    buffer.writeln(');');
+    buffer.writeln('),');
     buffer.writeln('```');
 
     return buffer.toString();
@@ -94,6 +113,22 @@ class GradientModel {
           tileMode: tileMode.tileMode,
         ).obs;
     }
+  }
+
+  toJson() {
+    return {
+      'type': type.name,
+      'colors': colors.map((color) => color.value).toList(),
+      'stops': stops?.map((stop) => stop.stop).toList(),
+      'begin': begin?.toJson(),
+      'end': end?.toJson(),
+      'tileMode': tileMode.name,
+      'radius': radius,
+      'center': center?.toJson(),
+      'startAngle': startAngle,
+      'endAngle': endAngle,
+      'transform': transform?.toString(),
+    };
   }
 
   String _alignmentCode(AlignmentGeometry alignment) {

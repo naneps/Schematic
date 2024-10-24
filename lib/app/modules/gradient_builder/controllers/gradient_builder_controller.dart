@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schematic/app/models/box_decoration_model.dart';
-import 'package:schematic/app/models/container_model.dart';
-import 'package:schematic/app/models/gradient.model.dart';
+import 'package:schematic/app/models/builder_models/box_decoration_model.dart';
+import 'package:schematic/app/models/builder_models/container_model.dart';
+import 'package:schematic/app/models/builder_models/gradient.model.dart';
 import 'package:schematic/app/modules/container_builder/controllers/container_builder_controller.dart';
 
 class GradientBuilderController extends GetxController {

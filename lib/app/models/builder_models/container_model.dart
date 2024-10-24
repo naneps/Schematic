@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schematic/app/models/box_decoration_model.dart';
+import 'package:schematic/app/models/builder_models/box_decoration_model.dart';
 
 class ContainerModel {
   RxDouble? width;
@@ -26,6 +26,10 @@ class ContainerModel {
       decoration: decoration ?? this.decoration,
       color: color ?? this.color,
     );
+  }
+
+  String toCode() {
+    return '```dart\n${widget().toString()}\n```';
   }
 
   Widget widget() {

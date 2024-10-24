@@ -28,7 +28,7 @@ class GradientBuilderView extends GetView<GradientBuilderController> {
               ),
             ),
             const SizedBox(width: 20),
-            const Expanded(
+            Expanded(
               flex: 2,
               child: GradientToolsView(),
             ),

@@ -32,16 +32,16 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
           markdownGenerator: MarkdownGenerator(),
           config: MarkdownConfig(
             configs: [
-              const CodeConfig(
+              CodeConfig(
                 style: TextStyle(
                   fontFamily: 'monospace',
-                  color: Colors.white,
+                  color: ThemeManager().primaryColor,
                 ),
               ),
               PreConfig(
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 14,
-                  color: Colors.white,
+                  color: ThemeManager().primaryColor,
                   fontFamily: 'monospace',
                 ),
                 decoration: BoxDecoration(
@@ -57,7 +57,7 @@ class _TypewriterMarkdownState extends State<TypewriterMarkdown>
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 14,
-                  backgroundColor: ThemeManager().blackColor,
+                  backgroundColor: ThemeManager().successColor,
                 ),
               ),
             ],
