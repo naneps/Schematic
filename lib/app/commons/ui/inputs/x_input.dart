@@ -62,8 +62,9 @@ class _XInputState extends State<XInput> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [ThemeManager().defaultShadow()],
+        // boxShadow: [ThemeManager().defaultShadow()],
         borderRadius: BorderRadius.circular(10),
+        border: ThemeManager().defaultBorder(),
       ),
       child: TextFormField(
         key: _formKey,
@@ -91,6 +92,10 @@ class _XInputState extends State<XInput> {
               'Enter your ${widget.label?.toLowerCase() ?? ''}',
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIcon,
+          labelStyle: TextStyle(
+            backgroundColor: Theme.of(context).canvasColor,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           floatingLabelBehavior:
               widget.floatingLabelBehavior ?? FloatingLabelBehavior.auto,
           counter: widget.hasCounter == true

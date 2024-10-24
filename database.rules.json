@@ -1,6 +1,16 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null"
+    ".write": "auth != null",
+    "apikeys": {
+      "$userId": {
+        ".read": "$userId === auth.uid",
+        ".write": "$userId === auth.uid",
+        ".indexOn": [
+          "isDefault",
+          "name"
+        ]
+      }
+    }
   }
 }

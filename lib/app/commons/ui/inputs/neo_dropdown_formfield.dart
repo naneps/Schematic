@@ -25,9 +25,7 @@ class NeoDropdown<T> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          ThemeManager().defaultShadow(),
-        ],
+        border: ThemeManager().defaultBorder(),
       ),
       child: DropdownButtonFormField(
         items: items,

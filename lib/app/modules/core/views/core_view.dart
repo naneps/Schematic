@@ -21,7 +21,6 @@ class CoreView extends GetView<CoreController> {
         title: const Logo(
           fontSize: 16,
         ),
-        centerTitle: true,
         actions: [
           //setting
           IconButton(

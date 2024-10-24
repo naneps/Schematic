@@ -26,48 +26,56 @@ class PromptToolbars extends StatelessWidget {
           const SizedBox(width: 10),
           const Spacer(),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            runSpacing: 5,
             alignment: WrapAlignment.center,
             children: [
-              NeoButton(
-                onPressed: () {
-                  controller.addField();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ThemeManager().infoColor,
-                  textStyle: Get.textTheme.labelMedium!,
+              SizedBox(
+                height: 40,
+                child: NeoButton(
+                  onPressed: () {
+                    controller.addField();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().infoColor,
+                    textStyle: Get.textTheme.labelMedium!,
+                  ),
+                  child: const Text("Add Field"),
                 ),
-                child: const Text("Add Field"),
               ),
               const SizedBox(width: 10),
-              NeoButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ThemeManager().primaryColor),
-                child: const Text("Generate Fields"),
-                onPressed: () {
-                  if (controller.prompt.value.text == "") {
-                    XSnackBar.show(
-                      context: context,
-                      message: "fill prompt first",
-                      type: SnackBarType.warning,
-                    );
-                    return;
-                  }
-                  controller.generateFields();
-                },
+              SizedBox(
+                height: 40,
+                child: NeoButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ThemeManager().primaryColor),
+                  child: const Text("Generate Fields"),
+                  onPressed: () {
+                    if (controller.prompt.value.text == "") {
+                      XSnackBar.show(
+                        context: context,
+                        message: "fill prompt first",
+                        type: SnackBarType.warning,
+                      );
+                      return;
+                    }
+                    controller.generateFields();
+                  },
+                ),
               ),
               const SizedBox(width: 10),
+              SizedBox(
+                height: 40,
+                child: NeoButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().warningColor,
+                  ),
+                  child: const Text("Clear Fields"),
+                  onPressed: () {
+                    controller.clearFields();
+                  },
+                ),
+              ),
             ],
-          ),
-          NeoButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ThemeManager().warningColor,
-            ),
-            child: const Text("Clear Fields"),
-            onPressed: () {
-              controller.clearFields();
-            },
           ),
         ],
       ),

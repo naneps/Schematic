@@ -123,11 +123,8 @@ class UserService extends GetxService {
 
   Future<UserModel?> _getUserFromFirestore(String uid) async {
     try {
-      print('GET USER FROM FIRESTORE');
       final userDoc = await _firestore.collection('users').doc(uid).get();
       if (userDoc.exists) {
-        print('User found in Firestore');
-        print(userDoc.data());
         return UserModel.fromJson(userDoc.data()!);
       }
     } catch (e) {
@@ -137,15 +134,9 @@ class UserService extends GetxService {
   }
 
   void _initializeFCMToken() async {
-    print('INITIALIZE FCM TOKEN');
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    // Get the current FCM token
     String? token = await messaging.getToken();
-    print('FCM token: $token');
     updateUserFCMToken(token!);
-
-    // Handle token refresh
     FirebaseMessaging.instance.onTokenRefresh.listen(updateUserFCMToken);
   }
 

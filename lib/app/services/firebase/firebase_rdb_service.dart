@@ -22,6 +22,7 @@ class FirebaseRDbService<T> extends GetxService {
   // Fungsi untuk menghapus data
   Future<void> delete(String id) async {
     try {
+      print(id);
       await dbRef.child(collectionPath).child(id).remove();
       print('Data successfully deleted');
     } catch (e) {

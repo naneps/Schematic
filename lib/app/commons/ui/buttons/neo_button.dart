@@ -4,11 +4,21 @@ import 'package:schematic/app/commons/theme_manager.dart';
 class NeoButton extends StatelessWidget {
   final Widget child;
   final void Function()? onPressed;
+  final Size? size;
   final ButtonStyle? style;
-  const NeoButton({super.key, required this.child, this.onPressed, this.style});
+  const NeoButton({
+    super.key,
+    required this.child,
+    this.onPressed,
+    this.style,
+    this.size,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: size?.width,
+      height: size?.height,
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         border: ThemeManager().defaultBorder(),
         borderRadius: const BorderRadius.all(Radius.circular(16)),

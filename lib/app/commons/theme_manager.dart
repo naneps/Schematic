@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color.fromARGB(255, 253, 75, 134);
-  Color secondaryColor = const Color.fromARGB(255, 48, 199, 233);
-  Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
+  Color primaryColor = const Color.fromARGB(255, 242, 96, 145);
+  Color secondaryColor = const Color.fromARGB(255, 139, 119, 250);
+  Color tertiaryColor = const Color.fromARGB(255, 234, 139, 139);
   Color backgroundColor = const Color(0xFFF8F8F8);
   Color textColor = const Color.fromARGB(255, 28, 28, 33);
-  Color blackColor = const Color(0xFF0C1C2C);
-  Color accentColor = const Color.fromARGB(255, 68, 255, 243);
+  Color blackColor = const Color.fromARGB(255, 45, 45, 62);
+  Color accentColor = const Color.fromARGB(255, 88, 248, 237);
   Color hintColor = const Color(0xFF6C757D);
-  Color errorColor = const Color.fromARGB(255, 234, 73, 73);
-  Color successColor = const Color(0xff24C38E);
-  Color warningColor = const Color(0xFFF38B01);
-  Color infoColor = const Color.fromARGB(255, 48, 199, 233);
+  Color errorColor = const Color.fromARGB(255, 255, 107, 107);
+  Color dangerColor = const Color.fromARGB(255, 255, 100, 100);
+  Color successColor = const Color.fromARGB(255, 62, 220, 167);
+  Color warningColor = const Color.fromARGB(255, 246, 175, 82);
+  Color infoColor = const Color.fromARGB(255, 80, 213, 243);
   Color shadowColor = Colors.grey[300]!;
   Color borderColor = Colors.grey[300]!;
   Color scaffoldBackgroundColor = const Color.fromARGB(255, 255, 250, 241);
@@ -54,7 +55,6 @@ class ThemeManager {
           )),
         ),
       ),
-
       appBarTheme: AppBarTheme(
         backgroundColor: appBarBackgroundColor,
         foregroundColor: textColor,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 import 'package:schematic/app/commons/typewriter_markdown.dart';
+import 'package:schematic/app/commons/ui/loading.widget.dart';
 import 'package:schematic/app/modules/prompt/controllers/form_prompt_field.dart';
 import 'package:schematic/app/modules/prompt/controllers/prompt_controller.dart';
 
@@ -16,57 +17,54 @@ class OutputPromptView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Row(
-          children: [],
-        ),
-        Expanded(
-          child: Obx(
-            () {
-              return controller.isLoading.value
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadingAnimationWidget.staggeredDotsWave(
-                          color: ThemeManager().primaryColor,
-                          size: 40,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Generating...',
-                          style: Get.textTheme.labelLarge!.copyWith(
-                            color: ThemeManager().secondaryColor,
-                          ),
-                        ),
-                      ],
-                    )
-                  : SizedBox(
-                      height: Get.height,
-                      child: TypewriterMarkdown(
-                        Get.find<FormPromptFieldController>().output.value,
-                      ),
-                    );
-            },
-          ),
-        ),
-        // Expanded(
-        //   child: Obx(
-        //     () {
-        //       return Container(
-        //         margin: const EdgeInsets.all(10),
-        //         width: Get.width,
-        //         child: CodePreview(
-        //           controller.prompt.value.toMarkdown(),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ),
-      ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Obx(
+        () {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: LoadingWidget(
+                text: [
+                  'Generating...',
+                  'This may take a while...',
+                  'Please be patient...',
+                ],
+              ),
+            );
+          } else if (controller.output.value.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    MdiIcons.fileDocumentOutline,
+                    color: ThemeManager().secondaryColor,
+                    size: 40,
+                  ),
+                  Text(
+                    'No results yet',
+                    style: Get.textTheme.labelLarge!.copyWith(
+                      color: ThemeManager().secondaryColor,
+                    ),
+                  ),
+                  Text(
+                    'Try adjusting your input or refresh to generate something new.',
+                    style: Get.textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox(
+              height: Get.height,
+              child: TypewriterMarkdown(
+                Get.find<FormPromptFieldController>().output.value,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
