@@ -13,6 +13,8 @@ import 'package:schematic/app/services/user_service.dart';
 
 class FormPromptFieldController extends GetxController {
   final generativeService = Get.find<GoogleGenerativeService>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scrollController = ScrollController();
   final promptRepo = Get.find<PromptRepository>();
   UserPromptModel? userPrompt = UserPromptModel(
     title: "Title",
