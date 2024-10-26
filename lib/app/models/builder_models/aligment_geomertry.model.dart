@@ -12,10 +12,12 @@ class AlignmentGeometryModel {
   });
   factory AlignmentGeometryModel.fromJson(Map<String, dynamic> json) {
     return AlignmentGeometryModel(
-      x: json['x'],
-      y: json['y'],
-      type: AlignmentType.values
-          .firstWhere((element) => element.name == json['type']),
+      x: json['x'] != null ? double.parse(json['x'].toString()) : 0.0,
+      y: json['y'] != null ? double.parse(json['y'].toString()) : 0.0,
+      type: json['type'] != null
+          ? AlignmentType.values
+              .firstWhere((element) => element.name == json['type'])
+          : null,
     );
   }
 
@@ -35,5 +37,5 @@ class AlignmentGeometryModel {
     return type != null ? type!.alignment : Alignment(x, y);
   }
 
-  toJson() => {'x': x, 'y': y, 'type': type!.name};
+  toJson() => {'x': x, 'y': y, 'type': type?.name};
 }

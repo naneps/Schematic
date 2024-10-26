@@ -1,18 +1,17 @@
-import 'package:firebase_database/firebase_database.dart'; // Tambahkan impor ini
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/commons/ui/overlays/x_snackbar.dart';
 import 'package:schematic/app/models/user_prompot.dart';
 import 'package:schematic/app/services/firebase/firebase_rdb_service.dart';
-import 'package:schematic/app/services/user_service.dart';
 
 class PromptRepository extends FirebaseRDbService<UserPromptModel> {
-  final userService = Get.find<UserService>();
   PromptRepository() : super('prompts');
 
   @override
-  Future<void> create(UserPromptModel data) async {
+  Future<void> create(UserPromptModel model,
+      {Map<String, dynamic>? data}) async {
     try {
-      await dbRef.child(collectionPath).push().set(data.toJson()).then((_) {
+      await dbRef.child(collectionPath).push().set(model.toJson()).then((_) {
         XSnackBar.show(
           context: Get.context!,
           message: 'Data successfully created',
@@ -45,7 +44,7 @@ class PromptRepository extends FirebaseRDbService<UserPromptModel> {
   Future<UserPromptModel?> read(String id) async {
     try {
       DataSnapshot snapshot = await dbRef.child(collectionPath).child(id).get();
-      if (snapshot.value != null) {
+      if (snapshot.value != null && snapshot.value is Map<String, dynamic>) {
         return UserPromptModel.fromJson(snapshot.value as Map<String, dynamic>);
       }
       return null;
@@ -61,23 +60,23 @@ class PromptRepository extends FirebaseRDbService<UserPromptModel> {
       DatabaseEvent event = await dbRef
           .child(collectionPath)
           .orderByChild('userId')
-          .equalTo(userService.user.value.uid)
+          .equalTo(uid)
           .once();
 
       DataSnapshot dataSnapshot = event.snapshot;
 
-      if (dataSnapshot.value != null) {
-        // Cast the returned map to Map<dynamic, dynamic>
+      if (dataSnapshot.value != null && dataSnapshot.value is Map) {
         Map<dynamic, dynamic> values =
             dataSnapshot.value as Map<dynamic, dynamic>;
 
         values.forEach((key, value) {
           if (value is Map) {
-            Map<String, dynamic> json = Map<String, dynamic>.from(value);
-            promptList.add(UserPromptModel.fromMap(
-              key as String,
-              json,
-            ));
+            promptList.add(
+              UserPromptModel.fromMap(
+                key as String,
+                Map<String, dynamic>.from(value),
+              ),
+            );
           }
         });
       }

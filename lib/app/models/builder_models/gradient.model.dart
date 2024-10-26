@@ -34,25 +34,27 @@ class GradientModel {
   });
 
   factory GradientModel.fromJson(Map<String, dynamic> json) {
+    print(json['colors']);
     return GradientModel(
       type: GradientType.values
           .firstWhere((element) => element.name == json['type']),
-      colors: (json['colors'] as List)
-          .map((color) => Color(int.parse(color)))
-          .toList()
-          .obs,
-      stops: (json['stops'] as List)
-          .map((stop) => StopModel.fromJson(stop))
-          .toList(),
-      begin: AlignmentGeometryModel.fromJson(json['begin']),
-      end: AlignmentGeometryModel.fromJson(json['end']),
+      colors:
+          (json['colors'] as List).map((color) => Color(color)).toList().obs,
+      stops: json['stops'] != null
+          ? (json['stops'] as List)
+              .map((stop) => StopModel.fromJson(Map.from(stop)))
+              .toList()
+              .obs
+          : null,
+      begin: AlignmentGeometryModel.fromJson(Map.from(json['begin'])),
+      end: AlignmentGeometryModel.fromJson(Map.from(json['end'])),
       tileMode: TileModeType.values
           .firstWhere((element) => element.name == json['tileMode']),
       radius: json['radius'],
-      // center = AlignmentGeometry(json['center']);
-      startAngle: json['startAngle'],
-      endAngle: json['endAngle'],
-      transform: json['transform'],
+      center: AlignmentGeometryModel.fromJson(Map.from(json['center'])),
+      startAngle: double.parse(json['startAngle'].toString()),
+      endAngle: double.parse(json['endAngle'].toString()),
+      //   transform: json['transform'],
     );
   }
 
@@ -119,7 +121,7 @@ class GradientModel {
     return {
       'type': type.name,
       'colors': colors.map((color) => color.value).toList(),
-      'stops': stops?.map((stop) => stop.stop).toList(),
+      'stops': stops?.map((stop) => stop.toJson()).toList(),
       'begin': begin?.toJson(),
       'end': end?.toJson(),
       'tileMode': tileMode.name,

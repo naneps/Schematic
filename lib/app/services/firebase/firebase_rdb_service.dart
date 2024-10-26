@@ -1,17 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
+import 'package:schematic/app/services/user_service.dart';
 
 class FirebaseRDbService<T> extends GetxService {
   // Mengubah ke protected agar bisa diakses oleh subclass
   late final DatabaseReference dbRef;
   final String collectionPath;
-
+  final uid = Get.find<UserService>().uid;
   FirebaseRDbService(this.collectionPath);
 
-// Fungsi untuk membuat atau menambahkan data
-  Future<void> create(T data) async {
+  // Fungsi untuk membuat atau menambahkan data
+  Future<void> create(T model, {Map<String, dynamic>? data}) async {
     try {
+      print("Collection Path: $collectionPath");
       await dbRef.child(collectionPath).push().set(data);
       print('Data successfully created');
     } catch (e) {
@@ -70,6 +72,26 @@ class FirebaseRDbService<T> extends GetxService {
     }
   }
 
+  // Fungsi untuk stream data real-time
+  Stream<List<T>> streamAll(Function fromJson) {
+    try {
+      return dbRef.child(collectionPath).onValue.map(
+        (event) {
+          return event.snapshot.children.map(
+            (e) {
+              return fromJson(
+                e.key,
+                Map.from(e.value as Map<String, dynamic>),
+              ) as T;
+            },
+          ).toList();
+        },
+      );
+    } catch (e) {
+      throw Exception('Failed to stream data: $e');
+    }
+  }
+
   // Fungsi untuk update data
   Future<void> update(String id, Map<String, dynamic> updates) async {
     try {
@@ -78,5 +100,11 @@ class FirebaseRDbService<T> extends GetxService {
     } catch (e) {
       throw Exception('Failed to update data: $e');
     }
+  }
+}
+
+extension ToJson<T> on T {
+  Map<String, dynamic>? toJson() {
+    return null;
   }
 }

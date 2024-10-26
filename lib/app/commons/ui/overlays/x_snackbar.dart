@@ -16,55 +16,63 @@ class XSnackBar {
   }) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: ThemeManager().scaffoldBackgroundColor,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: type.backgroundColor),
-              boxShadow: [
-                ThemeManager().defaultShadow(
-                  color: type.backgroundColor,
-                ),
-              ]),
-          child: Row(
-            children: [
-              Text(
-                message,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(),
-              ),
-              const Spacer(),
-              IconButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  },
-                  icon: const Icon(Icons.close))
-            ],
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        margin: const EdgeInsets.only(
-          bottom: 20,
-          left: 20,
-          right: 20,
-        ),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        elevation: 0,
+      xSnackBar(context),
+    );
+  }
 
-        // action: SnackBarAction(
-        //   label: 'Close',
-        //   textColor: type.textColor,
-        //   onPressed: () {
-        //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //   },
-        // ),
-        hitTestBehavior: HitTestBehavior.opaque,
+  static SnackBar xSnackBar(
+    BuildContext context, {
+    SnackBarType type = SnackBarType.info,
+    String message = 'message',
+  }) {
+    return SnackBar(
+      content: Container(
         padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: ThemeManager().scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: type.backgroundColor),
+            boxShadow: [
+              ThemeManager().defaultShadow(
+                color: type.backgroundColor,
+              ),
+            ]),
+        child: Row(
+          children: [
+            Text(
+              message,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(),
+            ),
+            const Spacer(),
+            IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+                icon: const Icon(Icons.close))
+          ],
+        ),
       ),
+      backgroundColor: Colors.transparent,
+      margin: const EdgeInsets.only(
+        bottom: 20,
+        left: 20,
+        right: 20,
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 0,
+
+      // action: SnackBarAction(
+      //   label: 'Close',
+      //   textColor: type.textColor,
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
+      hitTestBehavior: HitTestBehavior.opaque,
+      padding: const EdgeInsets.all(10),
     );
   }
 }
