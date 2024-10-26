@@ -5,9 +5,10 @@ class StopModel {
   Color color;
   StopModel({required this.stop, required this.color});
   factory StopModel.fromJson(Map<String, dynamic> json) {
+    print("stop json: $json");
     return StopModel(
-      stop: json['stop'],
-      color: Color(int.parse(json['color'])),
+      stop: double.parse(json['stop'].toString()),
+      color: Color(json['color']),
     );
   }
 

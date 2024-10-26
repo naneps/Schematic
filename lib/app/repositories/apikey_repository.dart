@@ -1,22 +1,19 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:get/get.dart';
 import 'package:schematic/app/models/apikey_model.dart';
 import 'package:schematic/app/services/firebase/firebase_rdb_service.dart';
-import 'package:schematic/app/services/user_service.dart';
 
 class ApikeyRepository extends FirebaseRDbService<ApiKey> {
-  final userService = Get.find<UserService>();
   bool _isUpdating = false; // Lock to prevent multiple simultaneous updates
 
   ApikeyRepository() : super('apikeys');
 
   @override
-  Future<void> create(ApiKey data) async {
+  Future<void> create(ApiKey model, {Map<String, dynamic>? data}) async {
     try {
-      if (data.isDefault!.value) {
+      if (model.isDefault!.value) {
         await _resetExistingDefaultKeys();
       }
-      await _addApiKey(data);
+      await _addApiKey(model);
     } catch (e) {
       throw Exception('Failed to create data: $e');
     }
@@ -24,13 +21,13 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
 
   @override
   Future<void> delete(String id) async {
-    await dbRef.child(collectionPath).child(userService.uid).child(id).remove();
+    await dbRef.child(collectionPath).child(uid).child(id).remove();
   }
 
   Future<ApiKey> getDefaultApiKey() async {
     final snapshot = await dbRef
         .child(collectionPath)
-        .child(userService.uid)
+        .child(uid)
         .orderByChild('isDefault')
         .equalTo(true)
         .get();
@@ -47,7 +44,7 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
     List<ApiKey> apiKeyList = [];
     try {
       DataSnapshot snapshot =
-          await dbRef.child(collectionPath).child(userService.uid).get();
+          await dbRef.child(collectionPath).child(uid).get();
       if (snapshot.value != null) {
         Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
         values.forEach((key, value) {
@@ -76,7 +73,7 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
       // Firebase transaction to ensure atomic update
       await dbRef
           .child(collectionPath)
-          .child(userService.uid)
+          .child(uid)
           .child(id)
           .runTransaction((currentData) {
         if (currentData == null) {
@@ -107,7 +104,7 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
   Future<void> _addApiKey(ApiKey data) async {
     await dbRef
         .child(collectionPath)
-        .child(userService.uid)
+        .child(uid)
         .push()
         .set(data.toCreateJson());
   }
@@ -115,7 +112,7 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
   Future<void> _resetExistingDefaultKeys() async {
     final snapshot = await dbRef
         .child(collectionPath)
-        .child(userService.uid)
+        .child(uid)
         .orderByChild('isDefault')
         .equalTo(true)
         .get();
@@ -126,7 +123,7 @@ class ApikeyRepository extends FirebaseRDbService<ApiKey> {
         final key = entry.key;
         await dbRef
             .child(collectionPath)
-            .child(userService.uid)
+            .child(uid)
             .child(key)
             .update({'isDefault': false});
       }));
