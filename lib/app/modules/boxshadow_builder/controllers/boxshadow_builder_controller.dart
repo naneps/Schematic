@@ -1,23 +1,9 @@
 import 'package:get/get.dart';
 
 class BoxshadowBuilderController extends GetxController {
-  //TODO: Implement BoxshadowBuilderController
+  var isBottomSheetVisible = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void toggleBottomSheet() {
+    isBottomSheetVisible.value = !isBottomSheetVisible.value;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

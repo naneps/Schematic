@@ -9,6 +9,7 @@ import 'package:schematic/app/modules/container_builder/views/container_builder_
 import 'package:schematic/app/modules/gradient_builder/controllers/gradient_editor_controller.dart';
 import 'package:schematic/app/modules/gradient_builder/controllers/gradient_tools_controller.dart';
 import 'package:schematic/app/modules/gradient_builder/views/gradient_editor_view.dart';
+import 'package:schematic/app/modules/gradient_builder/views/gradient_form_template_view.dart';
 
 class GradientToolsView extends GetView<GradientToolsController> {
   const GradientToolsView({super.key});
@@ -29,7 +30,10 @@ class GradientToolsView extends GetView<GradientToolsController> {
             children: [
               TabBar(
                 controller: controller.tabController,
-                tabs: const [Tab(text: 'Gradient'), Tab(text: 'Shape')],
+                tabs: const [
+                  Tab(text: 'Gradient'),
+                  Tab(text: 'Shape'),
+                ],
               ),
               Expanded(
                 child: TabBarView(
@@ -58,7 +62,7 @@ class GradientToolsView extends GetView<GradientToolsController> {
                       Expanded(
                         child: NeoButton(
                           onPressed: () {
-                            controller.makeGradient();
+                            showSaveDialog(controller.scaffoldKey);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ThemeManager().infoColor,
@@ -133,6 +137,25 @@ class GradientToolsView extends GetView<GradientToolsController> {
       },
       backgroundColor: Colors.transparent,
       enableDrag: true,
+    );
+  }
+
+  showSaveDialog(GlobalKey<ScaffoldState> scaffoldKey) {
+    scaffoldKey.currentState!.showBottomSheet(
+      (context) {
+        return FormTemplateView(
+          gradient: controller.userGradient,
+          onSave: (userGradient) {
+            controller.userGradient = userGradient;
+            controller.makeGradient();
+          },
+        );
+      },
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      elevation: 0,
     );
   }
 }

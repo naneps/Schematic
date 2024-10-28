@@ -18,7 +18,10 @@ class GradientToolsController extends GetxController
   final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  UserGradientModel userGradient = UserGradientModel();
+  UserGradientModel userGradient = UserGradientModel(
+    gradient: null,
+    name: "New Gradient",
+  );
   void makeGradient() async {
     try {
       await gradientRepo.createGradient(userGradient);

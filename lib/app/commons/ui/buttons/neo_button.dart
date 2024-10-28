@@ -2,58 +2,79 @@ import 'package:flutter/material.dart';
 import 'package:schematic/app/commons/theme_manager.dart';
 
 class NeoButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPress;
+  final Function? onHover;
+  final FocusNode? focusNode;
+  final bool? autofocus;
+  final IconAlignment? iconAlignment;
+  final ValueChanged<bool>? onFocusChange;
+  final Clip? clipBehavior;
   final Widget child;
-  final void Function()? onPressed;
-  final Size? size;
+
   final ButtonStyle? style;
   const NeoButton({
     super.key,
+    required this.onPressed,
     required this.child,
-    this.onPressed,
+    this.onLongPress,
+    this.onHover,
+    this.focusNode,
+    this.autofocus,
+    this.iconAlignment,
+    this.onFocusChange,
     this.style,
-    this.size,
-  });
+    this.clipBehavior,
+  }) : super();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size?.width,
-      height: size?.height,
-      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: ThemeManager().defaultBorder(),
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
+      clipBehavior: Clip.hardEdge,
       child: ElevatedButton(
-        style: style ??
-            ElevatedButton.styleFrom(
-              fixedSize: const Size.fromHeight(40),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-            ),
+        style: style,
         onPressed: onPressed,
+        onLongPress: onLongPress,
+        onHover: (value) {
+          if (onHover != null) {
+            onHover!(value);
+          }
+        },
+        focusNode: focusNode,
+        autofocus: autofocus ?? false,
+        key: key,
+        iconAlignment: iconAlignment ?? IconAlignment.end,
+        onFocusChange: onFocusChange,
+        // statesController: statesController,
         child: child,
       ),
     );
   }
 
-  static NeoButton icon({
-    Key? key,
-    required Icon icon,
-    Function()? onPressed,
-    ButtonStyle? style,
+  static icon({
+    required VoidCallback? onPressed,
+    required Widget icon,
+    IconAlignment? iconAlignment,
+    Clip? clipBehavior,
     Widget? label,
+    ButtonStyle? style,
   }) {
-    return NeoButton(
-      key: key,
-      onPressed: onPressed,
-      style: style,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon,
-          if (label != null) ...[const SizedBox(width: 10), label],
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: ThemeManager().defaultBorder(),
+      ),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        clipBehavior: clipBehavior,
+        style: style,
+        icon: icon,
+        iconAlignment: IconAlignment.end,
+        label: label ?? const SizedBox(),
       ),
     );
   }
