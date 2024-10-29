@@ -12,6 +12,7 @@ class NeoButton extends StatelessWidget {
   final Clip? clipBehavior;
   final Widget child;
 
+  final BorderRadius? borderRadius;
   final ButtonStyle? style;
   const NeoButton({
     super.key,
@@ -25,16 +26,18 @@ class NeoButton extends StatelessWidget {
     this.onFocusChange,
     this.style,
     this.clipBehavior,
+    this.borderRadius,
   }) : super();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius:
+            borderRadius ?? const BorderRadius.all(Radius.circular(15)),
         border: ThemeManager().defaultBorder(),
       ),
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       child: ElevatedButton(
         style: style,
         onPressed: onPressed,
@@ -50,6 +53,7 @@ class NeoButton extends StatelessWidget {
         iconAlignment: iconAlignment ?? IconAlignment.end,
         onFocusChange: onFocusChange,
         // statesController: statesController,
+        clipBehavior: clipBehavior ?? Clip.antiAliasWithSaveLayer,
         child: child,
       ),
     );
@@ -62,10 +66,12 @@ class NeoButton extends StatelessWidget {
     Clip? clipBehavior,
     Widget? label,
     ButtonStyle? style,
+    BorderRadius? borderRadius,
   }) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius:
+            borderRadius ?? const BorderRadius.all(Radius.circular(15)),
         border: ThemeManager().defaultBorder(),
       ),
       child: ElevatedButton.icon(
