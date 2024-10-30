@@ -2,19 +2,23 @@ import 'package:schematic/app/models/user_gradient.model.dart';
 import 'package:schematic/app/services/firebase/firebase_rdb_service.dart';
 
 class GradientRepository extends FirebaseRDbService<UserGradientModel> {
-  GradientRepository()
-      : super(
-          'user_gradients',
-        );
+  GradientRepository() : super('user_gradients');
   Future<void> createGradient(UserGradientModel gradient) {
     final data = gradient.copyWith(uid: uid);
-    return super.create(data, data: data.toJson()).then((value) {
-      print('Data successfully created');
-    }).catchError((error) {
-      print('Failed to create data: $error');
-    }).whenComplete(() {
-      print('Request completed');
-    });
+    return super
+        .create(data, data: data.toJson())
+        .then((value) {})
+        .catchError((error) {})
+        .whenComplete(() {});
+  }
+
+  Future<void> deleteGradient(String id) async {
+    try {
+      await dbRef.child(collectionPath).child(id).remove();
+      print('Data successfully deleted');
+    } catch (e) {
+      throw Exception('Failed to delete data: $e');
+    }
   }
 
   Stream<List<UserGradientModel>> getUserGradients() {
@@ -36,6 +40,15 @@ class GradientRepository extends FirebaseRDbService<UserGradientModel> {
     } catch (e) {
       // TODO
       throw Exception('Failed to stream data: $e');
+    }
+  }
+
+  Future<void> updateGradient(String id, Map<String, dynamic> updates) async {
+    try {
+      await dbRef.child(collectionPath).child(id).update(updates);
+      print('Data successfully updated');
+    } catch (e) {
+      throw Exception('Failed to update data: $e');
     }
   }
 }

@@ -58,6 +58,15 @@ class GradientModel {
     );
   }
 
+  @override
+  int get hashCode => type.hashCode ^ colors.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    // TODO: implement ==
+    return super == other;
+  }
+
   String gradientCode() {
     switch (type) {
       case GradientType.linear:

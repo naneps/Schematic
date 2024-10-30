@@ -105,8 +105,8 @@ class FormSignIn extends GetView<AuthController> {
           const SizedBox(height: 10),
           Opacity(
             opacity: 0.2,
-            child: NeoButton.icon(
-              icon: const Icon(FontAwesomeIcons.user),
+            child: NeoButton(
+              //   icon: const Icon(FontAwesomeIcons.user),
               style: ElevatedButton.styleFrom(
                 foregroundColor: ThemeManager().blackColor,
                 backgroundColor: Colors.white,
@@ -120,7 +120,7 @@ class FormSignIn extends GetView<AuthController> {
                 // return;
                 controller.signInAnonymously();
               },
-              label: const Text('Sign in Anonymously'),
+              child: const Text('Sign in Anonymously'),
             ),
           ),
           const SizedBox(height: 15),

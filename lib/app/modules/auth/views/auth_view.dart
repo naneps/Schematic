@@ -18,13 +18,16 @@ class AuthView extends GetView<AuthController> {
             key: formKey,
             child: Container(
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: ThemeManager().blackColor,
-                    width: 2,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: ThemeManager().blackColor,
+                      width: 2,
+                    ),
                   ),
-                ),
-              ),
+                  gradient: LinearGradient(begin: Alignment.topCenter, colors: [
+                    ThemeManager().primaryColor,
+                    ThemeManager().secondaryColor
+                  ])),
               height: Get.height,
               width: Get.width,
               child: const Column(
