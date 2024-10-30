@@ -21,6 +21,19 @@ class AlignmentGeometryModel {
     );
   }
 
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode ^ type.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AlignmentGeometryModel &&
+        other.x == x &&
+        other.y == y &&
+        other.type == type;
+  }
+
   AlignmentGeometryModel copyWith({
     double? x,
     double? y,
@@ -38,4 +51,9 @@ class AlignmentGeometryModel {
   }
 
   toJson() => {'x': x, 'y': y, 'type': type?.name};
+
+  @override
+  String toString() {
+    return 'AlignmentGeometryModel(x: $x, y: $y, type: $type)';
+  }
 }

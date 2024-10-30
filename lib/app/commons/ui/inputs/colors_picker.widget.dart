@@ -74,6 +74,16 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   }
 
   @override
+  didUpdateWidget(covariant ColorPickerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialColors != widget.initialColors) {
+      setState(() {
+        colors = List.from(widget.initialColors);
+      });
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     colors = List.from(widget.initialColors);

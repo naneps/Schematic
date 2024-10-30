@@ -55,6 +55,13 @@ class _ScrollToHideState extends State<ScrollToHide> {
         ScrollDirection.forward) {
       show();
     }
+    if (widget.controller.hasClients) {
+      if (widget.controller.offset > 0) {
+        show();
+      } else {
+        hide();
+      }
+    }
   }
 
   void show() {

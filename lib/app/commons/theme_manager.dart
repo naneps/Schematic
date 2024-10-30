@@ -291,7 +291,7 @@ class ThemeManager {
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
           foregroundColor: blackColor,
-          minimumSize: const Size(100, 40),
+          minimumSize: const Size(100, 10),
           fixedSize: const Size.fromHeight(40),
           shadowColor: blackColor,
           elevation: 0,

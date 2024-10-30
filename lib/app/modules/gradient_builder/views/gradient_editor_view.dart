@@ -387,14 +387,16 @@ class GradientEditorView extends GetView<GradientEditorController> {
       children: [
         Text("Colors", style: Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: 5),
-        ColorPickerWidget(
-          minColors: 2,
-          initialColors: controller.gradient.value.colors,
-          onColorsChanged: (value) {
-            controller.onColorsChanged(value);
-            onChanged?.call(controller.gradient.value);
-          },
-        ),
+        Obx(() {
+          return ColorPickerWidget(
+            minColors: 2,
+            initialColors: controller.gradient.value.colors,
+            onColorsChanged: (value) {
+              controller.onColorsChanged(value);
+              onChanged?.call(controller.gradient.value);
+            },
+          );
+        }),
       ],
     );
   }
