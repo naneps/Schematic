@@ -21,6 +21,28 @@ class GradientRepository extends FirebaseRDbService<UserGradientModel> {
     }
   }
 
+  Stream<List<UserGradientModel>> getPublicGradients() {
+    try {
+      return dbRef
+          .child(collectionPath)
+          .orderByChild('published')
+          .equalTo(true)
+          .onValue
+          .map((event) {
+        if (event.snapshot.children.isNotEmpty) {
+          return event.snapshot.children
+              .map((e) =>
+                  UserGradientModel.fromJson(e.key!, Map.from(e.value as Map)))
+              .toList();
+        }
+        return [];
+      });
+    } catch (e) {
+      // TODO
+      throw Exception('Failed to stream data: $e');
+    }
+  }
+
   Stream<List<UserGradientModel>> getUserGradients() {
     try {
       return dbRef

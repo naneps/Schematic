@@ -131,85 +131,82 @@ class GradientTemplateView extends GetView<GradientTemplateController> {
   showBottomFilterSheet() {
     controller.scaffoldKey.currentState!.showBottomSheet(
       (context) {
-        return ClipRRect(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Container(
-            decoration: BoxDecoration(
-              color: ThemeManager().scaffoldBackgroundColor,
-              border: ThemeManager().defaultBorder(),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Filter",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        MdiIcons.close,
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                NeoDropdown<String>(
-                  items: [
-                    const DropdownMenuItem(
-                      value: "all",
-                      child: Text("all"),
-                    ),
-                    ...GradientType.values.map(
-                      (type) => DropdownMenuItem(
-                        value: type.name,
-                        child: Text(type.name),
-                      ),
-                    )
-                  ],
-                  hint: const Text("Gradient Type"),
-                  onChanged: (type) {},
-                  isDense: true,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 30,
-                  child: NeoButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ThemeManager().infoColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: const Text("Reset"),
+        return Container(
+          decoration: BoxDecoration(
+            color: ThemeManager().scaffoldBackgroundColor,
+            border: ThemeManager().defaultBorder(),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Filter",
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 30,
-                  child: NeoButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ThemeManager().successColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      MdiIcons.close,
+                      size: 20,
                     ),
-                    onPressed: () {},
-                    child: const Text("Apply"),
                   ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              NeoDropdown<String>(
+                items: [
+                  const DropdownMenuItem(
+                    value: "all",
+                    child: Text("all"),
+                  ),
+                  ...GradientType.values.map(
+                    (type) => DropdownMenuItem(
+                      value: type.name,
+                      child: Text(type.name),
+                    ),
+                  )
+                ],
+                hint: const Text("Gradient Type"),
+                onChanged: (type) {},
+                isDense: true,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 30,
+                child: NeoButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().infoColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text("Reset"),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 30,
+                child: NeoButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeManager().successColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text("Apply"),
+                ),
+              ),
+            ],
           ),
         );
       },
