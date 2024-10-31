@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schematic/app/commons/theme_manager.dart';
+import 'package:schematic/app/commons/ui/buttons/neo_button.dart';
 import 'package:schematic/app/commons/ui/responsive_layout.dart';
 import 'package:schematic/app/modules/gradient_builder/views/gradient_public_template_view.dart';
 import 'package:schematic/app/modules/gradient_builder/views/gradient_template_view.dart';
@@ -53,7 +55,11 @@ class GradientBuilderView extends GetView<GradientBuilderController> {
               child: Stack(
                 children: [
                   Positioned(
-                    child: ElevatedButton(
+                    child: NeoButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeManager().warningColor,
+                        textStyle: Get.textTheme.labelMedium!,
+                      ),
                       onPressed: () {
                         Get.to(() => const GradientPublicView());
                       },

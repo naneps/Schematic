@@ -16,13 +16,12 @@ class GradientTemplateController {
       'published': gradient.published,
       'published_at': DateTime.now().toIso8601String(),
     }).then((value) {
-      scaffoldMessenger.currentState!.showSnackBar(SnackBar(
+      scaffoldMessenger.currentState!.showSnackBar(
+        SnackBar(
           margin: const EdgeInsets.all(
             10,
           ),
-          duration: const Duration(
-            seconds: 3,
-          ),
+          duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
           backgroundColor: ThemeManager().successColor,
           shape: RoundedRectangleBorder(
@@ -31,7 +30,9 @@ class GradientTemplateController {
           content: Text(
             'Gradient published',
             style: Get.textTheme.bodyMedium,
-          )));
+          ),
+        ),
+      );
     });
   }
 

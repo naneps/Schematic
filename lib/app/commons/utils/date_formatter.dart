@@ -14,7 +14,7 @@ class DateFormatter {
     final diff = DateTime.now().difference(dateTime);
     return _formatTimeDifference(
       diff,
-      'yang lalu',
+      'ago',
     );
   }
 
@@ -81,12 +81,14 @@ class DateFormatter {
   }
 
   String _formatTimeDifference(Duration difference, String label) {
-    if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} menit $label';
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds} secs $label';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} mins $label';
     } else if (difference.inHours < 24) {
-      return '${difference.inHours} jam $label';
+      return '${difference.inHours} hrs $label';
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} hari $label';
+      return '${difference.inDays} days $label';
     } else {
       return _dateFormat.format(DateTime.now().subtract(difference));
     }

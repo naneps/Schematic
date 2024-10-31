@@ -7,4 +7,8 @@ class GradientPublicController {
   Stream<List<UserGradientModel>> getGradients() {
     return gradientRepo.getPublicGradients();
   }
+
+  Future<void> onLikeGradient(String id) async {
+    gradientRepo.onLikeGradient(id);
+  }
 }

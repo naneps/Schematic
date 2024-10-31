@@ -69,6 +69,33 @@ class GradientTemplateView extends GetView<GradientTemplateController> {
                         ),
                       );
                     } else {
+                      if (snapshot.data!.isEmpty) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "You don't have any template yet",
+                              style: Theme.of(context).textTheme.labelMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "Create your own template",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Icon(
+                              MdiIcons.gradientHorizontal,
+                              color: Theme.of(context).primaryColor,
+                              size: 100,
+                            )
+                          ],
+                        );
+                      }
                       return ListView.separated(
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 10,
