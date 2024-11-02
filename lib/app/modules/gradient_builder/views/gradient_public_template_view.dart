@@ -24,6 +24,7 @@ class GradientPublicView extends GetView<GradientPublicController> {
         centerTitle: true,
         backgroundColor: ThemeManager().primaryColor,
       ),
+      drawer: const Drawer(),
       body: SafeArea(
         child: ResponsiveLayout(
           mobile: const Column(),
@@ -31,120 +32,113 @@ class GradientPublicView extends GetView<GradientPublicController> {
             children: [
               Expanded(
                 flex: 2,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    border: ThemeManager().defaultBorder(),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: CustomScrollView(
-                    slivers: [
-                      const SliverAppBar(
-                        backgroundColor: Colors.transparent,
-                        leading: SizedBox.shrink(),
-                        expandedHeight: 100,
-                        flexibleSpace: FlexibleSpaceBar(
-                          collapseMode: CollapseMode.parallax,
-                          background: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Explore Stunning Gradients",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  "Search for gradients to inspire your next design project. Use the search bar to find specific styles.",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SliverAppBar(
-                        backgroundColor: Colors.transparent,
-                        pinned: true, // Keeps the AppBar visible when scrolling
-                        leading: const SizedBox.shrink(),
-                        expandedHeight: 40,
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 0,
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                              child: Row(
+                child: Scaffold(
+                  body: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      border: ThemeManager().defaultBorder(),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: CustomScrollView(
+                      slivers: [
+                        const SliverAppBar(
+                          backgroundColor: Colors.transparent,
+                          leading: SizedBox.shrink(),
+                          expandedHeight: 100,
+                          flexibleSpace: FlexibleSpaceBar(
+                            collapseMode: CollapseMode.parallax,
+                            background: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.all(15),
-                                        hintText: "Search Gradient",
-                                        border: OutlineInputBorder(),
-                                      ),
+                                  Text(
+                                    "Explore Stunning Gradients",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  NeoIconButton(
-                                    size: const Size(40, 40),
-                                    icon: Icon(MdiIcons.magnify),
-                                    onPressed: () {},
-                                  ),
-                                  const SizedBox(width: 10),
-                                  NeoIconButton(
-                                    size: const Size(40, 40),
-                                    icon: Icon(MdiIcons.filterVariant),
-                                    onPressed: () {},
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Search for gradients to inspire your next design project. Use the search bar to find specific styles.",
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: Container(
-                          constraints: const BoxConstraints(
-                            maxHeight: double.infinity,
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: StreamBuilder(
-                            stream:
-                                controller.gradientRepo.getPublicGradients(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SizedBox(
-                                    height: Get.height * 0.5,
-                                    width: 200,
-                                    child:
-                                        const Center(child: LoadingWidget()));
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text("Error: ${snapshot.error}"));
-                              } else if (snapshot.data == null ||
-                                  snapshot.data!.isEmpty) {
-                                return const Center(
-                                  child: Text("No gradients found"),
-                                );
-                              }
-                              return GridGradientPublicView(snapshot: snapshot);
-                            },
+                        SliverAppBar(
+                          backgroundColor: Colors.transparent,
+                          pinned:
+                              true, // Keeps the AppBar visible when scrolling
+                          leading: const SizedBox.shrink(),
+                          expandedHeight: 40,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 0,
+                              ),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(15),
+                                          hintText: "Search Gradient",
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    NeoIconButton(
+                                      size: const Size(40, 40),
+                                      icon: Icon(MdiIcons.magnify),
+                                      onPressed: () {},
+                                    ),
+                                    const SizedBox(width: 10),
+                                    NeoIconButton(
+                                      size: const Size(40, 40),
+                                      icon: Icon(MdiIcons.filterVariant),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        SliverToBoxAdapter(
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: double.infinity,
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: controller.obx(
+                              (snapshot) {
+                                return GridGradientPublicView(
+                                  gradients: snapshot!,
+                                );
+                              },
+                              onEmpty: const Center(
+                                child: Text("No gradients found"),
+                              ),
+                              onLoading: const Center(
+                                child: LoadingWidget(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

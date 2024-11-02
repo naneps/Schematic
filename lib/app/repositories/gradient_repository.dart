@@ -5,11 +5,7 @@ class GradientRepository extends FirebaseRDbService<UserGradientModel> {
   GradientRepository() : super('user_gradients');
   Future<void> createGradient(UserGradientModel gradient) {
     final data = gradient.copyWith(userId: uid);
-    return super
-        .create(data, data: data.toJson())
-        .then((value) {})
-        .catchError((error) {})
-        .whenComplete(() {});
+    return super.create(data, data: data.toJson());
   }
 
   Future<void> deleteGradient(String id) async {
@@ -43,7 +39,8 @@ class GradientRepository extends FirebaseRDbService<UserGradientModel> {
     }
   }
 
-  Stream<List<UserGradientModel>> getUserGradients() {
+  Stream<List<UserGradientModel>> getUserGradients(
+      {Map<String, dynamic>? filter}) {
     try {
       return dbRef
           .child(collectionPath)

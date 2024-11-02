@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:schematic/app/models/user.model.dart';
 import 'package:schematic/app/models/user_gradient.model.dart';
-import 'package:schematic/app/repositories/gradient_repository.dart';
+import 'package:schematic/app/repositories/gradient.repository.dart';
 import 'package:schematic/app/services/user_service.dart';
 
 class UserGradientCardController extends GetxController {
-  final gradientRepo = Get.find<GradientRepository>();
+  final gradientRepo = Get.find<GradientRepository2>();
   final userService = Get.find<UserService>();
   UserGradientModel? userGradient;
   RxBool isLoading = true.obs;

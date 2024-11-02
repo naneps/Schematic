@@ -4,16 +4,16 @@ import 'package:schematic/app/models/user_gradient.model.dart';
 import 'package:schematic/app/modules/gradient_builder/widgets/user_gradient_card.dart';
 
 class GridGradientPublicView extends StatelessWidget {
-  final AsyncSnapshot<List<UserGradientModel>> snapshot;
+  final List<UserGradientModel> gradients;
   const GridGradientPublicView({
-    required this.snapshot,
+    required this.gradients,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: snapshot.data?.length ?? 0,
+      itemCount: gradients.length ?? 0,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 10,
@@ -28,7 +28,7 @@ class GridGradientPublicView extends StatelessWidget {
       primary: false,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        final userGradient = snapshot.data![index];
+        final userGradient = gradients[index];
         return UserGradientCard(
           key: ValueKey(userGradient.id!),
           userGradient: userGradient,

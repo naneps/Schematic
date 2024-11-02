@@ -7,6 +7,7 @@ import 'package:schematic/app/models/builder_models/gradient.model.dart';
 import 'package:schematic/app/models/user_gradient.model.dart';
 import 'package:schematic/app/modules/gradient_builder/controllers/gradient_builder_controller.dart';
 import 'package:schematic/app/modules/gradient_builder/controllers/gradient_editor_controller.dart';
+import 'package:schematic/app/repositories/gradient.repository.dart';
 import 'package:schematic/app/repositories/gradient_repository.dart';
 
 class GradientToolsController extends GetxController
@@ -16,6 +17,7 @@ class GradientToolsController extends GetxController
   final gradientRepo = Get.find<GradientRepository>();
 //   final scaffoldKey = GlobalKey<ScaffoldState>();
   final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final gradientRepo2 = Get.find<GradientRepository2>();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   UserGradientModel userGradient = UserGradientModel(
@@ -24,7 +26,7 @@ class GradientToolsController extends GetxController
   );
   void makeGradient() async {
     try {
-      await gradientRepo.createGradient(userGradient);
+      await gradientRepo2.createGradient(userGradient);
       scaffoldMessengerKey.currentState?.showSnackBar(
         XSnackBar.xSnackBar(
           scaffoldMessengerKey.currentState!.context,
