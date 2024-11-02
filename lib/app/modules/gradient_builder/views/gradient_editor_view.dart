@@ -131,11 +131,11 @@ class GradientEditorView extends GetView<GradientEditorController> {
                       const SizedBox(height: 10),
                       GridView.builder(
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 250,
+                          mainAxisExtent: 85,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 1.9,
                         ),
                         shrinkWrap: true,
                         itemCount: controller.gradient.value.stops?.length ?? 0,
@@ -162,19 +162,21 @@ class GradientEditorView extends GetView<GradientEditorController> {
                                       )
                                     ],
                                   ),
-                                  _buildSlider(
-                                    context: context,
-                                    label: "Position",
-                                    hasLabel: false,
-                                    min: 0,
-                                    max: 1,
-                                    value: stop.stop,
-                                    onChanged: (value) {
-                                      stop.stop = value;
-                                      controller.gradient.refresh();
-                                      onChanged
-                                          ?.call(controller.gradient.value);
-                                    },
+                                  Expanded(
+                                    child: _buildSlider(
+                                      context: context,
+                                      label: "Position",
+                                      hasLabel: false,
+                                      min: 0,
+                                      max: 1,
+                                      value: stop.stop,
+                                      onChanged: (value) {
+                                        stop.stop = value;
+                                        controller.gradient.refresh();
+                                        onChanged
+                                            ?.call(controller.gradient.value);
+                                      },
+                                    ),
                                   )
                                 ],
                               ));
@@ -206,7 +208,7 @@ class GradientEditorView extends GetView<GradientEditorController> {
                             context: context,
                             label: "Center X",
                             value: controller.gradient.value.center!.x,
-                            min: 0,
+                            min: -1,
                             max: 1,
                             hasLabel: true,
                             onChanged: (value) {
@@ -220,7 +222,7 @@ class GradientEditorView extends GetView<GradientEditorController> {
                           context: context,
                           label: "Center Y",
                           value: controller.gradient.value.center!.y,
-                          min: 0,
+                          min: -1,
                           max: 1,
                           hasLabel: true,
                           onChanged: (value) {
@@ -466,7 +468,6 @@ class GradientEditorView extends GetView<GradientEditorController> {
               controller.gradient.refresh();
               this.onChanged?.call(controller.gradient.value);
             },
-            showLabels: true,
             showDividers: true,
             interval: 0.5,
             enableTooltip: true,

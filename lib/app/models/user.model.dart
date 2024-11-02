@@ -36,6 +36,17 @@ class UserModel {
     this.fcmToken,
   });
 
+  factory UserModel.fromFirestore(
+      Map<String, dynamic> data, String documentId) {
+    return UserModel(
+      uid: documentId,
+      username: data['username'] ?? 'Unknown User',
+      name: data['name'] ?? 'Unknown User',
+      email: data['email'] ?? 'Unknown Email',
+      avatar: data['avatar'] ?? 'https://avatar.iran.liara.run/public',
+    );
+  }
+
   UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     name = json['name'];
@@ -75,7 +86,7 @@ class UserModel {
     return data;
   }
 
-//   to post
+  //   to post
 
   toPostJson() {
     final Map<String, dynamic> data = {};
