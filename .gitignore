@@ -42,3 +42,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Environment variables - IMPORTANT FOR SECURITY
+.env
+.env.local
+.env.*.local
+.env.production.local
